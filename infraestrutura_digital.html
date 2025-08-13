@@ -3,7 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <title>Infraestrutura Digital</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <style>
+    /* --- Estilos base (mantive seu visual) --- */
     body {
       margin: 0;
       padding: 40px;
@@ -17,6 +19,7 @@
       position: absolute;
       top: 20px;
       left: 20px;
+      z-index: 10;
     }
 
     .top-bar a {
@@ -28,10 +31,11 @@
       padding: 8px 15px;
       border-radius: 20px;
       transition: all 0.3s ease;
+      background: rgba(0,0,0,0.35);
     }
 
     .top-bar a:hover {
-      background: rgba(116, 242, 206, 0.1);
+      background: rgba(116, 242, 206, 0.12);
       box-shadow: 0 0 10px #74f2ce;
     }
 
@@ -46,7 +50,7 @@
     .content {
       max-width: 1000px;
       margin: 0 auto;
-      font-size: 1.2em;
+      font-size: 1.15em;
       text-align: justify;
     }
 
@@ -88,15 +92,16 @@
       border-radius: 12px;
       padding: 20px 30px;
       cursor: pointer;
-      font-size: 1.1em;
+      font-size: 1.05em;
       color: #74f2ce;
       text-align: center;
-      box-shadow: 0 0 12px rgba(45, 224, 193, 0.2);
-      transition: all 0.3s ease;
+      box-shadow: 0 0 12px rgba(45, 224, 193, 0.12);
+      transition: all 0.25s ease;
+      min-width: 220px;
     }
 
     .tech-card:hover {
-      background-color: rgba(116, 242, 206, 0.15);
+      background-color: rgba(116, 242, 206, 0.16);
       box-shadow: 0 0 18px #2de0c1;
     }
 
@@ -104,16 +109,18 @@
       display: none;
       margin-top: 10px;
       margin-bottom: 40px;
-      background-color: rgba(255,255,255,0.05);
+      background-color: rgba(255,255,255,0.04);
       padding: 20px;
       border-radius: 10px;
       border-left: 3px solid #74f2ce;
       color: #ddd;
-      max-width: 800px;
+      max-width: 900px;
       margin-left: auto;
       margin-right: auto;
       text-align: justify;
     }
+
+    .box-hidden p, .box-hidden ul { color: #e6f7f1; }
 
     .link-pdf {
       color: #74f2ce;
@@ -126,7 +133,72 @@
     .link-pdf:hover {
       text-decoration: underline;
     }
+
+    /* --- Estilos do gráfico (vis-network) --- */
+    .graph-wrapper {
+      max-width: 1000px;
+      margin: 24px auto 10px auto;
+      padding: 14px;
+      border-radius: 12px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border: 1px solid rgba(116,242,206,0.06);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+    }
+
+    #network {
+      width: 100%;
+      height: 390px; /* 25% menor que 520px */
+      background: transparent; /* para herdar o fundo escuro */
+      border-radius: 8px;
+    }
+
+    /* Instruções de uso do gráfico */
+    .graph-instructions {
+      margin-top: 10px;
+      font-size: 0.95em;
+      line-height: 1.5;
+      color: #cfeee6;
+      background: rgba(255,255,255,0.03);
+      border: 1px dashed rgba(116,242,206,0.35);
+      border-radius: 8px;
+      padding: 10px 12px;
+    }
+
+    /* Painel de detalhes do nó */
+    #nodeDetails {
+      display: none;
+      max-width: 900px;
+      margin: 14px auto 40px;
+      background: rgba(255,255,255,0.03);
+      border-left: 3px solid #74f2ce;
+      color: #e7f9f2;
+      padding: 18px;
+      border-radius: 8px;
+      text-align: left;
+    }
+
+    #nodeDetails h3 { margin-top: 0; color: #74f2ce; }
+    #nodeDetails .close-btn {
+      display: inline-block;
+      margin-top: 10px;
+      background: transparent;
+      color: #74f2ce;
+      border: 1px solid rgba(116,242,206,0.2);
+      padding: 6px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    /* Responsividade */
+    @media (max-width: 600px) {
+      h1 { font-size: 2em; padding-top: 10px; }
+      .tech-card { min-width: 100%; }
+      #network { height: 320px; } /* um pouco menor no mobile */
+    }
   </style>
+
+  <!-- vis-network -->
+  <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
 </head>
 <body>
 
@@ -174,33 +246,20 @@
         <li>Alertas de segurança e integridade da rede</li>
       </ul>
 
-      <p>Além de proteger os dados internos, o BIOBlock pode oferecer uma camada extra de segurança para ambientes inteligentes vizinhos, como apartamentos, hospitais ou comércios conectados à rede. Com isso, a MCEFP passa a operar não só como fábrica regenerativa, mas também como nó protetor de uma microzona digital, ampliando o impacto positivo da inovação.</p>
-
       <p>Este módulo será opcional, configurável e compatível com legislações locais de privacidade e interoperabilidade.</p>
     </div>
 
     <div class="tech-card" onclick="toggleBox('bigdata')">📊 Big Data</div>
     <div id="bigdata" class="box-hidden">
       <p><strong>Fluxo Vivo:</strong> O módulo de Big Data da BIOCERR transforma volumes massivos de informações em inteligência regenerativa. Ele coleta, organiza e interpreta dados provenientes de diversas fontes — desde sensores nas MCEFPs, até sistemas públicos, bases climáticas, indicadores comunitários e interações em tempo real com usuários.</p>
-
-      <p>Ao invés de priorizar o lucro ou a vigilância, a arquitetura de dados da BIOCERR é desenhada para cuidado, prevenção e corresponsabilidade. A inteligência artificial BIO atua como ponte interpretativa, revelando padrões invisíveis, antecipando riscos e propondo ajustes de rota com base na escuta dos territórios.</p>
-
-      <p>Os dados são tratados de forma descentralizada e ética, respeitando a soberania local e a privacidade dos envolvidos. Além disso, os indicadores utilizados não são apenas econômicos — eles incluem dimensões ambientais, sociais, afetivas e culturais, ampliando a noção de desempenho para além da lógica produtivista tradicional.</p>
-
-      <p>O Big Data da BIOCERR não é uma torre de controle, mas sim uma rede de escuta ampliada, que fortalece a autonomia de cada nó e alimenta decisões coletivas informadas, respeitando os ciclos e singularidades de cada ecossistema.</p>
     </div>
 
     <div class="tech-card" onclick="toggleBox('iot')">🌐 IoT</div>
     <div id="iot" class="box-hidden">
       <p><strong>Rede BIO-IoT:</strong> Na BIOCERR, a Internet das Coisas (IoT) é muito mais do que conectar objetos — é uma forma de dar sensibilidade ao território. Cada MCEFP funciona como um organismo vivo, equipado com sensores e dispositivos que monitoram variáveis em tempo real: temperatura, fluxo de envase, uso de água, nível dos reservatórios, qualidade do ar, consumo de energia e até padrões de interação humana.</p>
-
-      <p>Esses dados permitem ajustes dinâmicos e preventivos, como redução de desperdícios, resposta rápida a falhas e melhorias na experiência do usuário. Mas mais do que isso, a IoT da BIOCERR está integrada à lógica da regeneração: ao invés de explorar, ela escuta, aprende e responde com cuidado.</p>
-
-      <p>Todos os dispositivos seguem princípios de segurança, interoperabilidade e soberania digital. Isso significa que cada comunidade pode personalizar seu ecossistema de sensores, garantindo controle sobre suas próprias infraestruturas e dados.</p>
-
-      <p>A rede IoT também atua de forma comunitária — ou seja, uma MCEFP pode ampliar a proteção digital de um território urbano ou rural ao seu redor, formando um campo de escuta compartilhada. A Internet das Coisas, nesse modelo, se torna uma Internet do Cuidado.</p>
     </div>
 
+    <!-- === GÊMEOS DIGITAIS (AQUI VAI O GRÁFICO) === -->
     <div class="tech-card" onclick="toggleBox('gemeos')">🧿 Gêmeos Digitais</div>
     <div id="gemeos" class="box-hidden">
       <p><strong>Simuladores Regenerativos:</strong> Na BIOCERR, os Gêmeos Digitais não são apenas cópias virtuais de equipamentos ou processos — eles são espelhos vivos de territórios regenerativos. Cada MCEFP e Indústria Matriz pode ter sua versão digital que simula, antecipa e aprende com o comportamento real dos sistemas físicos.</p>
@@ -212,25 +271,193 @@
       <p>Mais do que automação, os Gêmeos Digitais permitem governança antecipatória, ou seja, decisões baseadas em simulações, com participação humana e inteligência artificial trabalhando em conjunto para o bem coletivo.</p>
 
       <p>Na visão BIOCERR, um Gêmeo Digital é uma memória sensível e projetiva da relação entre tecnologia, natureza e cuidado.</p>
+
+      <!-- === Container do gráfico interativo (vis-network) === -->
+      <div class="graph-wrapper" aria-label="Gráfico interativo dos gêmeos">
+        <div id="network"></div>
+
+        <!-- instruções recém adicionadas -->
+        <div id="graphInstructions" class="graph-instructions">
+          💡 <strong>Como interagir com o gráfico:</strong><br>
+          • Role o mouse (ou pinça no touch) para dar zoom.<br>
+          • Clique no botão para ver conteúdo.<br>
+          • Clique e arraste o fundo para mover o quadro.<br>
+          • Clique e arraste um botão para reposicioná-lo; as setas acompanham.<br>
+          • Dê <em>duplo clique</em> em qualquer área vazia para recentralizar a visão.
+        </div>
+
+        <div id="nodeDetails" role="region" aria-live="polite"></div>
+      </div>
     </div>
 
     <div class="tech-card" onclick="toggleBox('ciber')">🛡️ Cibersegurança</div>
     <div id="ciber" class="box-hidden">
       <p><strong>Escudo BIO:</strong> A Cibersegurança na BIOCERR não é um escudo isolado, mas sim uma camada viva de proteção ética, regenerativa e coletiva. Em um ecossistema distribuído como o nosso, onde múltiplas MCEFPs, territórios e usuários se conectam, proteger os dados, os fluxos e as decisões é essencial para garantir confiança, soberania e continuidade.</p>
-
-      <p>Implementamos protocolos robustos de autenticação, criptografia e monitoramento, mas vamos além da técnica: promovemos a alfabetização digital comunitária, a transparência de algoritmos e o respeito ao consentimento em todas as interações com a IA BIO.</p>
-
-      <p>Nosso modelo propõe zonas seguras de interação digital, auditáveis e interoperáveis, integrando redes locais com padrões globais de proteção. Ao invés de blindar, buscamos envolver — criando uma cultura de corresponsabilidade cibernética que fortalece cada elo da rede.</p>
     </div>
   </div>
 
   <div class="mist"></div>
 
+  <!-- ===== Scripts ===== -->
   <script>
+    /* Função original de abrir/fechar módulos — mantida */
+    let didFitOnce = false;
+
     function toggleBox(id) {
       const box = document.getElementById(id);
       box.style.display = box.style.display === "block" ? "none" : "block";
+
+      if (id === 'gemeos') {
+        // garantir que o gráfico se ajuste quando a seção abre
+        setTimeout(() => {
+          if (window.network) {
+            window.network.redraw();
+            if (!didFitOnce) {
+              window.network.fit({ animation: { duration: 600, easing: 'easeInOutQuad' } });
+              didFitOnce = true;
+            }
+          }
+        }, 300);
+      }
     }
+  </script>
+
+  <script>
+    /* --- Inicialização do vis-network (mantida para preservar o layout) --- */
+
+    // Dados dos nós (iguais ao seu)
+    const nodes = new vis.DataSet([
+      { id: 1, label: "Nuvem BIOCERR", shape: "box", color: { background: '#083e36', border: '#74f2ce' }, font: { color: 'white' } },
+      { id: 2, label: "Indústria Matriz", shape: "box", color: { background: '#063a6b', border: '#74f2ce' }, font: { color: 'white' } },
+      { id: 3, label: "MCEFPs", shape: "box", color: { background: '#4f2b63', border: '#74f2ce' }, font: { color: 'white' } },
+      { id: 4, label: "Operadores", shape: "ellipse", color: { background: '#b36100', border: '#ffd9b3' }, font: { color: 'white' } },
+      { id: 5, label: "Mercado Final", shape: "ellipse", color: { background: '#8b053a', border: '#ffb3c9' }, font: { color: 'white' } },
+      { id: 6, label: "Governança BIO", shape: "box", color: { background: '#2b3a3f', border: '#9fbdb6' }, font: { color: 'white' } },
+      { id: 7, label: "IA BIO", shape: "box", color: { background: '#145a2f', border: '#74f2ce' }, font: { color: 'white' } }
+    ]);
+
+    // Conexões entre nós (iguais ao seu)
+    const edges = new vis.DataSet([
+      { from: 1, to: 2, arrows: "to", color: { color: '#74f2ce' } },
+      { from: 1, to: 6, arrows: "to", color: { color: '#74f2ce' } },
+      { from: 6, to: 7, arrows: "to", color: { color: '#74f2ce' } },
+      { from: 2, to: 3, arrows: "to", color: { color: '#74f2ce' } },
+      { from: 3, to: 4, arrows: "to", color: { color: '#ffd28f' } },
+      { from: 4, to: 5, arrows: "to", color: { color: '#ff9fb3' } },
+      { from: 7, to: 3, arrows: "to", color: { color: '#74f2ce' } },
+      { from: 7, to: 2, arrows: "to", color: { color: '#74f2ce' } }
+    ]);
+
+    // Opções do visual (iguais ao seu)
+    const options = {
+      physics: {
+        enabled: true,
+        barnesHut: {
+          gravitationalConstant: -8000,
+          centralGravity: 0.2,
+          springLength: 200,
+          springConstant: 0.04
+        },
+        stabilization: { enabled: true, iterations: 200 }
+      },
+      interaction: {
+        hover: true,
+        dragNodes: true,
+        zoomView: true,
+        tooltipDelay: 100
+      },
+      nodes: {
+        borderWidth: 2,
+        shadow: true,
+        font: { size: 14 }
+      },
+      edges: {
+        arrows: { to: { enabled: true, scaleFactor: 1.2 } },
+        smooth: { enabled: true, type: 'dynamic' }
+      },
+      layout: {
+        improvedLayout: true
+      }
+    };
+
+    // Inicializa a rede (mantendo seu fluxo)
+    const container = document.getElementById('network');
+    const data = { nodes: nodes, edges: edges };
+    const network = new vis.Network(container, data, options);
+    window.network = network; // expor globalmente para redraw se precisar
+
+    // Duplo clique para recentrar sempre que quiser
+    network.on('doubleClick', function () {
+      network.fit({ animation: { duration: 400, easing: 'easeInOutQuad' } });
+    });
+
+    // Conteúdos rápidos para exibir ao clicar (iguais ao seu)
+    const details = {
+      1: {
+        title: "Nuvem BIOCERR",
+        text: "Camada de coordenação e serviços: broker MQTT, armazenamento timeseries, APIs e orquestração dos gêmeos. Hospeda modelos, dashboards e integrações externas."
+      },
+      2: {
+        title: "Indústria Matriz",
+        text: "Produz os concentrados-base em IBCs, gerencia controle de qualidade, rotinas de expedição e integração com sistemas corporativos (ERP/MES). Fonte primária de dados e rastreabilidade."
+      },
+      3: {
+        title: "MCEFPs",
+        text: "Mini Centrais Envasadoras e Finalizadoras: unidades locais que personalizam lotes, operam com sensoriamento e replicam o DNA do SMPD no território."
+      },
+      4: {
+        title: "Operadores",
+        text: "Usuários locais que interagem com interfaces simples: execução por lote, checks de QC, manutenção local e comunicação com a BIO (via painel ou app)."
+      },
+      5: {
+        title: "Mercado Final",
+        text: "Pontos de venda, hospitais e consumidores finais que recebem produtos personalizados; enviam feedback e dados de demanda que alimentam o gêmeo."
+      },
+      6: {
+        title: "Governança BIO",
+        text: "Conselho que valida políticas, limitações éticas e aprova alterações estratégicas. Atua em fluxo HITL (human-in-the-loop) para decisões críticas."
+      },
+      7: {
+        title: "IA BIO",
+        text: "Módulo de inteligência que processa dados, gera previsões (manutenção, demanda), simula cenários e sugere otimizações para operação e impacto socioambiental."
+      }
+    };
+
+    // Função para mostrar detalhes (mantida)
+    function showNodeDetails(id) {
+      const panel = document.getElementById('nodeDetails');
+      const d = details[id];
+      if (!d) return;
+      panel.innerHTML = `
+        <h3>${d.title}</h3>
+        <p>${d.text}</p>
+        <button class="close-btn" onclick="closeDetails()">Fechar</button>
+      `;
+      panel.style.display = 'block';
+      // scroll suave para o painel
+      panel.scrollIntoView({behavior: "smooth", block: "center"});
+    }
+
+    function closeDetails() {
+      const panel = document.getElementById('nodeDetails');
+      panel.style.display = 'none';
+      panel.innerHTML = '';
+    }
+
+    // Evento ao clicar em um nó (mantido)
+    network.on("click", function (params) {
+      if (params.nodes.length > 0) {
+        const nodeId = params.nodes[0];
+        showNodeDetails(nodeId);
+      }
+    });
+
+    // Redraw quando a aba voltar a ficar visível (mantido)
+    document.addEventListener("visibilitychange", function() {
+      if(!document.hidden && window.network) {
+        network.redraw();
+      }
+    });
   </script>
 </body>
 </html>
