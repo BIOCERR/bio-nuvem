@@ -3,7 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <title>Digital Infrastructure</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <style>
+    /* --- Base styles (keeping your visual style) --- */
     body {
       margin: 0;
       padding: 40px;
@@ -17,6 +19,7 @@
       position: absolute;
       top: 20px;
       left: 20px;
+      z-index: 10;
     }
 
     .top-bar a {
@@ -28,10 +31,11 @@
       padding: 8px 15px;
       border-radius: 20px;
       transition: all 0.3s ease;
+      background: rgba(0,0,0,0.35);
     }
 
     .top-bar a:hover {
-      background: rgba(116, 242, 206, 0.1);
+      background: rgba(116, 242, 206, 0.12);
       box-shadow: 0 0 10px #74f2ce;
     }
 
@@ -46,7 +50,7 @@
     .content {
       max-width: 1000px;
       margin: 0 auto;
-      font-size: 1.2em;
+      font-size: 1.15em;
       text-align: justify;
     }
 
@@ -88,15 +92,16 @@
       border-radius: 12px;
       padding: 20px 30px;
       cursor: pointer;
-      font-size: 1.1em;
+      font-size: 1.05em;
       color: #74f2ce;
       text-align: center;
-      box-shadow: 0 0 12px rgba(45, 224, 193, 0.2);
-      transition: all 0.3s ease;
+      box-shadow: 0 0 12px rgba(45, 224, 193, 0.12);
+      transition: all 0.25s ease;
+      min-width: 220px;
     }
 
     .tech-card:hover {
-      background-color: rgba(116, 242, 206, 0.15);
+      background-color: rgba(116, 242, 206, 0.16);
       box-shadow: 0 0 18px #2de0c1;
     }
 
@@ -104,15 +109,18 @@
       display: none;
       margin-top: 10px;
       margin-bottom: 40px;
-      background-color: rgba(255,255,255,0.05);
+      background-color: rgba(255,255,255,0.04);
       padding: 20px;
       border-radius: 10px;
       border-left: 3px solid #74f2ce;
       color: #ddd;
-      max-width: 800px;
+      max-width: 900px;
       margin-left: auto;
       margin-right: auto;
+      text-align: justify;
     }
+
+    .box-hidden p, .box-hidden ul { color: #e6f7f1; }
 
     .link-pdf {
       color: #74f2ce;
@@ -125,35 +133,99 @@
     .link-pdf:hover {
       text-decoration: underline;
     }
+
+    /* --- Graph styles (vis-network) --- */
+    .graph-wrapper {
+      max-width: 1000px;
+      margin: 24px auto 10px auto;
+      padding: 14px;
+      border-radius: 12px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border: 1px solid rgba(116,242,206,0.06);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+    }
+
+    #network {
+      width: 100%;
+      height: 390px; /* 25% smaller than 520px */
+      background: transparent;
+      border-radius: 8px;
+    }
+
+    /* Graph interaction instructions */
+    .graph-instructions {
+      margin-top: 10px;
+      font-size: 0.95em;
+      line-height: 1.5;
+      color: #cfeee6;
+      background: rgba(255,255,255,0.03);
+      border: 1px dashed rgba(116,242,206,0.35);
+      border-radius: 8px;
+      padding: 10px 12px;
+    }
+
+    /* Node details panel */
+    #nodeDetails {
+      display: none;
+      max-width: 900px;
+      margin: 14px auto 40px;
+      background: rgba(255,255,255,0.03);
+      border-left: 3px solid #74f2ce;
+      color: #e7f9f2;
+      padding: 18px;
+      border-radius: 8px;
+      text-align: left;
+    }
+
+    #nodeDetails h3 { margin-top: 0; color: #74f2ce; }
+    #nodeDetails .close-btn {
+      display: inline-block;
+      margin-top: 10px;
+      background: transparent;
+      color: #74f2ce;
+      border: 1px solid rgba(116,242,206,0.2);
+      padding: 6px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      h1 { font-size: 2em; padding-top: 10px; }
+      .tech-card { min-width: 100%; }
+      #network { height: 320px; }
+    }
   </style>
+
+  <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
 </head>
 <body>
 
   <div class="top-bar">
-    <a href="bio_cloud.html">⬅️ Back to BIO Cloud</a>
+    <a href="nuvem_bio.html">⬅️ Back to BIO Cloud</a>
   </div>
 
   <h1>Digital Infrastructure</h1>
 
   <div class="content">
     <p>
-      The <strong>Digital Infrastructure</strong> of BIOCERR is the invisible backbone that connects data, processes, and territories in an integrated and regenerative way. It goes beyond technology itself — it is an ecosystem of technical, ethical, and territorial support that enables the BIO network to operate with transparency, intelligence, and co-responsibility.
+      The <strong>Digital Infrastructure</strong> of BIOCERR is the invisible backbone connecting data, processes, and territories in an integrated and regenerative way. It goes beyond technology itself — it is an ecosystem of technical, ethical, and territorial support, allowing the BIO network to operate with transparency, intelligence, and shared responsibility.
     </p>
 
     <p>
-      Instead of centralized platforms, we use distributed, interoperable, and open-source architectures. This ensures local autonomy, data sovereignty, and active participation of the communities involved. Each node contributes and benefits, strengthening collective resilience.
+      Instead of centralized platforms, we use distributed, interoperable, and open-source architectures. This ensures local autonomy, data sovereignty, and active community participation. Each node contributes and benefits, strengthening collective resilience.
     </p>
 
     <p>
-      The infrastructure includes traceability modules, regenerative indicator management, real-time monitoring, and integration with public and community systems. Everything is designed to be modular, adaptable, and in constant evolution.
+      The infrastructure includes traceability modules, regenerative indicators management, real-time monitoring, and integration with public and community systems. Everything is designed to be modular, adaptable, and continuously evolving.
     </p>
 
     <p>
-      The artificial intelligence <strong>BIO</strong> acts as a mediator of these digital interactions — translating complexity into clarity, suggesting paths, alerting about imbalances, and supporting informed decision-making based on regeneration principles.
+      The artificial intelligence <strong>BIO</strong> acts as a mediator of these digital interactions, translating complexity into clarity, suggesting paths, alerting about imbalances, and supporting informed decisions based on regenerative principles.
     </p>
 
     <p>
-      Investing in digital infrastructure ensures that regeneration happens with consistency, monitoring, and alignment between people, territories, and technologies. It is the foundation for a new cycle of planetary care.
+      Investing in digital infrastructure guarantees regeneration occurs consistently, with monitoring and alignment among people, territories, and technologies. It is the foundation for a new cycle of planetary care.
     </p>
 
     <div class="image-container">
@@ -161,84 +233,171 @@
     </div>
   </div>
 
-  <!-- Tudo acima permanece igual -->
+  <div class="tech-modules">
+    <div class="tech-card" onclick="toggleBox('blockchain')">🧱 Blockchain</div>
+    <div id="blockchain" class="box-hidden">
+      <p><strong>BIOBlock:</strong> BIOBlock is BIOCERR's decentralized digital containment module. Its purpose is to protect information flows and smart devices, both within the MCEFPs and in their surrounding territory. Inspired by technological sovereignty and distributed transparency principles, BIOBlock uses blockchain to authenticate, record, and protect all critical digital interactions, such as:</p>
 
-<div class="tech-modules">
-  <div class="tech-card" onclick="toggleBox('blockchain')">🧱 Blockchain</div>
-  <div id="blockchain" class="box-hidden">
-    <p style="text-align: justify;">
-      <strong>BIOBlock:</strong> BIOBlock is the decentralized digital containment module of BIOCERR. Its core function is to protect information flows and smart devices both inside MCEFPs and across their surrounding territories. Inspired by principles of technological sovereignty and distributed transparency, BIOBlock uses blockchain technology to authenticate, record, and secure all critical digital interactions, including:
-      <br><br>
-      – Opening and closing of valves;<br>
-      – Bottling processes and batch traceability;<br>
-      – Synchronization with local and remote IoT sensors;<br>
-      – Security alerts and network integrity signals.<br><br>
-      In addition to securing internal systems, BIOBlock can offer an extra protective layer for nearby smart environments, such as apartments, hospitals, or stores connected to the network. This way, the MCEFP operates not only as a regenerative factory but also as a guardian node of a digital microzone, expanding the positive impact of innovation.
-      <br><br>
-      This module will be optional, configurable, and aligned with local privacy and interoperability regulations.
-    </p>
-  </div>
+      <ul>
+        <li>Opening and closing valves</li>
+        <li>Batch filling and traceability</li>
+        <li>Synchronization with local and remote sensors (IoT)</li>
+        <li>Safety and network integrity alerts</li>
+      </ul>
 
-  <div class="tech-card" onclick="toggleBox('bigdata')">📊 Big Data</div>
-  <div id="bigdata" class="box-hidden">
-    <p style="text-align: justify;">
-      <strong>Living Flow:</strong> BIOCERR’s Big Data module transforms massive volumes of information into regenerative intelligence. It collects, organizes, and interprets data from diverse sources — including sensors in the MCFFPs, public systems, climate databases, community indicators, and real-time user interactions.
-      <br><br>
-      Rather than prioritizing profit or surveillance, BIOCERR’s data architecture is designed for care, prevention, and co-responsibility. The artificial intelligence BIO acts as an interpretive bridge, revealing invisible patterns, anticipating risks, and proposing course corrections based on the voice of the territories.
-      <br><br>
-      Data is handled in a decentralized and ethical manner, respecting local sovereignty and the privacy of all participants. Furthermore, the indicators used go beyond economics — they include environmental, social, emotional, and cultural dimensions, expanding the definition of performance beyond traditional productivity logic.
-      <br><br>
-      BIOCERR’s Big Data is not a control tower, but rather a network of amplified listening, strengthening the autonomy of each node and feeding informed collective decisions, in alignment with the rhythms and uniqueness of each ecosystem.
-    </p>
-  </div>
+      <p>This module is optional, configurable, and compliant with local privacy and interoperability regulations.</p>
+    </div>
 
-  <div class="tech-card" onclick="toggleBox('iot')">🌐 IoT</div>
-  <div id="iot" class="box-hidden">
-    <p style="text-align: justify;">
-      <strong>BIO-IoT Network:</strong> At BIOCERR, the Internet of Things (IoT) is more than just connecting objects — it’s a way of bringing sensitivity to the territory. Each MCFFP operates as a living organism, equipped with sensors and devices that monitor real-time variables: temperature, bottling flow, water usage, tank levels, air quality, energy consumption, and even human interaction patterns.
-      <br><br>
-      This data enables dynamic and preventive adjustments, such as waste reduction, rapid fault response, and improved user experience. But more importantly, BIOCERR’s IoT is aligned with a regenerative logic: instead of exploiting, it listens, learns, and responds with care.
-      <br><br>
-      All devices are based on security, interoperability, and digital sovereignty principles. This means that each community can customize its own sensor ecosystem, ensuring control over its infrastructures and data.
-      <br><br>
-      The IoT network also operates in a community-driven way — for example, an MCFFP can enhance the digital protection of its surrounding urban or rural territory, forming a shared listening field. In this model, the Internet of Things becomes an Internet of Care.
-    </p>
-  </div>
+    <div class="tech-card" onclick="toggleBox('bigdata')">📊 Big Data</div>
+    <div id="bigdata" class="box-hidden">
+      <p><strong>Living Flow:</strong> BIOCERR's Big Data module transforms massive information into regenerative intelligence. It collects, organizes, and interprets data from various sources — from sensors in MCEFPs to public systems, climate databases, community indicators, and real-time user interactions.</p>
+    </div>
 
-  <div class="tech-card" onclick="toggleBox('twins')">🧿 Digital Twins</div>
-  <div id="twins" class="box-hidden">
-    <p style="text-align: justify;">
-      <strong>Regenerative Simulators:</strong> At BIOCERR, Digital Twins are not just virtual replicas of equipment or processes — they are living mirrors of regenerative territories. Each MCFFP and Main Industry can have its digital version that simulates, anticipates, and learns from the real behavior of physical systems.
-      <br><br>
-      This means we can predict failures, optimize logistics, adapt production, and even test complex decisions without causing real-world impacts. It’s like the factory itself can dream before acting.
-      <br><br>
-      BIOCERR’s Digital Twins also integrate real-time environmental, social, and operational data. This helps us understand how local decisions affect biodiversity, logistics, ecosystems, and community well-being.
-      <br><br>
-      More than automation, Digital Twins enable anticipatory governance — decisions based on simulations, where human participation and artificial intelligence work together for the collective good.
-      <br><br>
-      In BIOCERR’s vision, a Digital Twin is a sensitive and projective memory of the relationship between technology, nature, and care.
-    </p>
-  </div>
+    <div class="tech-card" onclick="toggleBox('iot')">🌐 IoT</div>
+    <div id="iot" class="box-hidden">
+      <p><strong>BIO-IoT Network:</strong> At BIOCERR, the Internet of Things (IoT) is more than connecting objects — it brings sensitivity to the territory. Each MCEFP operates like a living organism, equipped with sensors and devices monitoring variables in real-time: temperature, filling flow, water usage, reservoir levels, air quality, energy consumption, and even human interaction patterns.</p>
+    </div>
 
-  <div class="tech-card" onclick="toggleBox('cyber')">🛡️ Cybersecurity</div>
-  <div id="cyber" class="box-hidden">
-    <p style="text-align: justify;">
-      <strong>BIO Shield:</strong> Cybersecurity within BIOCERR is not an isolated shield, but a living layer of ethical, regenerative, and collective protection. In our distributed ecosystem — where multiple MCFFPs, territories, and users connect — safeguarding data, flows, and decisions is essential to ensure trust, sovereignty, and continuity.
-      <br><br>
-      We implement robust protocols for authentication, encryption, and monitoring, but go beyond technical measures: we foster community digital literacy, algorithmic transparency, and respect for consent in all interactions with the BIO AI.
-      <br><br>
-      Our model proposes secure zones of digital interaction — auditable and interoperable — integrating local networks with global protection standards. Instead of blocking out, we aim to engage — creating a culture of cyber co-responsibility that strengthens every link in the network.
-    </p>
+    <div class="tech-card" onclick="toggleBox('gemeos')">🧿 Digital Twins</div>
+    <div id="gemeos" class="box-hidden">
+      <p><strong>Regenerative Simulators:</strong> At BIOCERR, Digital Twins are not just virtual copies of equipment or processes — they are living mirrors of regenerative territories. Each MCEFP and Mother Industry can have a digital version that simulates, anticipates, and learns from real system behavior.</p>
+
+      <p>This allows us to predict failures, optimize routes, adapt production, and test complex decisions without real-world impact. It's like the factory dreams before acting.</p>
+
+      <p>BIOCERR's Digital Twins also integrate environmental, social, and operational data in real-time. This way, we understand how local decisions affect surroundings, biodiversity, logistics flows, and community well-being.</p>
+
+      <p>More than automation, Digital Twins allow anticipatory governance: decisions based on simulations, with humans and AI working together for the common good.</p>
+
+      <p>In BIOCERR's view, a Digital Twin is a sensitive and projective memory of the relationship between technology, nature, and care.</p>
+
+      <div class="graph-wrapper" aria-label="Interactive Digital Twins Graph">
+        <div id="network"></div>
+
+        <div id="graphInstructions" class="graph-instructions">
+          💡 <strong>Instructions:</strong><br>
+          • Use your mouse wheel or pinch on touch to zoom.<br>
+          • Click the button to view content.<br>
+          • Click and drag the background to move the view.<br>
+          • Click and drag a node to reposition it; arrows will follow.<br>
+          • Double-click any empty space to recenter the view.
+        </div>
+
+        <div id="nodeDetails" role="region" aria-live="polite"></div>
+      </div>
+    </div>
+
+    <div class="tech-card" onclick="toggleBox('ciber')">🛡️ Cybersecurity</div>
+    <div id="ciber" class="box-hidden">
+      <p><strong>BIO Shield:</strong> Cybersecurity at BIOCERR is not an isolated shield but a living layer of ethical, regenerative, and collective protection. In a distributed ecosystem where multiple MCEFPs, territories, and users connect, safeguarding data, flows, and decisions is essential for trust, sovereignty, and continuity.</p>
+    </div>
   </div>
-</div>
 
   <div class="mist"></div>
 
   <script>
+    let didFitOnce = false;
+
     function toggleBox(id) {
       const box = document.getElementById(id);
       box.style.display = box.style.display === "block" ? "none" : "block";
+
+      if (id === 'gemeos') {
+        setTimeout(() => {
+          if (window.network) {
+            window.network.redraw();
+            if (!didFitOnce) {
+              window.network.fit({ animation: { duration: 600, easing: 'easeInOutQuad' } });
+              didFitOnce = true;
+            }
+          }
+        }, 300);
+      }
     }
   </script>
+
+  <script>
+    const nodes = new vis.DataSet([
+      { id: 1, label: "BIOCERR Cloud", shape: "box", color: { background: '#083e36', border: '#74f2ce' }, font: { color: 'white' } },
+      { id: 2, label: "Mother Industry", shape: "box", color: { background: '#063a6b', border: '#74f2ce' }, font: { color: 'white' } },
+      { id: 3, label: "MCFFPs", shape: "box", color: { background: '#4f2b63', border: '#74f2ce' }, font: { color: 'white' } },
+      { id: 4, label: "Operators", shape: "ellipse", color: { background: '#b36100', border: '#ffd9b3' }, font: { color: 'white' } },
+      { id: 5, label: "End Market", shape: "ellipse", color: { background: '#8b053a', border: '#ffb3c9' }, font: { color: 'white' } },
+      { id: 6, label: "BIO Governance", shape: "box", color: { background: '#2b3a3f', border: '#9fbdb6' }, font: { color: 'white' } },
+      { id: 7, label: "BIO AI", shape: "box", color: { background: '#145a2f', border: '#74f2ce' }, font: { color: 'white' } }
+    ]);
+
+    const edges = new vis.DataSet([
+      { from: 1, to: 2, arrows: "to", color: { color: '#74f2ce' } },
+      { from: 1, to: 6, arrows: "to", color: { color: '#74f2ce' } },
+      { from: 6, to: 7, arrows: "to", color: { color: '#74f2ce' } },
+      { from: 2, to: 3, arrows: "to", color: { color: '#74f2ce' } },
+      { from: 3, to: 4, arrows: "to", color: { color: '#ffd28f' } },
+      { from: 4, to: 5, arrows: "to", color: { color: '#ff9fb3' } },
+      { from: 7, to: 3, arrows: "to", color: { color: '#74f2ce' } },
+      { from: 7, to: 2, arrows: "to", color: { color: '#74f2ce' } }
+    ]);
+
+    const options = {
+      physics: {
+        enabled: true,
+        barnesHut: {
+          gravitationalConstant: -8000,
+          centralGravity: 0.2,
+          springLength: 200,
+          springConstant: 0.04
+        },
+        stabilization: { enabled: true, iterations: 200 }
+      },
+      interaction: {
+        hover: true,
+        dragNodes: true,
+        zoomView: true,
+        tooltipDelay: 100
+      },
+      nodes: {
+        borderWidth: 2,
+        shadow: true,
+        font: { size: 14 }
+      },
+      edges: {
+        arrows: { to: { enabled: true, scaleFactor: 1.2 } },
+        smooth: { enabled: true, type: 'dynamic' }
+      },
+      layout: { improvedLayout: true }
+    };
+
+    const container = document.getElementById('network');
+    const data = { nodes: nodes, edges: edges };
+    const network = new vis.Network(container, data, options);
+    window.network = network;
+
+    network.on('doubleClick', function () {
+      network.fit({ animation: { duration: 400, easing: 'easeInOutQuad' } });
+    });
+
+    const details = {
+      1: { title: "BIOCERR Cloud", text: "Coordination and services layer: MQTT broker, timeseries storage, APIs, and twins orchestration. Hosts models, dashboards, and external integrations." },
+      2: { title: "Mother Industry", text: "Produces base concentrates in IBCs, manages quality control, shipment routines, and corporate system integration (ERP/MES). Primary source of data and traceability." },
+      3: { title: "MCEFPs", text: "Mini Central Filling and Finalizing Units: local units that personalize batches, operate with sensors, and replicate SMPD DNA in the territory." },
+      4: { title: "Operators", text: "Local users interacting via simple interfaces: batch execution, QC checks, local maintenance, and communication with BIO (AI)." },
+      5: { title: "End Market", text: "Receives final products: households, hospitals, markets, and industrial partners. Traceability and regenerative impact tracked." },
+      6: { title: "BIO Governance", text: "Regenerative oversight: data ethics, KPIs monitoring, quality assurance, and territorial compliance." },
+      7: { title: "BIO AI", text: "Artificial intelligence mediator: coordinates network flows, anticipates decisions, provides alerts, and supports human operators ethically." }
+    };
+
+    network.on("click", function (params) {
+  if (params.nodes.length) {
+    const nodeId = params.nodes[0];
+    const detail = details[nodeId];
+    if (detail) {
+      const panel = document.getElementById('nodeDetails');
+      panel.style.display = "block";
+      panel.innerHTML = `<h3>${detail.title}</h3><p>${detail.text}</p><button class="close-btn" onclick="this.parentNode.style.display='none'">Close</button>`;
+      panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+});
+  </script>
+
 </body>
 </html>
