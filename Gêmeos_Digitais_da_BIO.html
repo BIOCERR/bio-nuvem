@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BIOCERR • Digital Twin Dashboard (Protótipo)</title>
+  <style>
+    /* ——— Base ——— */
+    :root{
+      --bg:#0b1520;
+      --panel:#0f1d29;
+      --panel-2:#0d1a24;
+      --text:#e7f6ff;
+      --muted:#9fb6c4;
+      --teal:#2de0c1;
+      --mint:#74f2ce;
+      --warn:#ffb86b;
+      --ok:#46e39a;
+      --danger:#ff6b6b;
+      --shadow: 0 8px 24px rgba(0,0,0,.35);
+      --radius: 16px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; background:
+        radial-gradient(1000px 600px at 70% -10%, rgba(45,224,193,.08), transparent),
+        radial-gradient(800px 500px at 10% 110%, rgba(116,242,206,.06), transparent),
+        var(--bg);
+      color:var(--text);
+      font: 16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Inter,Arial,sans-serif;
+    }
+    a{color:var(--mint); text-decoration:none}
+    .container{max-width:1220px; margin:0 auto; padding:28px 20px 80px}
+
+    /* ——— Top ——— */
+    .topbar{display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:18px}
+    .brand{display:flex; align-items:center; gap:12px; font-weight:700; letter-spacing:.2px}
+    .dot{width:10px;height:10px;border-radius:50%; background:var(--teal); box-shadow:0 0 0 6px rgba(45,224,193,.18)}
+    .topbar-right{display:flex; align-items:center; gap:16px}
+    .status{display:flex; align-items:center; gap:8px; color:var(--muted)}
+    .status .live{width:8px; height:8px; border-radius:50%; background:var(--ok); box-shadow:0 0 0 8px rgba(70,227,154,.15)}
+    .controls{display:flex; align-items:center; gap:8px}
+    .controls label{color:var(--muted); font-size:14px}
+    .controls select{background:var(--panel-2); color:var(--text); border:1px solid rgba(116,242,206,.18); border-radius:10px; padding:6px 10px}
+    .controls select:focus{outline:none; box-shadow:0 0 0 3px rgba(116,242,206,.18)}
+    .back a{display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border:1px solid rgba(116,242,206,.25); border-radius:999px; background:rgba(116,242,206,.08)}
+    .back a:hover{background:rgba(116,242,206,.14)}
+
+    /* ——— Hero ——— */
+    .hero{background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,0)); border:1px solid rgba(116,242,206,.15); border-radius:var(--radius); padding:26px; box-shadow:var(--shadow);}
+    .hero h1{margin:6px 0 6px; font-size:36px; letter-spacing:.3px}
+    .hero p{margin:0; color:var(--muted)}
+
+    /* ——— Hub section ——— */
+    .hub{position:relative; display:grid; grid-template-columns:1fr 1fr; gap:22px; margin-top:26px}
+    @media (min-width:980px){ .hub{grid-template-columns: 1.2fr 1fr;}}
+
+    .graph{position:relative; background:var(--panel); border:1px solid rgba(116,242,206,.12); border-radius:var(--radius); min-height:360px; box-shadow:var(--shadow); overflow:hidden}
+    .nodes{position:absolute; inset:0; display:grid; place-items:center}
+    .core{position:relative; width:150px; height:150px; border-radius:50%; background: radial-gradient(circle at 50% 40%, rgba(45,224,193,.4), rgba(45,224,193,.1)); border:2px solid rgba(45,224,193,.8); box-shadow: 0 0 40px rgba(45,224,193,.35), inset 0 0 40px rgba(45,224,193,.2);}
+    .core::after{content:"BIO"; position:absolute; inset:0; display:grid; place-items:center; font-weight:700; color:#083a33; text-shadow:0 1px 0 rgba(255,255,255,.25)}
+
+    .orbit{position:absolute; width:100%; height:100%; pointer-events:none}
+    .curve{position:absolute; width:50%; height:50%; border:1.6px solid rgba(116,242,206,.25); border-radius:50%; filter:blur(.2px)}
+
+    .module{position:absolute; width:240px; background:var(--panel-2); border:1px solid rgba(116,242,206,.16); border-radius:14px; padding:16px; box-shadow:var(--shadow); transition: transform .2s ease, box-shadow .2s ease; cursor:pointer}
+    .module:hover{transform:translateY(-2px); box-shadow:0 14px 32px rgba(0,0,0,.45)}
+    .module h3{margin:0 0 6px; font-size:16px; display:flex; align-items:center; gap:10px}
+    .module p{margin:0; color:var(--muted); font-size:13px}
+    .badge{font-size:12px; padding:4px 8px; border-radius:999px; border:1px solid rgba(116,242,206,.3); color:var(--mint)}
+
+    /* positions */
+    .m-left-top{left:26px; top:20px}
+    .m-left-bottom{left:26px; bottom:20px}
+    .m-right-top{right:26px; top:20px}
+    .m-right-bottom{right:26px; bottom:20px}
+
+    /* ——— Actions ——— */
+    .actions{display:grid; grid-template-columns:1fr; gap:18px}
+    .cards{display:grid; grid-template-columns:1fr 1fr; gap:18px}
+    @media (max-width:720px){ .cards{grid-template-columns:1fr} }
+    .card{background:var(--panel); border:1px solid rgba(116,242,206,.12); border-radius:var(--radius); padding:18px; box-shadow:var(--shadow)}
+    .card h4{margin:0 0 8px}
+    .kpis{display:grid; grid-template-columns:repeat(4,1fr); gap:12px}
+    @media (max-width:900px){ .kpis{grid-template-columns:repeat(2,1fr)} }
+    .kpi{background:var(--panel-2); border:1px solid rgba(116,242,206,.12); border-radius:12px; padding:12px}
+    .kpi .label{font-size:12px; color:var(--muted)}
+    .kpi .value{font:700 20px/1.2 Inter, system-ui}
+
+    /* ——— Timeline (sim) ——— */
+    .timeline{display:flex; align-items:center; gap:14px; background:var(--panel); border:1px solid rgba(116,242,206,.12); border-radius:var(--radius); padding:12px 16px; box-shadow:var(--shadow)}
+    .btn{appearance:none; border:0; border-radius:999px; background:rgba(116,242,206,.12); color:var(--text); padding:10px 14px; cursor:pointer}
+    .btn:hover{background:rgba(116,242,206,.2)}
+    .btn[disabled]{opacity:.45; cursor:not-allowed}
+    .range{flex:1}
+    input[type=range]{width:100%}
+
+    /* ——— Drawer detail ——— */
+    .drawer{position:fixed; right:0; top:0; height:100%; width:380px; max-width:92vw; background:var(--panel); border-left:1px solid rgba(116,242,206,.18); box-shadow:-18px 0 40px rgba(0,0,0,.45); transform:translateX(110%); transition: transform .28s ease; z-index:30}
+    .drawer.open{transform:translateX(0)}
+    .drawer header{display:flex; align-items:center; justify-content:space-between; gap:12px; padding:16px 16px; border-bottom:1px solid rgba(116,242,206,.15)}
+    .drawer main{padding:16px}
+    .muted{color:var(--muted)}
+    .pill{display:inline-block; font-size:12px; padding:4px 8px; border-radius:999px; background:rgba(116,242,206,.12); border:1px solid rgba(116,242,206,.25)}
+    .list{display:grid; gap:10px; margin-top:8px}
+    .list .row{display:flex; justify-content:space-between; gap:8px; padding:8px 10px; background:var(--panel-2); border:1px solid rgba(116,242,206,.1); border-radius:10px}
+
+    /* ——— Tiny SVG icons ——— */
+    .icon{display:inline-block; width:18px; height:18px; vertical-align:-3px}
+    .icon path{stroke:var(--mint); stroke-width:2; fill:none; stroke-linecap:round; stroke-linejoin:round}
+
+    /* ——— Footer (logo acima do texto) ——— */
+    footer{ text-align:center; padding:18px 0; font-size:13px; opacity:0.95; margin-top:26px; }
+    .footer-logo{ display:block; height:100px; width:auto; margin:0 auto 8px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="topbar">
+      <div style="display:flex; align-items:center; gap:12px">
+        <div class="back">
+          <a href="infraestrutura_digital_en.html"
+             onclick="event.preventDefault(); if(document.referrer){history.back()} else {window.location.href='infraestrutura_digital.html'}">
+            ← Voltar
+          </a>
+        </div>
+        <div class="brand"><span class="dot"></span> BIOCERR • Gêmeo Digital</div>
+      </div>
+      <div class="topbar-right">
+        <div class="status"><span class="live"></span> AO VIVO · <span id="conn-mode">SIM</span></div>
+        <div class="controls">
+          <label for="mode">Modo</label>
+          <select id="mode" aria-label="Modo de conexão">
+            <option value="simulated">Simulado</option>
+            <option value="real">Real (JSON)</option>
+            <option value="ws">Real (WebSocket)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <section class="hero">
+      <h1>Infraestrutura Digital</h1>
+      <p>Nossa infraestrutura digital conecta dados, processos e territórios de forma integrada e regenerativa. Abaixo há um mock funcional que simula dados ao vivo e interações entre o núcleo (BIO) e os módulos do ecossistema. Alterne entre Simulado, Real (JSON) e Real (WebSocket).</p>
+    </section>
+
+    <section class="hub">
+      <!-- Graph / Hub side -->
+      <div class="graph" id="graph">
+        <div class="nodes">
+          <div class="core" id="core"></div>
+        </div>
+        <!-- Curves (decorative) -->
+        <div class="orbit">
+          <div class="curve" style="left:8%; top:10%; width:84%; height:84%"></div>
+          <div class="curve" style="left:18%; top:20%; width:64%; height:64%"></div>
+        </div>
+
+        <!-- Modules around the hub -->
+        <div class="module m-left-top" data-module="reservoirs">
+          <h3>
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+            Reservatórios de Água <span class="badge" id="res-status">Normal</span>
+          </h3>
+          <p>Níveis dos tanques e uso de água.</p>
+        </div>
+        <div class="module m-left-bottom" data-module="logistics">
+          <h3>
+            <svg class="icon" viewBox="0 0 24 24"><path d="M3 16h18M5 16V8h10v8M15 12h4l2 4"/></svg>
+            Logística <span class="badge" id="log-status">No horário</span>
+          </h3>
+          <p>Frota, rotas e entregas.</p>
+        </div>
+        <div class="module m-right-top" data-module="production">
+          <h3>
+            <svg class="icon" viewBox="0 0 24 24"><path d="M3 20h18M6 20V8l4 2 4-3 4 2v11"/></svg>
+            Produção <span class="badge" id="prod-status">Estável</span>
+          </h3>
+          <p>Vazão e rastreabilidade de lotes.</p>
+        </div>
+        <div class="module m-right-bottom" data-module="mcefp">
+          <h3>
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 6h16v6H4zM6 12v6h12v-6"/></svg>
+            MCEFP <span class="badge" id="mcefp-status">Saudável</span>
+          </h3>
+          <p>Dados em tempo real das mini plantas.</p>
+        </div>
+      </div>
+
+      <!-- Actions / KPIs side -->
+      <div class="actions">
+        <div class="card">
+          <h4>Indicadores principais (ao vivo)</h4>
+          <div class="kpis" id="kpis">
+            <div class="kpi"><div class="label">Água (L)</div><div class="value" id="kpi-water">—</div></div>
+            <div class="kpi"><div class="label">Energia (kWh)</div><div class="value" id="kpi-energy">—</div></div>
+            <div class="kpi"><div class="label">Emissões (kgCO₂e)</div><div class="value" id="kpi-co2">—</div></div>
+            <div class="kpi"><div class="label">Índice Social</div><div class="value" id="kpi-social">—</div></div>
+          </div>
+        </div>
+        <div class="cards">
+          <div class="card">
+            <h4>Desempenho</h4>
+            <p class="muted">Acompanhe KPIs, paradas e tendências.</p>
+          </div>
+          <div class="card">
+            <h4>Conectividade</h4>
+            <p class="muted">Monitore saúde dos dispositivos e latência de rede.</p>
+          </div>
+          <div class="card">
+            <h4>Regeneração</h4>
+            <p class="muted">Métricas de sustentabilidade e sinais territoriais.</p>
+          </div>
+          <div class="card">
+            <h4>Otimização</h4>
+            <p class="muted">Execute simulações e planeje manutenção.</p>
+          </div>
+        </div>
+        <div class="timeline">
+          <button class="btn" id="play">▶︎</button>
+          <input class="range" id="range" type="range" min="0" max="100" value="30" />
+          <div class="muted">Intensidade <strong id="intensity">10</strong></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Drawer detail panel -->
+  <aside class="drawer" id="drawer" aria-hidden="true">
+    <header>
+      <div>
+        <strong id="drawer-title">Detalhes</strong><br/>
+        <span class="muted" id="drawer-sub">Transmissão ao vivo · atualizado <span id="drawer-updated">agora</span></span>
+      </div>
+      <button class="btn" id="close">Fechar</button>
+    </header>
+    <main>
+      <div class="pill" id="state-pill">ESTADO</div>
+      <div class="list" id="list"></div>
+    </main>
+  </aside>
+
+  <!-- Footer solicitado: LOGO acima de SMPD -->
+  <footer>
+    <img src="Logo.png" alt="Logo BIOCERR" class="footer-logo">
+    <div>SMPD - Sistema Modular de Produção Descentralizada</div>
+    <div style="margin-top:6px; font-size:12px; opacity:0.8;">© BIOCERR</div>
+  </footer>
+
+  <script>
+    // ——— Connector configuration ———
+    const CONNECTOR = {
+      mode: 'simulated',               // 'simulated' | 'real' | 'ws'
+      real: {
+        type: 'json',
+        jsonUrl: 'bio_data.json',      // coloque este arquivo ao lado deste HTML (ou use URL com CORS)
+        pollMs: 4000
+      },
+      ws: {
+        url: 'wss://example.com/biocerr', // substitua pelo seu endpoint WS seguro (wss://)
+        reconnectMs: 5000
+      }
+    }
+
+    // ——— App state (defaults) ———
+    const state = {
+      water: 1200,
+      energy: 2.1,
+      co2: 3.6,
+      social: 0.78,
+      intensity: 10,
+      modules: {
+        reservoirs: { status: 'Normal', tanks: 3, level_l: 780, usage_l: 1250 },
+        logistics:  { status: 'No horário', trucks: 4, eta_min: 18, issues: 0 },
+        production: { status: 'Estável', throughput_lpm: 4.5, batches: 12 },
+        mcefp:      { status: 'Saudável', temp_c: 22.3, flow_lpm: 4.2 }
+      }
+    }
+
+    // ——— Helpers ———
+    const el = id => document.getElementById(id)
+    const setBadge = (id, text) => el(id).textContent = text
+    function updateBadges(){
+      setBadge('res-status', state.modules.reservoirs.status)
+      setBadge('log-status', state.modules.logistics.status)
+      setBadge('prod-status', state.modules.production.status)
+      setBadge('mcefp-status', state.modules.mcefp.status)
+    }
+    function renderKPIs(){
+      el('kpi-water').textContent  = Math.round(state.water).toLocaleString()
+      el('kpi-energy').textContent = state.energy.toFixed(2)
+      el('kpi-co2').textContent    = state.co2.toFixed(2)
+      el('kpi-social').textContent = state.social.toFixed(2)
+      el('intensity').textContent  = state.intensity
+    }
+
+    // ——— Simulation engine ———
+    let simTimer = null
+    let playing = true
+    const playBtn = el('play')
+    function randomDrift(){
+      const r = (v, d) => v + (Math.random()-.5)*d
+      state.water  = Math.max(600, r(state.water, 20))
+      state.energy = Math.max(0.6, r(state.energy, .06))
+      state.co2    = Math.max(1.4, r(state.co2, .05))
+      state.social = Math.min(1.00, Math.max(.55, r(state.social, .01)))
+      updateBadges(); renderKPIs()
+    }
+    function startSimulation(){
+      stopRealJSON(); stopWS()
+      el('conn-mode').textContent = 'SIM'
+      playBtn.disabled = false
+      if(simTimer) clearInterval(simTimer)
+      renderKPIs(); updateBadges()
+      simTimer = setInterval(randomDrift, 2000)
+      playing = true
+      playBtn.textContent = '▶︎'
+    }
+    function stopSimulation(){ if(simTimer){ clearInterval(simTimer); simTimer=null } }
+    playBtn.addEventListener('click', () => {
+      if(playBtn.disabled) return
+      playing = !playing
+      playBtn.textContent = playing ? '▶︎' : '❚❚'
+      if(playing){ simTimer = setInterval(randomDrift, 2000) } else { clearInterval(simTimer) }
+    })
+    el('range').addEventListener('input', e => {
+      state.intensity = Math.round( (e.target.value/100) * 20 )
+      renderKPIs()
+    })
+
+    // ——— Drawer ———
+    const drawer = el('drawer')
+    el('close').addEventListener('click', ()=> drawer.classList.remove('open'))
+    function openDrawer(moduleKey){
+      const mapping = { reservoirs: 'Reservatórios de Água', logistics: 'Logística', production: 'Produção', mcefp: 'MCEFP (Mini Central)' }
+      const m = state.modules[moduleKey]
+      if(!m) return
+      el('drawer-title').textContent = mapping[moduleKey] || moduleKey
+      el('state-pill').textContent = m.status
+      el('drawer-updated').textContent = 'agora'
+      const list = el('list')
+      list.innerHTML = ''
+      Object.entries(m).forEach(([k,v])=>{
+        if(k==='status') return
+        const row = document.createElement('div')
+        row.className = 'row'
+        row.innerHTML = `<span class="muted">${k.replace(/_/g,' ')}</span><strong>${v}</strong>`
+        list.appendChild(row)
+      })
+      drawer.classList.add('open')
+    }
+    document.querySelectorAll('.module').forEach(card=>{
+      card.addEventListener('click', ()=> openDrawer(card.dataset.module))
+    })
+    window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') drawer.classList.remove('open') })
+
+    // ——— Apply incoming payload ———
+    /*
+      Expected JSON / WS message shape:
+      {
+        "kpis": { "water":1234, "energy":2.34, "co2":3.21, "social":0.82 },
+        "modules": {
+          "reservoirs": { "status":"Normal", "tanks":3, "level_l":780, "usage_l":1250 },
+          "logistics":  { "status":"No horário", "trucks":4, "eta_min":18, "issues":0 },
+          "production": { "status":"Estável", "throughput_lpm":4.5, "batches":12 },
+          "mcefp":      { "status":"Saudável", "temp_c":22.3, "flow_lpm":4.2 }
+        }
+      }
+    */
+    function applyIncoming(data){
+      if(!data) return
+      if(data.kpis){
+        const k = data.kpis
+        if(typeof k.water  === 'number') state.water  = k.water
+        if(typeof k.energy === 'number') state.energy = k.energy
+        if(typeof k.co2    === 'number') state.co2    = k.co2
+        if(typeof k.social === 'number') state.social = k.social
+      }
+      if(data.modules){
+        for(const key of ['reservoirs','logistics','production','mcefp']){
+          if(data.modules[key]) Object.assign(state.modules[key], data.modules[key])
+        }
+      }
+      updateBadges(); renderKPIs()
+    }
+
+    // ——— Real (JSON polling) ———
+    let poller = null
+    async function pollOnce(){
+      try{
+        const res = await fetch(CONNECTOR.real.jsonUrl, { cache:'no-store' })
+        if(!res.ok) throw new Error('HTTP '+res.status)
+        const data = await res.json()
+        applyIncoming(data)
+      }catch(err){
+        console.warn('[connector] poll error:', err)
+      }
+    }
+    function startRealJSON(){
+      stopSimulation(); stopWS()
+      el('conn-mode').textContent = 'JSON'
+      playBtn.disabled = true
+      if(poller) clearInterval(poller)
+      pollOnce()
+      poller = setInterval(pollOnce, CONNECTOR.real.pollMs)
+    }
+    function stopRealJSON(){ if(poller){ clearInterval(poller); poller=null } }
+
+    // ——— Real (WebSocket) ———
+    let socket = null
+    let wsReconnectTimer = null
+    function startWS(){
+      stopSimulation(); stopRealJSON()
+      el('conn-mode').textContent = 'WS'
+      playBtn.disabled = true
+
+      try{
+        socket = new WebSocket(CONNECTOR.ws.url)
+        socket.onopen = ()=>{ console.log('[ws] open'); }
+        socket.onmessage = (evt)=>{
+          try{
+            const data = JSON.parse(evt.data)
+            applyIncoming(data)
+          }catch(e){ console.warn('[ws] bad message', e) }
+        }
+        socket.onerror = (e)=>{ console.warn('[ws] error', e) }
+        socket.onclose = ()=>{
+          console.warn('[ws] closed, will retry…')
+          wsReconnectTimer = setTimeout(()=> startWS(), CONNECTOR.ws.reconnectMs)
+        }
+      }catch(err){
+        console.warn('[ws] init error', err)
+      }
+    }
+    function stopWS(){
+      if(wsReconnectTimer){ clearTimeout(wsReconnectTimer); wsReconnectTimer=null }
+      if(socket){ try{ socket.close() }catch{}; socket=null }
+    }
+
+    // ——— Mode switch UI ———
+    const modeSel = el('mode')
+    function setMode(m){
+      if(m==='real')      startRealJSON()
+      else if(m==='ws')   startWS()
+      else                startSimulation()
+      CONNECTOR.mode = m
+    }
+    modeSel.addEventListener('change', e=> setMode(e.target.value))
+
+    // ——— Boot ———
+    renderKPIs(); updateBadges();
+    modeSel.value = CONNECTOR.mode
+    setMode(CONNECTOR.mode)
+  </script>
+</body>
+</html>
