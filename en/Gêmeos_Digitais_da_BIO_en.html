@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BIOCERR • Digital Twin Dashboard (Prototype)</title>
+  <style>
+    /* ——— Base ——— */
+    :root{
+      --bg:#0b1520;
+      --panel:#0f1d29;
+      --panel-2:#0d1a24;
+      --text:#e7f6ff;
+      --muted:#9fb6c4;
+      --teal:#2de0c1;
+      --mint:#74f2ce;
+      --warn:#ffb86b;
+      --ok:#46e39a;
+      --danger:#ff6b6b;
+      --shadow: 0 8px 24px rgba(0,0,0,.35);
+      --radius: 16px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; background:
+        radial-gradient(1000px 600px at 70% -10%, rgba(45,224,193,.08), transparent),
+        radial-gradient(800px 500px at 10% 110%, rgba(116,242,206,.06), transparent),
+        var(--bg);
+      color:var(--text);
+      font: 16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Inter,Arial,sans-serif;
+    }
+    a{color:var(--mint); text-decoration:none}
+    .container{max-width:1220px; margin:0 auto; padding:28px 20px 80px}
+
+    /* ——— Top ——— */
+    .topbar{display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:18px}
+    .brand{display:flex; align-items:center; gap:12px; font-weight:700; letter-spacing:.2px}
+    .dot{width:10px;height:10px;border-radius:50%; background:var(--teal); box-shadow:0 0 0 6px rgba(45,224,193,.18)}
+    .topbar-right{display:flex; align-items:center; gap:16px}
+    .status{display:flex; align-items:center; gap:8px; color:var(--muted)}
+    .status .live{width:8px; height:8px; border-radius:50%; background:var(--ok); box-shadow:0 0 0 8px rgba(70,227,154,.15)}
+    .controls{display:flex; align-items:center; gap:8px}
+    .controls label{color:var(--muted); font-size:14px}
+    .controls select{background:var(--panel-2); color:var(--text); border:1px solid rgba(116,242,206,.18); border-radius:10px; padding:6px 10px}
+    .controls select:focus{outline:none; box-shadow:0 0 0 3px rgba(116,242,206,.18)}
+    .back a{display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border:1px solid rgba(116,242,206,.25); border-radius:999px; background:rgba(116,242,206,.08)}
+    .back a:hover{background:rgba(116,242,206,.14)}
+
+    /* ——— Hero ——— */
+    .hero{background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,0)); border:1px solid rgba(116,242,206,.15); border-radius:var(--radius); padding:26px; box-shadow:var(--shadow);}
+    .hero h1{margin:6px 0 6px; font-size:36px; letter-spacing:.3px}
+    .hero p{margin:0; color:var(--muted)}
+
+    /* ——— Hub section ——— */
+    .hub{position:relative; display:grid; grid-template-columns:1fr 1fr; gap:22px; margin-top:26px}
+    @media (min-width:980px){ .hub{grid-template-columns: 1.2fr 1fr;}}
+
+    .graph{position:relative; background:var(--panel); border:1px solid rgba(116,242,206,.12); border-radius:var(--radius); min-height:360px; box-shadow:var(--shadow); overflow:hidden}
+    .nodes{position:absolute; inset:0; display:grid; place-items:center}
+    .core{position:relative; width:150px; height:150px; border-radius:50%; background: radial-gradient(circle at 50% 40%, rgba(45,224,193,.4), rgba(45,224,193,.1)); border:2px solid rgba(45,224,193,.8); box-shadow: 0 0 40px rgba(45,224,193,.35), inset 0 0 40px rgba(45,224,193,.2);}
+    .core::after{content:"BIO"; position:absolute; inset:0; display:grid; place-items:center; font-weight:700; color:#083a33; text-shadow:0 1px 0 rgba(255,255,255,.25)}
+
+    .orbit{position:absolute; width:100%; height:100%; pointer-events:none}
+    .curve{position:absolute; width:50%; height:50%; border:1.6px solid rgba(116,242,206,.25); border-radius:50%; filter:blur(.2px)}
+
+    .module{position:absolute; width:240px; background:var(--panel-2); border:1px solid rgba(116,242,206,.16); border-radius:14px; padding:16px; box-shadow:var(--shadow); transition: transform .2s ease, box-shadow .2s ease; cursor:pointer}
+    .module:hover{transform:translateY(-2px); box-shadow:0 14px 32px rgba(0,0,0,.45)}
+    .module h3{margin:0 0 6px; font-size:16px; display:flex; align-items:center; gap:10px}
+    .module p{margin:0; color:var(--muted); font-size:13px}
+    .badge{font-size:12px; padding:4px 8px; border-radius:999px; border:1px solid rgba(116,242,206,.3); color:var(--mint)}
+
+    /* positions */
+    .m-left-top{left:26px; top:20px}
+    .m-left-bottom{left:26px; bottom:20px}
+    .m-right-top{right:26px; top:20px}
+    .m-right-bottom{right:26px; bottom:20px}
+
+    /* ——— Actions ——— */
+    .actions{display:grid; grid-template-columns:1fr; gap:18px}
+    .cards{display:grid; grid-template-columns:1fr 1fr; gap:18px}
+    @media (max-width:720px){ .cards{grid-template-columns:1fr} }
+    .card{background:var(--panel); border:1px solid rgba(116,242,206,.12); border-radius:var(--radius); padding:18px; box-shadow:var(--shadow)}
+    .card h4{margin:0 0 8px}
+    .kpis{display:grid; grid-template-columns:repeat(4,1fr); gap:12px}
+    @media (max-width:900px){ .kpis{grid-template-columns:repeat(2,1fr)} }
+    .kpi{background:var(--panel-2); border:1px solid rgba(116,242,206,.12); border-radius:12px; padding:12px}
+    .kpi .label{font-size:12px; color:var(--muted)}
+    .kpi .value{font:700 20px/1.2 Inter, system-ui}
+
+    /* ——— Timeline (sim) ——— */
+    .timeline{display:flex; align-items:center; gap:14px; background:var(--panel); border:1px solid rgba(116,242,206,.12); border-radius:var(--radius); padding:12px 16px; box-shadow:var(--shadow)}
+    .btn{appearance:none; border:0; border-radius:999px; background:rgba(116,242,206,.12); color:var(--text); padding:10px 14px; cursor:pointer}
+    .btn:hover{background:rgba(116,242,206,.2)}
+    .btn[disabled]{opacity:.45; cursor:not-allowed}
+    .range{flex:1}
+    input[type=range]{width:100%}
+
+    /* ——— Drawer detail ——— */
+    .drawer{position:fixed; right:0; top:0; height:100%; width:380px; max-width:92vw; background:var(--panel); border-left:1px solid rgba(116,242,206,.18); box-shadow:-18px 0 40px rgba(0,0,0,.45); transform:translateX(110%); transition: transform .28s ease; z-index:30}
+    .drawer.open{transform:translateX(0)}
+    .drawer header{display:flex; align-items:center; justify-content:space-between; gap:12px; padding:16px 16px; border-bottom:1px solid rgba(116,242,206,.15)}
+    .drawer main{padding:16px}
+    .muted{color:var(--muted)}
+    .pill{display:inline-block; font-size:12px; padding:4px 8px; border-radius:999px; background:rgba(116,242,206,.12); border:1px solid rgba(116,242,206,.25)}
+    .list{display:grid; gap:10px; margin-top:8px}
+    .list .row{display:flex; justify-content:space-between; gap:8px; padding:8px 10px; background:var(--panel-2); border:1px solid rgba(116,242,206,.1); border-radius:10px}
+
+    /* ——— Tiny SVG icons ——— */
+    .icon{display:inline-block; width:18px; height:18px; vertical-align:-3px}
+    .icon path{stroke:var(--mint); stroke-width:2; fill:none; stroke-linecap:round; stroke-linejoin:round}
+
+    /* ——— Footer (logo above SMPD) ——— */
+    footer{ text-align:center; padding:18px 0; font-size:13px; opacity:0.95; margin-top:26px; }
+    .footer-logo{ display:block; height:100px; width:auto; margin:0 auto 8px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="topbar">
+      <div style="display:flex; align-items:center; gap:12px">
+        <div class="back">
+          <a href="infraestrutura_digital_en.html"
+             onclick="event.preventDefault(); if(document.referrer){history.back()} else {window.location.href='infraestrutura_digital_en.html'}">
+            ← Back
+          </a>
+        </div>
+        <div class="brand"><span class="dot"></span> BIOCERR • Digital Twin</div>
+      </div>
+      <div class="topbar-right">
+        <div class="status"><span class="live"></span> LIVE · <span id="conn-mode">YES</span></div>
+        <div class="controls">
+          <label for="mode">Mode</label>
+          <select id="mode" aria-label="Connection mode">
+            <option value="simulated">Simulated</option>
+            <option value="real">Real (JSON)</option>
+            <option value="ws">Real (WebSocket)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <section class="hero">
+      <h1>Digital Infrastructure</h1>
+      <p>Our digital infrastructure connects data, processes, and territories in an integrated, regenerative way. Below is a functional mock that simulates live data and interactions between the core (BIO) and ecosystem modules. Switch between Simulated, Real (JSON), and Real (WebSocket).</p>
+    </section>
+
+    <section class="hub">
+      <!-- Graph / Hub side -->
+      <div class="graph" id="graph">
+        <div class="nodes">
+          <div class="core" id="core"></div>
+        </div>
+        <!-- Curves (decorative) -->
+        <div class="orbit">
+          <div class="curve" style="left:8%; top:10%; width:84%; height:84%"></div>
+          <div class="curve" style="left:18%; top:20%; width:64%; height:64%"></div>
+        </div>
+
+        <!-- Modules around the hub -->
+        <div class="module m-left-top" data-module="reservoirs">
+          <h3>
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+            Water Reservoirs <span class="badge" id="res-status">Normal</span>
+          </h3>
+          <p>Tank levels and water usage.</p>
+        </div>
+        <div class="module m-left-bottom" data-module="logistics">
+          <h3>
+            <svg class="icon" viewBox="0 0 24 24"><path d="M3 16h18M5 16V8h10v8M15 12h4l2 4"/></svg>
+            Logistics <span class="badge" id="log-status">On Time</span>
+          </h3>
+          <p>Fleet, routes, and deliveries.</p>
+        </div>
+        <div class="module m-right-top" data-module="production">
+          <h3>
+            <svg class="icon" viewBox="0 0 24 24"><path d="M3 20h18M6 20V8l4 2 4-3 4 2v11"/></svg>
+            Production <span class="badge" id="prod-status">Stable</span>
+          </h3>
+          <p>Flow and batch traceability.</p>
+        </div>
+        <div class="module m-right-bottom" data-module="mcefp">
+          <h3>
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 6h16v6H4zM6 12v6h12v-6"/></svg>
+            MCEFP <span class="badge" id="mcefp-status">Healthy</span>
+          </h3>
+          <p>Real-time mini plant data.</p>
+        </div>
+      </div>
+
+      <!-- Actions / KPIs side -->
+      <div class="actions">
+        <div class="card">
+          <h4>Main Indicators (Live)</h4>
+          <div class="kpis" id="kpis">
+            <div class="kpi"><div class="label">Water (L)</div><div class="value" id="kpi-water">—</div></div>
+            <div class="kpi"><div class="label">Energy (kWh)</div><div class="value" id="kpi-energy">—</div></div>
+            <div class="kpi"><div class="label">Emissions (kgCO₂e)</div><div class="value" id="kpi-co2">—</div></div>
+            <div class="kpi"><div class="label">Social Index</div><div class="value" id="kpi-social">—</div></div>
+          </div>
+        </div>
+        <div class="cards">
+          <div class="card">
+            <h4>Performance</h4>
+            <p class="muted">Monitor KPIs, stoppages, and trends.</p>
+          </div>
+          <div class="card">
+            <h4>Connectivity</h4>
+            <p class="muted">Check device health and network latency.</p>
+          </div>
+          <div class="card">
+            <h4>Regeneration</h4>
+            <p class="muted">Sustainability metrics and territorial signals.</p>
+          </div>
+          <div class="card">
+            <h4>Optimization</h4>
+            <p class="muted">Run simulations and plan maintenance.</p>
+          </div>
+        </div>
+        <div class="timeline">
+          <button class="btn" id="play">▶︎</button>
+          <input class="range" id="range" type="range" min="0" max="100" value="30" />
+          <div class="muted">Intensity <strong id="intensity">10</strong></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Drawer detail panel -->
+  <aside class="drawer" id="drawer" aria-hidden="true">
+    <header>
+      <div>
+        <strong id="drawer-title">Details</strong><br/>
+        <span class="muted" id="drawer-subtitle">Module information</span>
+      </div>
+      <button class="btn" onclick="drawerClose()">✕</button>
+    </header>
+    <main id="drawer-content">
+      <p>Select a module to see real-time details.</p>
+    </main>
+  </aside>
+
+  <!-- Footer -->
+  <footer>
+    <img src="Logo_en.png" class="footer-logo" alt="BIOCERR Logo">
+    MDPS • Modular Decentralized Production System © 2025
+  </footer>
+
+  <script>
+    // ——— KPI Simulation ———
+    const kpiDataSim = { water:1240, energy:560, co2:32, social:87 };
+    const kpiEls = { water:'#kpi-water', energy:'#kpi-energy', co2:'#kpi-co2', social:'#kpi-social' };
+
+    function updateKPIs(data){
+      for(const key in kpiEls){
+        document.querySelector(kpiEls[key]).textContent = data[key];
+      }
+    }
+
+    // Update every 3 seconds (simulated)
+    setInterval(()=>{
+      const rand = ()=>Math.floor(Math.random()*1000);
+      updateKPIs({ water:1240+rand(), energy:560+rand()/2, co2:32+rand()/10, social:87+rand()%5 });
+    },3000);
+
+    // Initial load
+    updateKPIs(kpiDataSim);
+
+    // ——— Drawer logic ———
+    const drawer = document.getElementById('drawer');
+    function drawerOpen(title, subtitle, html){
+      drawer.querySelector('#drawer-title').textContent = title;
+      drawer.querySelector('#drawer-subtitle').textContent = subtitle;
+      drawer.querySelector('#drawer-content').innerHTML = html;
+      drawer.classList.add('open');
+      drawer.setAttribute('aria-hidden','false');
+    }
+    function drawerClose(){ drawer.classList.remove('open'); drawer.setAttribute('aria-hidden','true'); }
+
+    // ——— Module click events ———
+    document.querySelectorAll('.module').forEach(mod=>{
+      mod.addEventListener('click',()=>{
+        const name = mod.dataset.module || 'Module';
+        drawerOpen(name, 'Live data preview', '<p>Details for '+name+' module.</p>');
+      });
+    });
+
+    // ——— Timeline / Range simulation ———
+    const intensity = document.getElementById('intensity');
+    const range = document.getElementById('range');
+    range.addEventListener('input',()=>{ intensity.textContent = range.value });
+
+    // ——— Mode select (simulated / JSON / WebSocket) ———
+    const modeSelect = document.getElementById('mode');
+    const connMode = document.getElementById('conn-mode');
+    modeSelect.addEventListener('change',(e)=>{
+      const val = e.target.value;
+      connMode.textContent = val.toUpperCase();
+      console.log('Mode changed to', val);
+      // TODO: load JSON / WebSocket if selected
+    });
+  </script>
+</body>
+</html>
