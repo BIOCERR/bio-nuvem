@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Painel GAIA de Segurança</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+  <style>
+    /* Base visual alinhado à sua identidade */
+    :root {
+      --teal:#74f2ce;
+      --teal-d:#2de0c1;
+      --ink:#0b0b0b;
+      --card:rgba(255,255,255,.035);
+      --stroke:rgba(116,242,206,.25);
+      --text:#eafaf6;
+      --muted:#b9e7dc;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin:0; padding:40px;
+      background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
+      color: var(--text);
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+    }
+    .top-bar{
+      position:absolute; top:20px; left:20px; z-index:10;
+      display:flex; gap:10px; align-items:center;
+    }
+    .top-bar a, .chip{
+      text-decoration:none; color:var(--teal);
+      border:1px solid var(--teal);
+      padding:8px 14px; border-radius:20px; font-weight:600;
+      background: rgba(0,0,0,.35);
+      transition:.25s ease;
+    }
+    .top-bar a:hover{ box-shadow:0 0 10px var(--teal); background: rgba(116,242,206,.12); }
+    h1{
+      text-align:center; margin:20px 0 12px;
+      font-size:2.6rem;
+      text-shadow:0 0 15px var(--teal), 0 0 25px var(--teal);
+      filter: drop-shadow(0 0 5px var(--teal-d));
+    }
+    .subtitle { text-align:center; color:var(--muted); margin-bottom:26px; }
+
+    .layout{
+      max-width:1200px; margin:0 auto; display:grid; gap:22px;
+      grid-template-columns: 1.2fr .8fr;
+    }
+    @media (max-width: 980px){
+      .layout{ grid-template-columns: 1fr; }
+    }
+
+    /* Cards e painéis */
+    .card{
+      background: var(--card);
+      border:1px solid rgba(116,242,206,.08);
+      border-radius:14px; padding:16px 18px;
+      box-shadow: 0 6px 20px rgba(0,0,0,.45);
+    }
+    .card h2{ margin:0 0 10px; font-size:1.25rem; color:var(--teal); }
+    .kpis{ display:grid; gap:12px; grid-template-columns: repeat(4, 1fr); }
+    @media (max-width: 980px){ .kpis{ grid-template-columns: repeat(2, 1fr); } }
+    .kpi{
+      background: rgba(255,255,255,.03);
+      border:1px solid var(--stroke);
+      border-radius:12px; padding:14px;
+      text-align:center;
+    }
+    .kpi .label{ font-size:.9rem; color:#cfeee6; }
+    .kpi .value{ font-size:1.6rem; font-weight:800; margin-top:6px; }
+
+    /* Hub (vis-network) */
+    .graph-wrapper{ padding:12px; border:1px solid rgba(116,242,206,.08); border-radius:12px; }
+    #network{ width:100%; height:420px; background:transparent; border-radius:10px; }
+    .graph-instructions{
+      margin-top:8px; font-size:.95em; color:#cfeee6;
+      background: rgba(255,255,255,.03);
+      border:1px dashed rgba(116,242,206,.35);
+      border-radius:8px; padding:10px 12px;
+    }
+
+    /* Lateral direita */
+    .alerts{ max-height:280px; overflow:auto; padding-right:4px; }
+    .alert{
+      border-left:3px solid var(--teal);
+      background: rgba(255,255,255,.03);
+      padding:10px 12px; border-radius:8px; margin:10px 0;
+    }
+    .alert .when{ color:#a0d6ca; font-size:.85em; }
+    .alert .sev{ font-weight:700; }
+    .controls{ display:flex; align-items:center; gap:12px; }
+    .range{ width:100%; }
+
+    /* Painel de detalhes do nó */
+    #nodeDetails{
+      display:none; margin-top:12px;
+      background: rgba(255,255,255,.03);
+      border-left:3px solid var(--teal);
+      padding:14px; border-radius:10px;
+    }
+    #nodeDetails h3{ margin:0 0 6px; color:var(--teal); }
+    .close-btn{
+      margin-top:8px; background:transparent; color:var(--teal);
+      border:1px solid rgba(116,242,206,.25); padding:6px 10px;
+      border-radius:8px; cursor:pointer;
+    }
+
+    .footer{
+      margin-top:24px; text-align:center; color:#bdeee2; font-size:.9rem;
+      opacity:.85;
+    }
+    .mist{ position:fixed; inset:0; pointer-events:none;
+      background: radial-gradient(circle, rgba(116,242,206,.05) 0%, transparent 70%);
+      filter: blur(25px); z-index:-1;
+    }
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <a href="infraestrutura_digital.html">⬅️ Voltar</a>
+    <span class="chip" id="chipStatus">● Operação Segura</span>
+  </div>
+
+  <h1>Painel GAIA de Segurança</h1>
+  <p class="subtitle">Monitoramento ativo • Defesa adaptativa • Auditoria imutável para <strong>Indústria Matriz</strong> e <strong>MCEFPs</strong> do <strong>SMPD</strong></p>
+
+  <div class="layout">
+    <!-- COLUNA ESQUERDA -->
+    <div class="col-left">
+      <div class="card">
+        <h2>Indicadores em Tempo Real</h2>
+        <div class="kpis">
+          <div class="kpi">
+            <div class="label">Conexões Seguras</div>
+            <div class="value" id="kpiSecure">128</div>
+          </div>
+          <div class="kpi">
+            <div class="label">Ataques Bloqueados (24h)</div>
+            <div class="value" id="kpiBlocked">3,219</div>
+          </div>
+          <div class="kpi">
+            <div class="label">Uptime GAIA</div>
+            <div class="value" id="kpiUptime">99.982%</div>
+          </div>
+          <div class="kpi">
+            <div class="label">Incidentes Abertos</div>
+            <div class="value" id="kpiIncidents">0</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Mapa Interativo de Segurança</h2>
+        <div class="graph-wrapper" aria-label="Mapa de segurança da GAIA">
+          <div id="network"></div>
+          <div class="graph-instructions">
+            💡 <strong>Como usar:</strong> role para dar zoom • arraste para mover • clique nos módulos para ver detalhes • duplo clique para recentralizar.
+          </div>
+          <div id="nodeDetails" role="region" aria-live="polite"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COLUNA DIREITA -->
+    <div class="col-right">
+      <div class="card">
+        <h2>Intensidade de Ameaças</h2>
+        <div class="controls">
+          <span>Baixa</span>
+          <input class="range" id="threatRange" type="range" min="0" max="100" value="22" />
+          <span>Alta</span>
+        </div>
+        <p style="margin:8px 0 0;color:#cfeee6">Ajuste para simular cenários (impacta o mapa, alertas e KPIs).</p>
+      </div>
+
+      <div class="card">
+        <h2>Alertas Recentes</h2>
+        <div class="alerts" id="alertsList" aria-live="polite"></div>
+      </div>
+
+      <div class="card">
+        <h2>Ações Rápidas</h2>
+        <div style="display:grid;gap:10px;">
+          <a class="chip" href="#!" id="btnContain">Aplicar Contenção</a>
+          <a class="chip" href="#!" id="btnRotateKeys">Rotacionar Chaves</a>
+          <a class="chip" href="#!" id="btnIsolate">Isolar MCFFP</a>
+          <a class="chip" href="#!" id="btnExport">Exportar Relatório</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p class="footer">
+    BIOCERR • GAIA Cloud • Convergência entre <strong>tecnologia</strong>, <strong>território</strong> e <strong>cuidado</strong> | Auditoria: ISO 27001 • NIST | Logs Imutáveis (WORM)
+  </p>
+
+  <div class="mist"></div>
+
+  <script>
+    // ------- Utilidades de formatação -------
+    const fmt = (n)=> n.toLocaleString('pt-BR');
+    const nowTime = ()=> new Date().toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit', second:'2-digit'});
+
+    // ------- KPIs (simulação leve) -------
+    const kpiSecure = document.getElementById('kpiSecure');
+    const kpiBlocked = document.getElementById('kpiBlocked');
+    const kpiUptime = document.getElementById('kpiUptime');
+    const kpiIncidents = document.getElementById('kpiIncidents');
+
+    // ------- ALERTAS -------
+    const alertsList = document.getElementById('alertsList');
+    const severities = ['info','low','medium','high','critical'];
+    function sevBadge(s){
+      const map = {info:'#9fd8ff', low:'#74f2ce', medium:'#ffd28f', high:'#ff9fb3', critical:'#ff6464'};
+      return '<span class="sev" style="color:'+map[s]+'">'+s.toUpperCase()+'</span>';
+    }
+    function pushAlert(sev, msg){
+      const div = document.createElement('div');
+      div.className = 'alert';
+      div.innerHTML = '<div class="when">'+nowTime()+' · '+sevBadge(sev)+'</div><div>'+msg+'</div>';
+      alertsList.prepend(div);
+      // manter lista curta
+      const max = 12; while(alertsList.children.length > max) alertsList.removeChild(alertsList.lastChild);
+    }
+
+    // ------- vis-network: nós e arestas -------
+    const nodes = new vis.DataSet([
+      { id:'gaia', label:'GAIA Cloud', shape:'box', color:{ background:'#0b2e2a', border:'#74f2ce' }, font:{ color:'#fff' } },
+      { id:'idm', label:'Identidade & Acesso', shape:'ellipse', color:{ background:'#254b6e', border:'#9fd8ff' }, font:{ color:'#fff' } },
+      { id:'edge', label:'MCEFPs (Borda)', shape:'box', color:{ background:'#4f2b63', border:'#d8a8ff' }, font:{ color:'#fff' } },
+      { id:'plant', label:'Indústria Matriz', shape:'box', color:{ background:'#063a6b', border:'#74f2ce' }, font:{ color:'#fff' } },
+      { id:'perimeter', label:'Perímetro / VPN / NGFW', shape:'box', color:{ background:'#1d3b2d', border:'#74f2ce' }, font:{ color:'#fff' } },
+      { id:'crypto', label:'Criptografia (TLS 1.3 / KMS)', shape:'box', color:{ background:'#123b34', border:'#74f2ce' }, font:{ color:'#fff' } },
+      { id:'siem', label:'Monitoramento & SIEM', shape:'box', color:{ background:'#2b3a3f', border:'#9fbdb6' }, font:{ color:'#fff' } },
+      { id:'bio', label:'BIO IA – Defesa Adaptativa', shape:'box', color:{ background:'#145a2f', border:'#74f2ce' }, font:{ color:'#fff' } },
+      { id:'backup', label:'Backup & DR', shape:'box', color:{ background:'#4a3b1a', border:'#ffd28f' }, font:{ color:'#fff' } },
+      { id:'gov', label:'Governança & Conformidade', shape:'ellipse', color:{ background:'#2b3a3f', border:'#9fbdb6' }, font:{ color:'#fff' } },
+      { id:'partners', label:'Parceiros / APIs', shape:'ellipse', color:{ background:'#5b1f2e', border:'#ffb3c9' }, font:{ color:'#fff' } }
+    ]);
+    const edges = new vis.DataSet([
+      { from:'idm', to:'perimeter', arrows:'to', color:{ color:'#74f2ce' } },
+      { from:'perimeter', to:'gaia', arrows:'to', color:{ color:'#74f2ce' } },
+      { from:'edge', to:'perimeter', arrows:'to', color:{ color:'#74f2ce' } },
+      { from:'plant', to:'perimeter', arrows:'to', color:{ color:'#74f2ce' } },
+      { from:'gaia', to:'crypto', arrows:'to', color:{ color:'#74f2ce' } },
+      { from:'gaia', to:'siem', arrows:'to', color:{ color:'#74f2ce' } },
+      { from:'siem', to:'bio', arrows:'to', color:{ color:'#74f2ce' } },
+      { from:'bio', to:'gaia', arrows:'to', color:{ color:'#74f2ce' } },
+      { from:'gaia', to:'backup', arrows:'to', color:{ color:'#ffd28f' } },
+      { from:'gov', to:'gaia', arrows:'to', color:{ color:'#9fbdb6' } },
+      { from:'gaia', to:'partners', arrows:'to', color:{ color:'#ffb3c9' } }
+    ]);
+    const options = {
+      physics:{
+        enabled:true,
+        barnesHut:{ gravitationalConstant:-7000, centralGravity:.25, springLength:200, springConstant:.05 },
+        stabilization:{ enabled:true, iterations:250 }
+      },
+      interaction:{ hover:true, dragNodes:true, zoomView:true, tooltipDelay:100 },
+      nodes:{ borderWidth:2, shadow:true, font:{ size:14 } },
+      edges:{ arrows:{ to:{ enabled:true, scaleFactor:1.2 } }, smooth:{ enabled:true, type:'dynamic' } },
+      layout:{ improvedLayout:true }
+    };
+    const container = document.getElementById('network');
+    const data = { nodes, edges };
+    const network = new vis.Network(container, data, options);
+    network.on('doubleClick', ()=> network.fit({ animation:{ duration:400, easing:'easeInOutQuad' } }));
+
+    // ------- Detalhes dos nós -------
+    const details = {
+      'idm': { title:'Identidade & Acesso', text:'MFA (app/token), certificados por unidade (BIO PKI), papéis (operador, auditor, governança), contas de serviço mínimas e rotação de chaves.' },
+      'perimeter': { title:'Perímetro / VPN / NGFW', text:'VPN obrigatória (WireGuard/OpenVPN), NGFW, proteção DDoS e filtragem L7 para APIs e painéis.' },
+      'gaia': { title:'GAIA Cloud', text:'Plano de controle e dados: orquestração, pipelines, storages e serviços. Políticas por projeto/namespace e isolamento de workloads.' },
+      'crypto': { title:'Criptografia (TLS 1.3 / KMS)', text:'Criptografia em trânsito (TLS 1.3) e em repouso (KMS). Segredos em cofre seguro com RBAC e trilhas de auditoria.' },
+      'siem': { title:'Monitoramento & SIEM', text:'Coleta e correlação de logs (Wazuh/ELK), detecção de anomalias, dashboards em tempo real e alertas acionáveis.' },
+      'bio': { title:'BIO IA – Defesa Adaptativa', text:'IA defensiva que aprende com incidentes, sugere/aciona playbooks (TheHive/Cortex), aplica contenção e recomenda hardening.' },
+      'backup': { title:'Backup & DR', text:'Replicação geográfica, testes de restauração frequentes, logs imutáveis (WORM) e plano de desastre validado.' },
+      'gov': { title:'Governança & Conformidade', text:'Trilhas de auditoria, ISO 27001/NIST, privacidade by design e aprovações pelo Conselho BIO.' },
+      'edge': { title:'MCEFPs (Borda)', text:'Nós de borda com hardening, updates assinados, telemetria segura e operação tolerante a desconexões.' },
+      'plant': { title:'Indústria Matriz', text:'Ambiente de produção central com microsegmentação, controle de mudanças e integração segura com ERP/MES.' },
+      'partners': { title:'Parceiros / APIs', text:'Integrações externas com chaves mínimas, rate limits e auditoria contínua.' }
+    };
+    const panel = document.getElementById('nodeDetails');
+    function showDetails(id){
+      const d = details[id]; if(!d) return;
+      panel.innerHTML = `<h3>${d.title}</h3><p>${d.text}</p><button class="close-btn" onclick="closeDetails()">Fechar</button>`;
+      panel.style.display = 'block';
+      panel.scrollIntoView({behavior:'smooth', block:'center'});
+    }
+    function closeDetails(){ panel.style.display='none'; panel.innerHTML=''; }
+    network.on('click', (p)=>{ if(p.nodes.length>0) showDetails(p.nodes[0]); });
+    document.addEventListener('visibilitychange', ()=>{ if(!document.hidden){ network.redraw(); } });
+
+    // ------- Intensidade de Ameaças (slider) -------
+    const chip = document.getElementById('chipStatus');
+    const range = document.getElementById('threatRange');
+    function applyThreatLevel(val){
+      val = Number(val);
+      // cor do status
+      if(val < 30){ chip.textContent = '● Operação Segura'; chip.style.color = '#74f2ce'; }
+      else if(val < 60){ chip.textContent = '● Atenção Elevada'; chip.style.color = '#ffd28f'; }
+      else if(val < 85){ chip.textContent = '● Alerta Alto'; chip.style.color = '#ff9fb3'; }
+      else { chip.textContent = '● Incidente Crítico'; chip.style.color = '#ff6464'; }
+
+      // leve alteração visual de nós mais expostos (perímetro e edge)
+      const edgeColor = (val<60)? '#74f2ce' : (val<85? '#ffd28f' : '#ff6464');
+      nodes.update([{id:'perimeter', color:{ background:'#1d3b2d', border:edgeColor }},
+                    {id:'edge', color:{ background:'#4f2b63', border:edgeColor }}]);
+
+      // KPIs reagem levemente
+      const baseSecure = 128, baseBlocked = 3219, baseInc = 0;
+      const blocked = Math.round(baseBlocked * (1 + val/140));
+      const secure = Math.max(32, Math.round(baseSecure * (1 - val/220)));
+      const inc = (val>80? 3 : val>60? 1 : 0);
+      kpiSecure.textContent = fmt(secure);
+      kpiBlocked.textContent = fmt(blocked);
+      kpiIncidents.textContent = fmt(inc);
+      kpiUptime.textContent = (99.982 - (val>85? 0.05 : val>60? 0.01 : 0)).toFixed(3)+'%';
+    }
+    range.addEventListener('input', e=> applyThreatLevel(e.target.value));
+    applyThreatLevel(range.value);
+
+    // ------- Simulação de alertas “vivos” -------
+    const sampleMsgs = [
+      'Bloqueio de varredura de portas na borda (MCEFP-07).',
+      'Autenticação falha repetida (operador-local) — MFA exigido.',
+      'Assinatura de imagem revalidada no cluster GAIA.',
+      'Pico de tráfego no Perímetro — mitigação DDoS automática.',
+      'Chaves de API parceiras rotacionadas com sucesso.',
+      'Desvio de configuração detectado — correção aplicada.',
+      'Nova política de rede aplicada (microsegmentação).',
+      'Backup incremental concluído (região-2).'
+    ];
+    function randomSev(val){
+      // mais severidade conforme o slider
+      const r = Math.random()*100 + Number(val)/1.5;
+      if(r>155) return 'critical';
+      if(r>120) return 'high';
+      if(r>85)  return 'medium';
+      if(r>50)  return 'low';
+      return 'info';
+    }
+    function loopAlerts(){
+      const sev = randomSev(range.value);
+      const msg = sampleMsgs[Math.floor(Math.random()*sampleMsgs.length)];
+      pushAlert(sev, msg);
+    }
+    // semente inicial
+    for(let i=0;i<5;i++) pushAlert(['info','low','medium'][i%3], sampleMsgs[i]);
+    setInterval(loopAlerts, 4000);
+
+    // ------- Ações Rápidas (simulação) -------
+    document.getElementById('btnContain').onclick = ()=> pushAlert('high','Playbook de contenção acionado: bloqueio temporário de origem suspeita.');
+    document.getElementById('btnRotateKeys').onclick = ()=> pushAlert('medium','Rotação de chaves iniciada para serviços críticos.');
+    document.getElementById('btnIsolate').onclick = ()=> pushAlert('critical','MCEFP isolada em quarentena operacional (somente leitura).');
+    document.getElementById('btnExport').onclick = ()=> pushAlert('info','Relatório de segurança exportado com trilhas de auditoria.');
+  </script>
+</body>
+</html>
