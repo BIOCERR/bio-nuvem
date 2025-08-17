@@ -5,7 +5,7 @@
   <title>Digital Infrastructure</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <style>
-    /* --- Base styles (keeping your visual style) --- */
+    /* --- Base styles (kept your visual language) --- */
     body {
       margin: 0;
       padding: 40px;
@@ -145,14 +145,13 @@
       box-shadow: 0 6px 20px rgba(0,0,0,0.6);
     }
 
-    #network {
+    #network, #networkGaia {
       width: 100%;
       height: 390px; /* 25% smaller than 520px */
-      background: transparent;
+      background: transparent; /* inherit dark background */
       border-radius: 8px;
     }
 
-    /* Graph interaction instructions */
     .graph-instructions {
       margin-top: 10px;
       font-size: 0.95em;
@@ -164,8 +163,7 @@
       padding: 10px 12px;
     }
 
-    /* Node details panel */
-    #nodeDetails {
+    #nodeDetails, #nodeDetailsGaia {
       display: none;
       max-width: 900px;
       margin: 14px auto 40px;
@@ -177,8 +175,8 @@
       text-align: left;
     }
 
-    #nodeDetails h3 { margin-top: 0; color: #74f2ce; }
-    #nodeDetails .close-btn {
+    #nodeDetails h3, #nodeDetailsGaia h3 { margin-top: 0; color: #74f2ce; }
+    .close-btn {
       display: inline-block;
       margin-top: 10px;
       background: transparent;
@@ -189,14 +187,14 @@
       cursor: pointer;
     }
 
-    /* Responsive */
     @media (max-width: 600px) {
       h1 { font-size: 2em; padding-top: 10px; }
       .tech-card { min-width: 100%; }
-      #network { height: 320px; }
+      #network, #networkGaia { height: 320px; }
     }
   </style>
 
+  <!-- vis-network -->
   <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
 </head>
 <body>
@@ -209,126 +207,174 @@
 
   <div class="content">
     <p>
-      The <strong>Digital Infrastructure</strong> of BIOCERR is the invisible backbone connecting data, processes, and territories in an integrated and regenerative way. It goes beyond technology itself — it is an ecosystem of technical, ethical, and territorial support, allowing the BIO network to operate with transparency, intelligence, and shared responsibility.
+      The <strong>Digital Infrastructure</strong> of BIOCERR is the invisible backbone that connects data, processes, and territories in an integrated and regenerative way. It goes beyond technology itself—it is an ecosystem of technical, ethical, and territorial support that allows the BIO network to operate with transparency, intelligence, and shared responsibility.
     </p>
 
     <p>
-      Instead of centralized platforms, we use distributed, interoperable, and open-source architectures. This ensures local autonomy, data sovereignty, and active community participation. Each node contributes and benefits, strengthening collective resilience.
+      Instead of centralized platforms, we use distributed, interoperable, and open‑source architectures. This ensures local autonomy, data sovereignty, and active participation of the communities involved. Each node contributes to and benefits from the network, strengthening collective resilience.
     </p>
 
     <p>
-      The infrastructure includes traceability modules, regenerative indicators management, real-time monitoring, and integration with public and community systems. Everything is designed to be modular, adaptable, and continuously evolving.
+      The infrastructure includes traceability modules, regenerative indicator management, real‑time monitoring, and integration with public and community systems. Everything is designed to be modular, adaptable, and constantly evolving.
     </p>
 
     <p>
-      The artificial intelligence <strong>BIO</strong> acts as a mediator of these digital interactions, translating complexity into clarity, suggesting paths, alerting about imbalances, and supporting informed decisions based on regenerative principles.
+      The <strong>BIO AI</strong> acts as a mediator of these digital interactions, translating complexity into clarity, suggesting paths, raising alerts about imbalances, and supporting informed decisions based on the principles of regeneration.
     </p>
 
     <p>
-      Investing in digital infrastructure guarantees regeneration occurs consistently, with monitoring and alignment among people, territories, and technologies. It is the foundation for a new cycle of planetary care.
+      Investing in digital infrastructure ensures that regeneration happens with consistency, monitoring, and alignment among people, territories, and technologies. It is the foundation for a new cycle of planetary care.
     </p>
 
     <div class="image-container">
-      <img src="infraestrutura_digital_en.png" alt="Digital Infrastructure Illustration">
+      <img src="infraestrutura_digital.png" alt="Digital Infrastructure illustration">
     </div>
   </div>
 
   <div class="tech-modules">
     <div class="tech-card" onclick="toggleBox('blockchain')">🧱 Blockchain</div>
     <div id="blockchain" class="box-hidden">
-      <p><strong>BIOBlock:</strong> BIOBlock is BIOCERR's decentralized digital containment module. Its purpose is to protect information flows and smart devices, both within the MCEFPs and in their surrounding territory. Inspired by technological sovereignty and distributed transparency principles, BIOBlock uses blockchain to authenticate, record, and protect all critical digital interactions, such as:</p>
+      <p><strong>BIOBlock:</strong> BIOBlock is BIOCERR’s decentralized digital containment module. Its role is to protect information flows and smart devices both inside MCFFPs and in their territorial surroundings. Inspired by principles of technological sovereignty and distributed transparency, BIOBlock uses blockchain to authenticate, record, and protect all critical digital interactions such as:</p>
 
       <ul>
         <li>Opening and closing valves</li>
-        <li>Batch filling and traceability</li>
+        <li>Filling and batch traceability</li>
         <li>Synchronization with local and remote sensors (IoT)</li>
-        <li>Safety and network integrity alerts</li>
+        <li>Security alerts and network integrity</li>
       </ul>
 
-      <p>This module is optional, configurable, and compliant with local privacy and interoperability regulations.</p>
+      <p>This module is optional, configurable, and compatible with local privacy and interoperability regulations.</p>
     </div>
 
     <div class="tech-card" onclick="toggleBox('bigdata')">📊 Big Data</div>
     <div id="bigdata" class="box-hidden">
-      <p><strong>Living Flow:</strong> BIOCERR's Big Data module transforms massive information into regenerative intelligence. It collects, organizes, and interprets data from various sources — from sensors in MCEFPs to public systems, climate databases, community indicators, and real-time user interactions.</p>
+      <p><strong>Living Flow:</strong> BIOCERR’s Big Data module turns massive volumes of information into regenerative intelligence. It collects, organizes, and interprets data from multiple sources—from sensors in the MCFFPs to public systems, climate datasets, community indicators, and real‑time user interactions.</p>
     </div>
 
     <div class="tech-card" onclick="toggleBox('iot')">🌐 IoT</div>
     <div id="iot" class="box-hidden">
-      <p><strong>BIO-IoT Network:</strong> At BIOCERR, the Internet of Things (IoT) is more than connecting objects — it brings sensitivity to the territory. Each MCEFP operates like a living organism, equipped with sensors and devices monitoring variables in real-time: temperature, filling flow, water usage, reservoir levels, air quality, energy consumption, and even human interaction patterns.</p>
+      <p><strong>BIO‑IoT Network:</strong> At BIOCERR, the Internet of Things (IoT) is much more than connecting objects—it is a way of giving sensitivity to the territory. Each MCFFP operates like a living organism, equipped with sensors and devices that monitor variables in real time: temperature, filling flow, water use, reservoir levels, air quality, energy consumption, and even patterns of human interaction.</p>
     </div>
 
+    <!-- === DIGITAL TWINS (GRAPH BELOW) === -->
     <div class="tech-card" onclick="toggleBox('gemeos')">🧿 Digital Twins</div>
     <div id="gemeos" class="box-hidden">
-      <p><strong>Regenerative Simulators:</strong> At BIOCERR, Digital Twins are not just virtual copies of equipment or processes — they are living mirrors of regenerative territories. Each MCEFP and Mother Industry can have a digital version that simulates, anticipates, and learns from real system behavior.</p>
+      <p><strong>Regenerative Simulators:</strong> At BIOCERR, Digital Twins are not just virtual copies of equipment or processes—they are living mirrors of regenerative territories. Each MCFFP and the Matrix Industry can have its digital version that simulates, anticipates, and learns from the real behavior of physical systems.</p>
 
-      <p>This allows us to predict failures, optimize routes, adapt production, and test complex decisions without real-world impact. It's like the factory dreams before acting.</p>
+      <p>This means we can predict failures, optimize routes, adapt productions, and even test complex decisions without real‑world impact. It is as if the factory could dream before acting.</p>
 
-      <p>BIOCERR's Digital Twins also integrate environmental, social, and operational data in real-time. This way, we understand how local decisions affect surroundings, biodiversity, logistics flows, and community well-being.</p>
+      <p>BIOCERR’s Digital Twins also integrate environmental, social, and operational data in real time. This allows us to understand how local decisions affect the surroundings, biodiversity, logistics flows, and community well‑being.</p>
 
-      <p>More than automation, Digital Twins allow anticipatory governance: decisions based on simulations, with humans and AI working together for the common good.</p>
+      <p>More than automation, Digital Twins enable anticipatory governance—decisions based on simulations with humans and artificial intelligence working together for the common good.</p>
 
-      <p>In BIOCERR's view, a Digital Twin is a sensitive and projective memory of the relationship between technology, nature, and care.</p>
+      <p>In the BIOCERR vision, a Digital Twin is a sensitive and projective memory of the relationship between technology, nature, and care.</p>
 
-      <div class="graph-wrapper" aria-label="Interactive Digital Twins Graph">
+      <!-- === Interactive graph container (vis-network) === -->
+      <div class="graph-wrapper" aria-label="Digital Twins interactive graph">
         <div id="network"></div>
 
         <div id="graphInstructions" class="graph-instructions">
-          💡 <strong>Instructions:</strong><br>
-          • Use your mouse wheel or pinch on touch to zoom.<br>
-          • Click the button to view content.<br>
-          • Click and drag the background to move the view.<br>
-          • Click and drag a node to reposition it; arrows will follow.<br>
-          • Double-click any empty space to recenter the view.
+          💡 <strong>How to interact with the graph:</strong><br>
+          • Scroll (or pinch on touch) to zoom.<br>
+          • Click nodes to view details.<br>
+          • Click and drag the canvas to move the view.<br>
+          • Click and drag a node to reposition it; arrows follow automatically.<br>
+          • <em>Double‑click</em> any empty area to re‑center the view.
         </div>
 
         <div id="nodeDetails" role="region" aria-live="polite"></div>
-  </div>
+      </div>
 
-  <!-- === ACCESS DIGITAL TWINS BUTTON === -->
-  <div style="text-align: center; margin: 20px 0;">
-    <a href="Gêmeos_Digitais_da_BIO_en.html"
-       style="padding: 12px 25px; font-size: 1.1em; border-radius: 25px; text-decoration: none; 
-              color: white; background: #74f2ce; display: inline-block; transition: 0.3s;">
-      Access Digital Twins
-    </a>
-  </div>
-</div>
+      <!-- === ACCESS DIGITAL TWINS BUTTON === -->
+      <div style="text-align: center; margin: 20px 0;">
+        <a href="Gêmeos_Digitais_da_BIO.html"
+           style="padding: 12px 25px; font-size: 1.1em; border-radius: 25px; text-decoration: none; 
+                  color: white; background: #74f2ce; display: inline-block; transition: 0.3s;">
+          Access Digital Twins
+        </a>
+      </div>
+    </div>
 
-
+    <!-- === CYBERSECURITY (RESHAPED USING DIGITAL TWINS STRUCTURE) === -->
     <div class="tech-card" onclick="toggleBox('ciber')">🛡️ Cybersecurity</div>
     <div id="ciber" class="box-hidden">
-      <p><strong>BIO Shield:</strong> Cybersecurity at BIOCERR is not an isolated shield but a living layer of ethical, regenerative, and collective protection. In a distributed ecosystem where multiple MCEFPs, territories, and users connect, safeguarding data, flows, and decisions is essential for trust, sovereignty, and continuity.</p>
+      <p><strong>BIO Shield – GAIA Cloud & Operations:</strong> Cybersecurity at BIOCERR is a living, distributed, and auditable layer that protects people, data, and processes of the MDPS across all fronts: Matrix Industry, MCFFPs, Digital Twins, and the GAIA Cloud. We operate with layered defense (Zero Trust), combining strong identity, end‑to‑end encryption, network micro‑segmentation, continuous monitoring by BIO AI, and incident‑response routines with immutable auditing.</p>
+
+      <ul>
+        <li><strong>Identity & Access:</strong> Multi‑factor authentication (MFA), per‑unit certificates (BIO PKI), role‑based access (operator, auditor, governance), and key rotation.</li>
+        <li><strong>Perimeter & Transit:</strong> NGFW firewalls, VPN (WireGuard/OpenVPN), TLS 1.3, and least‑privilege policy for service‑to‑service communication.</li>
+        <li><strong>GAIA Cloud:</strong> Encryption at rest (KMS), orchestration with security policies, isolation by namespaces/projects, image scanning, and drift detection.</li>
+        <li><strong>Monitoring & SIEM:</strong> Log collectors, event correlation (Wazuh/ELK), real‑time alerts, and automated playbooks (TheHive/Cortex).</li>
+        <li><strong>Backup & Resilience:</strong> Geographic replication, restoration tests, immutable logs (WORM), and incident records on an internal blockchain.</li>
+        <li><strong>Compliance & Ethics:</strong> ISO 27001/NIST guidelines, privacy by design, and governance trails with the BIO Council’s participation.</li>
+      </ul>
+
+      <!-- === GAIA Security interactive graph === -->
+      <div class="graph-wrapper" aria-label="GAIA Cloud security interactive map">
+        <div id="networkGaia"></div>
+        <div class="graph-instructions">
+
+          <div id="graphInstructions" class="graph-instructions">
+          💡 <strong>How to interact with the graph:</strong><br>
+          • Scroll (or pinch on touch) to zoom.<br>
+          • Click nodes to view details.<br>
+          • Click and drag the canvas to move the view.<br>
+          • Click and drag a node to reposition it; arrows follow automatically.<br>
+          • <em>Double‑click</em> any empty area to re‑center the view.
+        </div>
+
+        </div>
+        <div id="nodeDetailsGaia" role="region" aria-live="polite"></div>
+      </div>
+
+      <!-- === ACCESS GAIA SECURITY DASHBOARD BUTTON === -->
+      <div style="text-align:center; margin: 20px 0;">
+        <a href="Seguranca_Digital_GAIA.html" 
+           style="padding: 12px 25px; font-size: 1.1em; border-radius: 25px; text-decoration: none; color: white; background: #74f2ce; display: inline-block; transition: 0.3s;">
+          Access GAIA Security Dashboard
+        </a>
+      </div>
     </div>
   </div>
 
   <div class="mist"></div>
 
+  <!-- ===== Scripts ===== -->
   <script>
-    let didFitOnce = false;
+    /* Toggle modules and resize graphs when sections open */
+    let didFitOnceGemeos = false;
+    let didFitOnceGaia = false;
 
     function toggleBox(id) {
       const box = document.getElementById(id);
       box.style.display = box.style.display === "block" ? "none" : "block";
 
-      if (id === 'gemeos') {
-        setTimeout(() => {
-          if (window.network) {
-            window.network.redraw();
-            if (!didFitOnce) {
-              window.network.fit({ animation: { duration: 600, easing: 'easeInOutQuad' } });
-              didFitOnce = true;
-            }
+      setTimeout(() => {
+        if (id === 'gemeos' && window.network) {
+          window.network.redraw();
+          if (!didFitOnceGemeos) {
+            window.network.fit({ animation: { duration: 600, easing: 'easeInOutQuad' } });
+            didFitOnceGemeos = true;
           }
-        }, 300);
-      }
+        }
+        if (id === 'ciber' && window.networkGaia) {
+          window.networkGaia.redraw();
+          if (!didFitOnceGaia) {
+            window.networkGaia.fit({ animation: { duration: 600, easing: 'easeInOutQuad' } });
+            didFitOnceGaia = true;
+          }
+        }
+      }, 300);
     }
   </script>
 
   <script>
+    /* --- vis-network init: DIGITAL TWINS (kept) --- */
+
+    // Nodes
     const nodes = new vis.DataSet([
       { id: 1, label: "BIOCERR Cloud", shape: "box", color: { background: '#083e36', border: '#74f2ce' }, font: { color: 'white' } },
-      { id: 2, label: "Mother Industry", shape: "box", color: { background: '#063a6b', border: '#74f2ce' }, font: { color: 'white' } },
+      { id: 2, label: "Matrix Industry", shape: "box", color: { background: '#063a6b', border: '#74f2ce' }, font: { color: 'white' } },
       { id: 3, label: "MCFFPs", shape: "box", color: { background: '#4f2b63', border: '#74f2ce' }, font: { color: 'white' } },
       { id: 4, label: "Operators", shape: "ellipse", color: { background: '#b36100', border: '#ffd9b3' }, font: { color: 'white' } },
       { id: 5, label: "End Market", shape: "ellipse", color: { background: '#8b053a', border: '#ffb3c9' }, font: { color: 'white' } },
@@ -336,17 +382,19 @@
       { id: 7, label: "BIO AI", shape: "box", color: { background: '#145a2f', border: '#74f2ce' }, font: { color: 'white' } }
     ]);
 
+    // Edges
     const edges = new vis.DataSet([
       { from: 1, to: 2, arrows: "to", color: { color: '#74f2ce' } },
       { from: 1, to: 6, arrows: "to", color: { color: '#74f2ce' } },
       { from: 6, to: 7, arrows: "to", color: { color: '#74f2ce' } },
       { from: 2, to: 3, arrows: "to", color: { color: '#74f2ce' } },
       { from: 3, to: 4, arrows: "to", color: { color: '#ffd28f' } },
-      { from: 4, to: 5, arrows: "to", color: { color: '#ff9fb3' } },
+      { from: 4, to: 5, arrows: "to", color: { color: '#ffb3c9' } },
       { from: 7, to: 3, arrows: "to", color: { color: '#74f2ce' } },
       { from: 7, to: 2, arrows: "to", color: { color: '#74f2ce' } }
     ]);
 
+    // Options
     const options = {
       physics: {
         enabled: true,
@@ -376,38 +424,178 @@
       layout: { improvedLayout: true }
     };
 
+    // Init network
     const container = document.getElementById('network');
     const data = { nodes: nodes, edges: edges };
     const network = new vis.Network(container, data, options);
-    window.network = network;
+    window.network = network; // expose globally
 
+    // Interactions
     network.on('doubleClick', function () {
       network.fit({ animation: { duration: 400, easing: 'easeInOutQuad' } });
     });
 
+    // Node details content
     const details = {
-      1: { title: "BIOCERR Cloud", text: "Coordination and services layer: MQTT broker, timeseries storage, APIs, and twins orchestration. Hosts models, dashboards, and external integrations." },
-      2: { title: "Mother Industry", text: "Produces base concentrates in IBCs, manages quality control, shipment routines, and corporate system integration (ERP/MES). Primary source of data and traceability." },
-      3: { title: "MCEFPs", text: "Mini Central Filling and Finalizing Units: local units that personalize batches, operate with sensors, and replicate SMPD DNA in the territory." },
-      4: { title: "Operators", text: "Local users interacting via simple interfaces: batch execution, QC checks, local maintenance, and communication with BIO (AI)." },
-      5: { title: "End Market", text: "Receives final products: households, hospitals, markets, and industrial partners. Traceability and regenerative impact tracked." },
-      6: { title: "BIO Governance", text: "Regenerative oversight: data ethics, KPIs monitoring, quality assurance, and territorial compliance." },
-      7: { title: "BIO AI", text: "Artificial intelligence mediator: coordinates network flows, anticipates decisions, provides alerts, and supports human operators ethically." }
+      1: {
+        title: "BIOCERR Cloud",
+        text: "Coordination & services layer: MQTT broker, time‑series storage, APIs, and Digital Twins orchestration. Hosts models, dashboards, and external integrations."
+      },
+      2: {
+        title: "Matrix Industry",
+        text: "Produces base concentrates in IBCs, manages quality control, shipping routines, and integration with corporate systems (ERP/MES). Primary source of data and traceability."
+      },
+      3: {
+        title: "MCFFPs",
+        text: "Mini Central Filling & Finalizing Plants: local units that personalize batches, operate with sensing, and replicate the DNA of the MDPS in the territory."
+      },
+      4: {
+        title: "Operators",
+        text: "Local users interacting with simple interfaces: per‑batch execution, QC checks, local maintenance, and communication with BIO (panel or app)."
+      },
+      5: {
+        title: "End Market",
+        text: "Points of sale, hospitals, and end consumers receiving personalized products; they send feedback and demand data that feed the twin."
+      },
+      6: {
+        title: "BIO Governance",
+        text: "Council validating policies, ethical boundaries, and approving strategic changes. Operates in HITL (human‑in‑the‑loop) mode for critical decisions."
+      },
+      7: {
+        title: "BIO AI",
+        text: "Intelligence module that processes data, generates forecasts (maintenance, demand), simulates scenarios, and suggests optimizations for operations and socio‑environmental impact."
+      }
     };
 
-    network.on("click", function (params) {
-  if (params.nodes.length) {
-    const nodeId = params.nodes[0];
-    const detail = details[nodeId];
-    if (detail) {
+    function showNodeDetails(id) {
       const panel = document.getElementById('nodeDetails');
-      panel.style.display = "block";
-      panel.innerHTML = `<h3>${detail.title}</h3><p>${detail.text}</p><button class="close-btn" onclick="this.parentNode.style.display='none'">Close</button>`;
-      panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const d = details[id];
+      if (!d) return;
+      panel.innerHTML = `
+        <h3>${d.title}</h3>
+        <p>${d.text}</p>
+        <button class="close-btn" onclick="closeDetails()">Close</button>
+      `;
+      panel.style.display = 'block';
+      panel.scrollIntoView({behavior: "smooth", block: "center"});
     }
-  }
-});
+
+    function closeDetails() {
+      const panel = document.getElementById('nodeDetails');
+      panel.style.display = 'none';
+      panel.innerHTML = '';
+    }
+
+    network.on("click", function (params) {
+      if (params.nodes.length > 0) {
+        const nodeId = params.nodes[0];
+        showNodeDetails(nodeId);
+      }
+    });
+
+    document.addEventListener("visibilitychange", function() {
+      if(!document.hidden && window.network) {
+        window.network.redraw();
+      }
+    });
   </script>
 
+  <script>
+    /* --- vis-network init: GAIA SECURITY (new) --- */
+    const gaiaNodes = new vis.DataSet([
+      { id: 'gaia', label: 'GAIA Cloud', shape: 'box', color: { background: '#0b2e2a', border: '#74f2ce' }, font: { color: 'white' } },
+      { id: 'idm', label: 'Identity & Access', shape: 'ellipse', color: { background: '#254b6e', border: '#9fd8ff' }, font: { color: 'white' } },
+      { id: 'edge', label: 'MCFFPs (Edge)', shape: 'box', color: { background: '#4f2b63', border: '#d8a8ff' }, font: { color: 'white' } },
+      { id: 'plant', label: 'Matrix Industry', shape: 'box', color: { background: '#063a6b', border: '#74f2ce' }, font: { color: 'white' } },
+      { id: 'perimeter', label: 'Perimeter / VPN / NGFW', shape: 'box', color: { background: '#1d3b2d', border: '#74f2ce' }, font: { color: 'white' } },
+      { id: 'crypto', label: 'Encryption (TLS 1.3 / KMS)', shape: 'box', color: { background: '#123b34', border: '#74f2ce' }, font: { color: 'white' } },
+      { id: 'siem', label: 'Monitoring & SIEM', shape: 'box', color: { background: '#2b3a3f', border: '#9fbdb6' }, font: { color: 'white' } },
+      { id: 'bio', label: 'BIO – Adaptive Defense', shape: 'box', color: { background: '#145a2f', border: '#74f2ce' }, font: { color: 'white' } },
+      { id: 'backup', label: 'Backup & DR', shape: 'box', color: { background: '#4a3b1a', border: '#ffd28f' }, font: { color: 'white' } },
+      { id: 'gov', label: 'Governance & Compliance', shape: 'ellipse', color: { background: '#2b3a3f', border: '#9fbdb6' }, font: { color: 'white' } },
+      { id: 'partners', label: 'Partners / APIs', shape: 'ellipse', color: { background: '#5b1f2e', border: '#ffb3c9' }, font: { color: 'white' } }
+    ]);
+
+    const gaiaEdges = new vis.DataSet([
+      { from: 'idm', to: 'perimeter', arrows: 'to', color: { color: '#74f2ce' } },
+      { from: 'perimeter', to: 'gaia', arrows: 'to', color: { color: '#74f2ce' } },
+      { from: 'edge', to: 'perimeter', arrows: 'to', color: { color: '#74f2ce' } },
+      { from: 'plant', to: 'perimeter', arrows: 'to', color: { color: '#74f2ce' } },
+      { from: 'gaia', to: 'crypto', arrows: 'to', color: { color: '#74f2ce' } },
+      { from: 'gaia', to: 'siem', arrows: 'to', color: { color: '#74f2ce' } },
+      { from: 'siem', to: 'bio', arrows: 'to', color: { color: '#74f2ce' } },
+      { from: 'bio', to: 'gaia', arrows: 'to', color: { color: '#74f2ce' } },
+      { from: 'gaia', to: 'backup', arrows: 'to', color: { color: '#ffd28f' } },
+      { from: 'gov', to: 'gaia', arrows: 'to', color: { color: '#9fbdb6' } },
+      { from: 'gaia', to: 'partners', arrows: 'to', color: { color: '#ffb3c9' } }
+    ]);
+
+    const gaiaOptions = {
+      physics: {
+        enabled: true,
+        barnesHut: {
+          gravitationalConstant: -7000,
+          centralGravity: 0.25,
+          springLength: 200,
+          springConstant: 0.05
+        },
+        stabilization: { enabled: true, iterations: 250 }
+      },
+      interaction: { hover: true, dragNodes: true, zoomView: true, tooltipDelay: 100 },
+      nodes: { borderWidth: 2, shadow: true, font: { size: 14 } },
+      edges: { arrows: { to: { enabled: true, scaleFactor: 1.2 } }, smooth: { enabled: true, type: 'dynamic' } },
+      layout: { improvedLayout: true }
+    };
+
+    const gaiaContainer = document.getElementById('networkGaia');
+    const gaiaData = { nodes: gaiaNodes, edges: gaiaEdges };
+    const networkGaia = new vis.Network(gaiaContainer, gaiaData, gaiaOptions);
+    window.networkGaia = networkGaia;
+
+    networkGaia.on('doubleClick', function () {
+      networkGaia.fit({ animation: { duration: 400, easing: 'easeInOutQuad' } });
+    });
+
+    const gaiaDetails = {
+      'idm': { title: 'Identity & Access', text: 'MFA (app/token), per‑unit certificates (BIO PKI), role‑based access, and segregated service accounts with key rotation.' },
+      'perimeter': { title: 'Perimeter / VPN / NGFW', text: 'Mandatory VPN (WireGuard/OpenVPN), NGFW firewalls, DDoS protection, and L7 filtering for APIs and dashboards.' },
+      'gaia': { title: 'GAIA Cloud', text: 'Control and data plane: orchestration, pipelines, storages, and services. Security policies per project/namespace.' },
+      'crypto': { title: 'Encryption (TLS 1.3 / KMS)', text: 'Encryption in transit (TLS 1.3) and at rest with centralized key management (KMS). Secrets in a secure vault.' },
+      'siem': { title: 'Monitoring & SIEM', text: 'Log collection and correlation (Wazuh/ELK), anomaly detection, real‑time dashboard, and actionable alerts.' },
+      'bio': { title: 'BIO – Adaptive Defense', text: 'Defensive AI that learns from incidents, suggests/triggers playbooks, applies containment, and recommends hardening.' },
+      'backup': { title: 'Backup & DR', text: 'Geographic replication, regular restore tests, WORM/immutable logs, and a validated disaster plan.' },
+      'gov': { title: 'Governance & Compliance', text: 'Audit trails, ISO 27001/NIST compliance, privacy by design, and approvals by the BIO Council.' },
+      'edge': { title: 'MCFFPs (Edge)', text: 'Hardened edge nodes with signed updates, secure telemetry, and offline‑tolerant operation.' },
+      'plant': { title: 'Matrix Industry', text: 'Central production environment with micro‑segmentation, change control, and secure integration with ERP/MES.' },
+      'partners': { title: 'Partners / APIs', text: 'External integrations with minimally scoped API keys, rate limits, and continuous auditing.' }
+    };
+
+    function showGaiaDetails(id) {
+      const panel = document.getElementById('nodeDetailsGaia');
+      const d = gaiaDetails[id];
+      if (!d) return;
+      panel.innerHTML = `
+        <h3>${d.title}</h3>
+        <p>${d.text}</p>
+        <button class="close-btn" onclick="closeGaiaDetails()">Close</button>
+      `;
+      panel.style.display = 'block';
+      panel.scrollIntoView({behavior: 'smooth', block: 'center'});
+    }
+
+    function closeGaiaDetails() {
+      const panel = document.getElementById('nodeDetailsGaia');
+      panel.style.display = 'none';
+      panel.innerHTML = '';
+    }
+
+    networkGaia.on('click', function (params) {
+      if (params.nodes.length > 0) showGaiaDetails(params.nodes[0]);
+    });
+
+    document.addEventListener('visibilitychange', function () {
+      if (!document.hidden && window.networkGaia) window.networkGaia.redraw();
+    });
+  </script>
 </body>
 </html>
