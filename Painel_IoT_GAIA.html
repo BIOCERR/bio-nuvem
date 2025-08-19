@@ -59,7 +59,7 @@
 
 <header>
   <h1>IoT – BIOCERR</h1>
-  <p class="subtitle">Conexão de sensores inteligentes à Indústria Matriz e às MCFFPs para monitoramento contínuo e otimização dentro do <strong>MDPS</strong>.</p>
+  <p class="subtitle">Conexão de sensores inteligentes à Indústria Matriz e às MCFFPs para monitoramento contínuo e otimização dentro do <strong>SMPD</strong>.</p>
 </header>
 
 <main class="wrap">
@@ -84,7 +84,7 @@
           <li><strong>Sensores ambientais</strong> monitoram pH, temperatura e qualidade da água.</li>
           <li><strong>Sensores de processo</strong> acompanham vazão, mistura e consumo energético.</li>
           <li><strong>Indústria Matriz</strong> centraliza e valida dados.</li>
-          <li><strong>MCFFPs</strong> recebem dados em tempo real para ajustes locais.</li>
+          <li><strong>MCEFPs</strong> recebem dados em tempo real para ajustes locais.</li>
           <li><strong>Conexão com a Nuvem</strong> permite análise avançada e integração com Big Data.</li>
         </ul>
       </aside>
@@ -92,7 +92,7 @@
   </section>
 </main>
 
-<footer>© BIOCERR — Internet das Coisas para o MDPS</footer>
+<footer>© BIOCERR — Internet das Coisas para o SMPD</footer>
 
 <script>
 (function(){
@@ -102,7 +102,7 @@
     { id:'flow', label:'Sensor de Vazão', shape:'dot', color:{background:'#6b1e5f', border:'#ffb3c9'}, font:{color:'#fff'} },
     { id:'energy', label:'Sensor de Energia', shape:'dot', color:{background:'#145a2f', border:'#74f2ce'}, font:{color:'#fff'} },
     { id:'matrix', label:'Indústria Matriz', shape:'box', color:{background:'#2e4a62', border:'#74f2ce'}, font:{color:'#fff'} },
-    { id:'mcffp', label:'MCFFPs', shape:'box', color:{background:'#7b4b12', border:'#ffd28f'}, font:{color:'#fff'} },
+    { id:'mcefp', label:'MCEFPs', shape:'box', color:{background:'#7b4b12', border:'#ffd28f'}, font:{color:'#fff'} },
     { id:'cloud', label:'Nuvem Analítica', shape:'database', color:{background:'#2b3a3f', border:'#9fbdb6'}, font:{color:'#fff'} }
   ]);
 
@@ -111,9 +111,9 @@
     { from:'temp', to:'matrix', arrows:'to', color:{color:'#ffd28f'} },
     { from:'flow', to:'matrix', arrows:'to', color:{color:'#ffb3c9'} },
     { from:'energy', to:'matrix', arrows:'to', color:{color:'#74f2ce'} },
-    { from:'matrix', to:'mcffp', arrows:'to', color:{color:'#ffd28f'} },
+    { from:'matrix', to:'mcefp', arrows:'to', color:{color:'#ffd28f'} },
     { from:'matrix', to:'cloud', arrows:'to', color:{color:'#74f2ce'} },
-    { from:'mcffp', to:'cloud', arrows:'to', color:{color:'#ffd28f'} }
+    { from:'mcefp', to:'cloud', arrows:'to', color:{color:'#ffd28f'} }
   ]);
 
   const container = document.getElementById('networkIoT');
@@ -125,10 +125,10 @@
   const meta = {
     'ph': { t:'Sensor de pH', d:'Monitora acidez e alcalinidade da água ou solução durante o processo.' },
     'temp': { t:'Sensor de Temperatura', d:'Registra variações térmicas em tempo real para otimização energética.' },
-    'flow': { t:'Sensor de Vazão', d:'Mede volume de líquidos ou gases transportados dentro do MDPS.' },
+    'flow': { t:'Sensor de Vazão', d:'Mede volume de líquidos ou gases transportados dentro do SMPD.' },
     'energy': { t:'Sensor de Energia', d:'Controla consumo elétrico e identifica padrões de eficiência.' },
     'matrix': { t:'Indústria Matriz', d:'Recebe e consolida dados vindos dos sensores antes de distribuí-los.' },
-    'mcffp': { t:'MCFFPs', d:'Mini centrais que recebem dados e ajustam processos locais em tempo real.' },
+    'mcefp': { t:'MCEFPs', d:'Mini centrais que recebem dados e ajustam processos locais em tempo real.' },
     'cloud': { t:'Nuvem Analítica', d:'Armazena e processa dados IoT em larga escala, integrando com Big Data.' }
   };
 

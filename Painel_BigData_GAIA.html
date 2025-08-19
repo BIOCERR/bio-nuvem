@@ -59,7 +59,7 @@
 
 <header>
   <h1>Big Data – BIOCERR</h1>
-  <p class="subtitle">Integração de dados de sensores IoT, Indústria Matriz e MCFFPs para gerar inteligência, otimização e ações preditivas no <strong>MDPS</strong>.</p>
+  <p class="subtitle">Integração de dados de sensores IoT, Indústria Matriz e MCFFPs para gerar inteligência, otimização e ações preditivas no <strong>SMPD</strong>.</p>
 </header>
 
 <main class="wrap">
@@ -83,7 +83,7 @@
         <ul>
           <li><strong>Sensores IoT</strong> capturam dados ambientais e operacionais.</li>
           <li><strong>Indústria Matriz</strong> agrega e valida informações.</li>
-          <li><strong>MCFFPs</strong> contribuem com dados de envase e processos locais.</li>
+          <li><strong>MCEFPs</strong> contribuem com dados de envase e processos locais.</li>
           <li><strong>Nuvem Analítica</strong> processa e aplica aprendizado de máquina.</li>
           <li><strong>Insights de IA</strong> geram otimização e modelos preditivos.</li>
         </ul>
@@ -92,23 +92,23 @@
   </section>
 </main>
 
-<footer>© BIOCERR — Infraestrutura de Big Data para o MDPS</footer>
+<footer>© BIOCERR — Infraestrutura de Big Data para o SMPD</footer>
 
 <script>
 (function(){
   const nodes = new vis.DataSet([
     { id:'iot', label:'Sensores IoT\n(temperatura, fluxo, pH, energia)', shape:'ellipse', color:{background:'#063a6b', border:'#74f2ce'}, font:{color:'#fff'} },
     { id:'matrix', label:'Indústria Matriz\n(agregação de dados)', shape:'box', color:{background:'#145a2f', border:'#74f2ce'}, font:{color:'#fff'} },
-    { id:'mcffp', label:'MCFFPs\n(dados locais)', shape:'box', color:{background:'#7b4b12', border:'#ffd28f'}, font:{color:'#fff'} },
+    { id:'mcefp', label:'MCEFPs\n(dados locais)', shape:'box', color:{background:'#7b4b12', border:'#ffd28f'}, font:{color:'#fff'} },
     { id:'cloud', label:'Nuvem Analítica\n(armazenamento + ML)', shape:'database', color:{background:'#2b3a3f', border:'#9fbdb6'}, font:{color:'#fff'} },
     { id:'ai', label:'Insights de IA\n(modelos preditivos)', shape:'diamond', color:{background:'#6b1d2b', border:'#ffb3c9'}, font:{color:'#fff'} }
   ]);
 
   const edges = new vis.DataSet([
     { from:'iot', to:'matrix', arrows:'to', color:{color:'#74f2ce'} },
-    { from:'matrix', to:'mcffp', arrows:'to', color:{color:'#ffd28f'} },
+    { from:'matrix', to:'mcefp', arrows:'to', color:{color:'#ffd28f'} },
     { from:'matrix', to:'cloud', arrows:'to', color:{color:'#74f2ce'} },
-    { from:'mcffp', to:'cloud', arrows:'to', color:{color:'#ffd28f'} },
+    { from:'mcefp', to:'cloud', arrows:'to', color:{color:'#ffd28f'} },
     { from:'cloud', to:'ai', arrows:'to', color:{color:'#ffb3c9'} },
     { from:'ai', to:'matrix', arrows:'to', dashes:true, color:{color:'#74f2ce'} }
   ]);
@@ -121,10 +121,10 @@
 
   const meta = {
     'iot': { t:'Sensores IoT', d:'Coletam dados distribuídos (temperatura, pH, condutividade, energia, logística).' },
-    'matrix': { t:'Indústria Matriz', d:'Agrega, valida e armazena dados brutos antes de compartilhar com MCFFPs e nuvem.' },
-    'mcffp': { t:'MCFFPs', d:'Mini centrais enviam dados de envase, rotulagem e operação local com suporte IoT.' },
+    'matrix': { t:'Indústria Matriz', d:'Agrega, valida e armazena dados brutos antes de compartilhar com MCEFPs e nuvem.' },
+    'mcefp': { t:'MCEFPs', d:'Mini centrais enviam dados de envase, rotulagem e operação local com suporte IoT.' },
     'cloud': { t:'Nuvem Analítica', d:'Armazena dados em larga escala e aplica aprendizado de máquina para gerar insights e detectar anomalias.' },
-    'ai': { t:'Insights de IA', d:'Transforma dados brutos em previsões, otimizações e suporte à decisão para o MDPS.' }
+    'ai': { t:'Insights de IA', d:'Transforma dados brutos em previsões, otimizações e suporte à decisão para o SMPD.' }
   };
 
   function showDetails(id){
