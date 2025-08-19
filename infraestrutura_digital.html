@@ -143,10 +143,10 @@
       box-shadow: 0 6px 20px rgba(0,0,0,0.6);
     }
 
-    #network, #networkGaia {
+    #network, #networkGaia, #networkBlockchain, #networkBigData, #networkIoT {
       width: 100%;
-      height: 390px; /* 25% menor que 520px */
-      background: transparent; /* para herdar o fundo escuro */
+      height: 390px;
+      background: transparent;
       border-radius: 8px;
     }
 
@@ -163,7 +163,7 @@
     }
 
     /* Painel de detalhes do nó */
-    #nodeDetails, #nodeDetailsGaia {
+    #nodeDetails, #nodeDetailsGaia, #nodeDetailsBlockchain, #nodeDetailsBigData, #nodeDetailsIoT {
       display: none;
       max-width: 900px;
       margin: 14px auto 40px;
@@ -175,7 +175,7 @@
       text-align: left;
     }
 
-    #nodeDetails h3, #nodeDetailsGaia h3 { margin-top: 0; color: #74f2ce; }
+    #nodeDetails h3, #nodeDetailsGaia h3, #nodeDetailsBlockchain h3, #nodeDetailsBigData h3, #nodeDetailsIoT h3 { margin-top: 0; color: #74f2ce; }
     .close-btn {
       display: inline-block;
       margin-top: 10px;
@@ -191,7 +191,7 @@
     @media (max-width: 600px) {
       h1 { font-size: 2em; padding-top: 10px; }
       .tech-card { min-width: 100%; }
-      #network, #networkGaia { height: 320px; }
+      #network, #networkGaia, #networkBlockchain, #networkBigData, #networkIoT { height: 320px; }
     }
   </style>
 
@@ -235,27 +235,141 @@
   <div class="tech-modules">
     <div class="tech-card" onclick="toggleBox('blockchain')">🧱 Blockchain</div>
     <div id="blockchain" class="box-hidden">
-      <p><strong>BIOBlock:</strong> BIOBlock é o módulo de contenção digital descentralizada da BIOCERR. Sua função é proteger os fluxos de informação e os dispositivos inteligentes, tanto dentro das MCEFPs quanto em seu entorno territorial. Inspirado nos princípios da soberania tecnológica e da transparência distribuída, o BIOBlock utiliza tecnologia blockchain para autenticar, registrar e proteger todas as interações digitais críticas, como:</p>
+      <p><strong>BIOBlock:</strong> O Blockchain é uma tecnologia de registro distribuído que funciona como um livro-razão digital, imutável e transparente. Em vez de depender de uma única autoridade central, as informações são armazenadas em uma rede descentralizada de computadores (nós). Cada transação ou dado validado é agrupado em um bloco, que contém um identificador único (hash) e a referência criptográfica ao bloco anterior, formando uma cadeia inviolável.</p>
+
+      <p>Sua principal vantagem está na segurança e confiabilidade, já que qualquer tentativa de alteração é imediatamente detectada por todos os participantes da rede. Além disso, o Blockchain garante transparência, rastreabilidade e confiança em processos digitais, eliminando intermediários e reduzindo custos.</p>
+
+      <p>Na infraestrutura digital da BIOCERR, o Blockchain tem papel essencial para:</p>
 
       <ul>
-        <li>Abertura e fechamento de válvulas</li>
-        <li>Envasamento e rastreabilidade de lotes</li>
-        <li>Sincronização com sensores locais e remotos (IoT)</li>
-        <li>Alertas de segurança e integridade da rede</li>
+        <li>Garantir autenticidade dos registros de produção e logística.</li>
+        <li>Proteger a propriedade intelectual da inovação.</li>
+        <li>Permitir auditoria em tempo real de processos industriais descentralizados.</li>
+        <li>Integrar contratos inteligentes (smart contracts) que automatizam regras de operação entre a Indústria Matriz e as MCEFPs.</li>
       </ul>
 
-      <p>Este módulo será opcional, configurável e compatível com legislações locais de privacidade e interoperabilidade.</p>
+      <p>Assim, o Blockchain não é apenas uma tecnologia de segurança, mas também um pilar de governança digital, assegurando a integridade da rede produtiva e a confiança entre todos os envolvidos.</p>
+    
+      <!-- gráfico blockchain -->
+      <div class="graph-wrapper" aria-label="Linha de blocos BIOBlock">
+        <div id="networkBlockchain"></div>
+        
+        <!-- instruções -->
+        <div class="graph-instructions">
+          💡 <strong>Como interagir com o gráfico:</strong><br>
+          • Role o mouse (ou pinça no touch) para dar zoom.<br>
+          • Clique nos nós para ver conteúdo.<br>
+          • Clique e arraste o fundo para mover o quadro.<br>
+          • Clique e arraste um botão para reposicioná-lo; as setas acompanham.<br>
+          • Dê <em>duplo clique</em> em qualquer área vazia para recentralizar a visão.
+        </div>
+
+        <div id="nodeDetailsBlockchain" role="region" aria-live="polite"></div>
+      </div>
+
+      <div style="text-align:center; margin: 20px 0;">
+        <a href="Painel_Blockchain_GAIA.html" 
+           style="padding: 12px 25px; font-size: 1.1em; border-radius: 25px; text-decoration: none; color: white; background: #74f2ce; display: inline-block; transition: 0.3s;">
+          Acessar Painel Blockchain
+        </a>
+      </div>
     </div>
+    
 
     <div class="tech-card" onclick="toggleBox('bigdata')">📊 Big Data</div>
     <div id="bigdata" class="box-hidden">
-      <p><strong>Fluxo Vivo:</strong> O módulo de Big Data da BIOCERR transforma volumes massivos de informações em inteligência regenerativa. Ele coleta, organiza e interpreta dados provenientes de diversas fontes — desde sensores nas MCEFPs, até sistemas públicos, bases climáticas, indicadores comunitários e interações em tempo real com usuários.</p>
+      <p><strong>Fluxo Vivo:</strong> O termo Big Data refere-se ao conjunto massivo de dados gerados continuamente por pessoas, empresas, dispositivos e sistemas digitais. Esses dados se caracterizam pelos chamados “5 Vs”:</p>
+
+      <ul>
+        <li>Volume: a quantidade de dados cresce exponencialmente, exigindo novas formas de armazenamento.</li>
+        <li>Velocidade: a captura e o processamento precisam acontecer em tempo real ou quase em tempo real.</li>
+        <li>Variedade: os dados podem ser estruturados (planilhas, bancos relacionais) ou não estruturados (imagens, vídeos, textos, sensores IoT).</li>
+        <li>Veracidade: a qualidade e a confiabilidade da informação precisam ser validadas.</li>
+        <li>Valor: transformar dados em conhecimento estratégico é o objetivo final.</li>
+      </ul>
+
+      <p>No contexto da Infraestrutura Digital, o Big Data é essencial para analisar padrões de consumo, prever falhas em sistemas, monitorar cadeias de produção e apoiar decisões estratégicas baseadas em evidências.</p>
+
+      <p>As tecnologias mais utilizadas incluem:</p>
+
+      <ul>
+        <li>Hadoop e Spark para processamento massivo distribuído.</li>
+        <li>Data Lakes para armazenar dados brutos em larga escala.</li>
+        <li>Machine Learning aplicado para prever tendências, detectar anomalias e otimizar processos.</li>
+     </ul>
+
+      <p>No caso da BIOCERR e do SMPD, o Big Data é fundamental para integrar informações vindas das MCEFPs, da Indústria Matriz e dos usuários finais, permitindo monitoramento em tempo real e geração de insights que fortalecem a sustentabilidade e a eficiência do sistema. O módulo de Big Data da BIOCERR transforma volumes massivos de informações em inteligência regenerativa. Ele coleta, organiza e interpreta dados provenientes de diversas fontes — desde sensores nas MCEFPs, até sistemas públicos, bases climáticas, indicadores comunitários e interações em tempo real com usuários.</p>
+    
+      <!-- gráfico big data -->
+      <div class="graph-wrapper" aria-label="Pipeline Big Data">
+        <div id="networkBigData"></div>
+        
+        <!-- instruções -->
+        <div class="graph-instructions">
+          💡 <strong>Como interagir com o gráfico:</strong><br>
+          • Role o mouse (ou pinça no touch) para dar zoom.<br>
+          • Clique nos nós para ver conteúdo.<br>
+          • Clique e arraste o fundo para mover o quadro.<br>
+          • Clique e arraste um botão para reposicioná-lo; as setas acompanham.<br>
+          • Dê <em>duplo clique</em> em qualquer área vazia para recentralizar a visão.
+        </div>
+
+        <div id="nodeDetailsBigData" role="region" aria-live="polite"></div>
+      </div>
+
+      <div style="text-align:center; margin: 20px 0;">
+        <a href="Painel_BigData_GAIA.html" 
+           style="padding: 12px 25px; font-size: 1.1em; border-radius: 25px; text-decoration: none; color: white; background: #74f2ce; display: inline-block; transition: 0.3s;">
+          Acessar Painel Big Data
+        </a>
+      </div>
     </div>
+    
 
     <div class="tech-card" onclick="toggleBox('iot')">🌐 IoT</div>
     <div id="iot" class="box-hidden">
       <p><strong>Rede BIO-IoT:</strong> Na BIOCERR, a Internet das Coisas (IoT) é muito mais do que conectar objetos — é uma forma de dar sensibilidade ao território. Cada MCEFP funciona como um organismo vivo, equipado com sensores e dispositivos que monitoram variáveis em tempo real: temperatura, fluxo de envase, uso de água, nível dos reservatórios, qualidade do ar, consumo de energia e até padrões de interação humana.</p>
+
+      <p>A Internet das Coisas (IoT) representa a integração de dispositivos físicos ao ambiente digital, permitindo que sensores, máquinas, veículos e sistemas industriais se conectem e troquem informações em tempo real. Essa infraestrutura amplia a inteligência operacional, reduz falhas humanas e possibilita decisões automáticas baseadas em dados coletados continuamente.</p>
+
+      <p>No contexto da Indústria 4.0, a IoT é essencial para monitorar cadeias produtivas, rastrear ativos e gerenciar recursos energéticos com eficiência. Cada dispositivo conectado atua como um nó inteligente, enviando dados a plataformas analíticas que identificam padrões, anomalias e oportunidades de otimização.</p>
+
+      <p>Entre suas aplicações estão:</p>
+
+      <ul>
+        <li>Manufatura Inteligente: máquinas conectadas que ajustam parâmetros de produção de forma autônoma.</li>
+        <li>Cidades Inteligentes: sensores urbanos que monitoram tráfego, iluminação pública e qualidade do ar.</li>
+        <li>Saúde Conectada: dispositivos vestíveis que coletam informações vitais e integram diagnósticos preventivos.</li>
+        <li>Logística: rastreamento de cargas e frota em tempo real, reduzindo perdas e aumentando a previsibilidade.</li>
+     </ul>
+
+      <p>Ao lado do Blockchain e do Big Data, a IoT forma o tripé tecnológico da transformação digital, viabilizando operações descentralizadas, transparentes e altamente escaláveis.</p>
+
+      <!-- gráfico iot -->
+      <div class="graph-wrapper" aria-label="Topologia IoT">
+        <div id="networkIoT"></div>
+        
+        <!-- instruções -->
+        <div class="graph-instructions">
+          💡 <strong>Como interagir com o gráfico:</strong><br>
+          • Role o mouse (ou pinça no touch) para dar zoom.<br>
+          • Clique nos nós para ver conteúdo.<br>
+          • Clique e arraste o fundo para mover o quadro.<br>
+          • Clique e arraste um botão para reposicioná-lo; as setas acompanham.<br>
+          • Dê <em>duplo clique</em> em qualquer área vazia para recentralizar a visão.
+        </div>
+
+        <div id="nodeDetailsIoT" role="region" aria-live="polite"></div>
+      </div>
+
+      <div style="text-align:center; margin: 20px 0;">
+        <a href="Painel_IoT_GAIA.html" 
+           style="padding: 12px 25px; font-size: 1.1em; border-radius: 25px; text-decoration: none; color: white; background: #74f2ce; display: inline-block; transition: 0.3s;">
+          Acessar Painel IoT
+        </a>
+      </div>
     </div>
+    
 
     <!-- === GÊMEOS DIGITAIS (AQUI VAI O GRÁFICO) === -->
     <div class="tech-card" onclick="toggleBox('gemeos')">🧿 Gêmeos Digitais</div>
@@ -314,10 +428,8 @@
       <!-- === Gráfico interativo da Segurança GAIA === -->
       <div class="graph-wrapper" aria-label="Mapa interativo da segurança da nuvem GAIA">
         <div id="networkGaia"></div>
-        <div class="graph-instructions">
-
-          <!-- instruções -->
-        <div id="graphInstructions" class="graph-instructions">
+        <!-- instruções -->
+        <div id="graphInstructionsGaia" class="graph-instructions">
           💡 <strong>Como interagir com o gráfico:</strong><br>
           • Role o mouse (ou pinça no touch) para dar zoom.<br>
           • Clique nos nós para ver conteúdo.<br>
@@ -343,216 +455,352 @@
   <!-- ===== Scripts ===== -->
   <script>
     /* Controle de abrir/fechar módulos e ajuste dos gráficos */
-    let didFitOnceGemeos = false;
-    let didFitOnceGaia = false;
+    const fitFlags = {
+      gemeos: false,
+      ciber: false,
+      blockchain: false,
+      bigdata: false,
+      iot: false
+    };
 
     function toggleBox(id) {
       const box = document.getElementById(id);
+      if (!box) return;
       box.style.display = box.style.display === "block" ? "none" : "block";
 
-      // Ajustar redes quando a seção abre
       setTimeout(() => {
-        if (id === 'gemeos' && window.network) {
-          window.network.redraw();
-          if (!didFitOnceGemeos) {
-            window.network.fit({ animation: { duration: 600, easing: 'easeInOutQuad' } });
-            didFitOnceGemeos = true;
+        const map = {
+          gemeos: window.network,
+          ciber: window.networkGaia,
+          blockchain: window.networkBlockchain,
+          bigdata: window.networkBigData,
+          iot: window.networkIoT
+        };
+        const net = map[id];
+        if (net) {
+          try { net.redraw(); } catch (e) { /* ignore */ }
+          if (!fitFlags[id]) {
+            try { net.fit({ animation: { duration: 600, easing: 'easeInOutQuad' } }); } catch (e) { /* ignore */ }
+            fitFlags[id] = true;
           }
         }
-        if (id === 'ciber' && window.networkGaia) {
-          window.networkGaia.redraw();
-          if (!didFitOnceGaia) {
-            window.networkGaia.fit({ animation: { duration: 600, easing: 'easeInOutQuad' } });
-            didFitOnceGaia = true;
-          }
-        }
-      }, 300);
+      }, 260);
     }
-  </script>
-
-  <script>
-    /* --- Inicialização do vis-network: GÊMEOS DIGITAIS (mantido) --- */
-    const nodes = new vis.DataSet([
-      { id: 1, label: "Nuvem BIOCERR", shape: "box", color: { background: '#083e36', border: '#74f2ce' }, font: { color: 'white' } },
-      { id: 2, label: "Indústria Matriz", shape: "box", color: { background: '#063a6b', border: '#74f2ce' }, font: { color: 'white' } },
-      { id: 3, label: "MCEFPs", shape: "box", color: { background: '#4f2b63', border: '#74f2ce' }, font: { color: 'white' } },
-      { id: 4, label: "Operadores", shape: "ellipse", color: { background: '#b36100', border: '#ffd9b3' }, font: { color: 'white' } },
-      { id: 5, label: "Mercado Final", shape: "ellipse", color: { background: '#8b053a', border: '#ffb3c9' }, font: { color: 'white' } },
-      { id: 6, label: "Governança BIO", shape: "box", color: { background: '#2b3a3f', border: '#9fbdb6' }, font: { color: 'white' } },
-      { id: 7, label: "IA BIO", shape: "box", color: { background: '#145a2f', border: '#74f2ce' }, font: { color: 'white' } }
-    ]);
-
-    const edges = new vis.DataSet([
-      { from: 1, to: 2, arrows: "to", color: { color: '#74f2ce' } },
-      { from: 1, to: 6, arrows: "to", color: { color: '#74f2ce' } },
-      { from: 6, to: 7, arrows: "to", color: { color: '#74f2ce' } },
-      { from: 2, to: 3, arrows: "to", color: { color: '#74f2ce' } },
-      { from: 3, to: 4, arrows: "to", color: { color: '#ffd28f' } },
-      { from: 4, to: 5, arrows: "to", color: { color: '#ff9fb3' } },
-      { from: 7, to: 3, arrows: "to", color: { color: '#74f2ce' } },
-      { from: 7, to: 2, arrows: "to", color: { color: '#74f2ce' } }
-    ]);
-
-    const options = {
-      physics: {
-        enabled: true,
-        barnesHut: {
-          gravitationalConstant: -8000,
-          centralGravity: 0.2,
-          springLength: 200,
-          springConstant: 0.04
-        },
-        stabilization: { enabled: true, iterations: 200 }
-      },
-      interaction: { hover: true, dragNodes: true, zoomView: true, tooltipDelay: 100 },
-      nodes: { borderWidth: 2, shadow: true, font: { size: 14 } },
-      edges: { arrows: { to: { enabled: true, scaleFactor: 1.2 } }, smooth: { enabled: true, type: 'dynamic' } },
-      layout: { improvedLayout: true }
-    };
-
-    const container = document.getElementById('network');
-    const data = { nodes: nodes, edges: edges };
-    const network = new vis.Network(container, data, options);
-    window.network = network;
-
-    network.on('doubleClick', function () {
-      network.fit({ animation: { duration: 400, easing: 'easeInOutQuad' } });
-    });
-
-    const details = {
-      1: { title: "Nuvem BIOCERR", text: "Camada de coordenação e serviços: broker MQTT, armazenamento timeseries, APIs e orquestração dos gêmeos. Hospeda modelos, dashboards e integrações externas." },
-      2: { title: "Indústria Matriz", text: "Produz os concentrados-base em IBCs, gerencia controle de qualidade, rotinas de expedição e integração com sistemas corporativos (ERP/MES). Fonte primária de dados e rastreabilidade." },
-      3: { title: "MCEFPs", text: "Mini Centrais Envasadoras e Finalizadoras: unidades locais que personalizam lotes, operam com sensoriamento e replicam o DNA do SMPD no território." },
-      4: { title: "Operadores", text: "Usuários locais que interagem com interfaces simples: execução por lote, checks de QC, manutenção local e comunicação com a BIO (via painel ou app)." },
-      5: { title: "Mercado Final", text: "Pontos de venda, hospitais e consumidores finais que recebem produtos personalizados; enviam feedback e dados de demanda que alimentam o gêmeo." },
-      6: { title: "Governança BIO", text: "Conselho que valida políticas, limitações éticas e aprova alterações estratégicas. Atua em fluxo HITL (human-in-the-loop) para decisões críticas." },
-      7: { title: "IA BIO", text: "Módulo de inteligência que processa dados, gera previsões (manutenção, demanda), simula cenários e sugere otimizações para operação e impacto socioambiental." }
-    };
-
-    function showNodeDetails(id) {
-      const panel = document.getElementById('nodeDetails');
-      const d = details[id];
-      if (!d) return;
-      panel.innerHTML = `
-        <h3>${d.title}</h3>
-        <p>${d.text}</p>
-        <button class="close-btn" onclick="closeDetails()">Fechar</button>
-      `;
-      panel.style.display = 'block';
-      panel.scrollIntoView({behavior: "smooth", block: "center"});
-    }
-
-    function closeDetails() {
-      const panel = document.getElementById('nodeDetails');
-      panel.style.display = 'none';
-      panel.innerHTML = '';
-    }
-
-    network.on("click", function (params) {
-      if (params.nodes.length > 0) showNodeDetails(params.nodes[0]);
-    });
 
     document.addEventListener("visibilitychange", function() {
-      if(!document.hidden && window.network) window.network.redraw();
+      if (!document.hidden) {
+        if (window.network) try { window.network.redraw(); } catch (e) {}
+        if (window.networkGaia) try { window.networkGaia.redraw(); } catch (e) {}
+        if (window.networkBlockchain) try { window.networkBlockchain.redraw(); } catch (e) {}
+        if (window.networkBigData) try { window.networkBigData.redraw(); } catch (e) {}
+        if (window.networkIoT) try { window.networkIoT.redraw(); } catch (e) {}
+      }
     });
   </script>
 
   <script>
-    /* --- Inicialização do vis-network: SEGURANÇA GAIA (novo) --- */
-    const gaiaNodes = new vis.DataSet([
-      { id: 'gaia', label: 'Nuvem GAIA', shape: 'box', color: { background: '#0b2e2a', border: '#74f2ce' }, font: { color: 'white' } },
-      { id: 'idm', label: 'Identidade & Acesso', shape: 'ellipse', color: { background: '#254b6e', border: '#9fd8ff' }, font: { color: 'white' } },
-      { id: 'edge', label: 'MCEFPs (Edge)', shape: 'box', color: { background: '#4f2b63', border: '#d8a8ff' }, font: { color: 'white' } },
-      { id: 'plant', label: 'Indústria Matriz', shape: 'box', color: { background: '#063a6b', border: '#74f2ce' }, font: { color: 'white' } },
-      { id: 'perimeter', label: 'Perímetro / VPN / NGFW', shape: 'box', color: { background: '#1d3b2d', border: '#74f2ce' }, font: { color: 'white' } },
-      { id: 'crypto', label: 'Criptografia (TLS 1.3 / KMS)', shape: 'box', color: { background: '#123b34', border: '#74f2ce' }, font: { color: 'white' } },
-      { id: 'siem', label: 'Monitoramento & SIEM', shape: 'box', color: { background: '#2b3a3f', border: '#9fbdb6' }, font: { color: 'white' } },
-      { id: 'bio', label: 'BIO – Defesa Adaptativa', shape: 'box', color: { background: '#145a2f', border: '#74f2ce' }, font: { color: 'white' } },
-      { id: 'backup', label: 'Backup & DR', shape: 'box', color: { background: '#4a3b1a', border: '#ffd28f' }, font: { color: 'white' } },
-      { id: 'gov', label: 'Governança & Compliance', shape: 'ellipse', color: { background: '#2b3a3f', border: '#9fbdb6' }, font: { color: 'white' } },
-      { id: 'partners', label: 'Parceiros / APIs', shape: 'ellipse', color: { background: '#5b1f2e', border: '#ffb3c9' }, font: { color: 'white' } }
-    ]);
+    /* --- Inicialização do vis-network: GÊMEOS DIGITAIS (IIFE, nomes locais) --- */
+    (function initGemeos(){
+      const gemeosNodes = new vis.DataSet([
+        { id: 1, label: "Nuvem BIOCERR", shape: "box", color: { background: '#083e36', border: '#74f2ce' }, font: { color: 'white' } },
+        { id: 2, label: "Indústria Matriz", shape: "box", color: { background: '#063a6b', border: '#74f2ce' }, font: { color: 'white' } },
+        { id: 3, label: "MCEFPs", shape: "box", color: { background: '#4f2b63', border: '#74f2ce' }, font: { color: 'white' } },
+        { id: 4, label: "Operadores", shape: "ellipse", color: { background: '#b36100', border: '#ffd9b3' }, font: { color: 'white' } },
+        { id: 5, label: "Mercado Final", shape: "ellipse", color: { background: '#8b053a', border: '#ffb3c9' }, font: { color: 'white' } },
+        { id: 6, label: "Governança BIO", shape: "box", color: { background: '#2b3a3f', border: '#9fbdb6' }, font: { color: 'white' } },
+        { id: 7, label: "IA BIO", shape: "box", color: { background: '#145a2f', border: '#74f2ce' }, font: { color: 'white' } }
+      ]);
 
-    const gaiaEdges = new vis.DataSet([
-      { from: 'idm', to: 'perimeter', arrows: 'to', color: { color: '#74f2ce' } },
-      { from: 'perimeter', to: 'gaia', arrows: 'to', color: { color: '#74f2ce' } },
-      { from: 'edge', to: 'perimeter', arrows: 'to', color: { color: '#74f2ce' } },
-      { from: 'plant', to: 'perimeter', arrows: 'to', color: { color: '#74f2ce' } },
-      { from: 'gaia', to: 'crypto', arrows: 'to', color: { color: '#74f2ce' } },
-      { from: 'gaia', to: 'siem', arrows: 'to', color: { color: '#74f2ce' } },
-      { from: 'siem', to: 'bio', arrows: 'to', color: { color: '#74f2ce' } },
-      { from: 'bio', to: 'gaia', arrows: 'to', color: { color: '#74f2ce' } },
-      { from: 'gaia', to: 'backup', arrows: 'to', color: { color: '#ffd28f' } },
-      { from: 'gov', to: 'gaia', arrows: 'to', color: { color: '#9fbdb6' } },
-      { from: 'gaia', to: 'partners', arrows: 'to', color: { color: '#ffb3c9' } }
-    ]);
+      const gemeosEdges = new vis.DataSet([
+        { from: 1, to: 2, arrows: "to", color: { color: '#74f2ce' } },
+        { from: 1, to: 6, arrows: "to", color: { color: '#74f2ce' } },
+        { from: 6, to: 7, arrows: "to", color: { color: '#74f2ce' } },
+        { from: 2, to: 3, arrows: "to", color: { color: '#74f2ce' } },
+        { from: 3, to: 4, arrows: "to", color: { color: '#ffd28f' } },
+        // CORREÇÃO: linha com sintaxe correta
+        { from: 4, to: 5, arrows: "to", color: { color: '#ff9fb3' } },
+        { from: 7, to: 3, arrows: "to", color: { color: '#74f2ce' } },
+        { from: 7, to: 2, arrows: "to", color: { color: '#74f2ce' } }
+      ]);
 
-    const gaiaOptions = {
-      physics: {
-        enabled: true,
-        barnesHut: {
-          gravitationalConstant: -7000,
-          centralGravity: 0.25,
-          springLength: 200,
-          springConstant: 0.05
+      const gemeosOptions = {
+        physics: {
+          enabled: true,
+          barnesHut: {
+            gravitationalConstant: -8000,
+            centralGravity: 0.2,
+            springLength: 200,
+            springConstant: 0.04
+          },
+          stabilization: { enabled: true, iterations: 200 }
         },
-        stabilization: { enabled: true, iterations: 250 }
-      },
-      interaction: { hover: true, dragNodes: true, zoomView: true, tooltipDelay: 100 },
-      nodes: { borderWidth: 2, shadow: true, font: { size: 14 } },
-      edges: { arrows: { to: { enabled: true, scaleFactor: 1.2 } }, smooth: { enabled: true, type: 'dynamic' } },
-      layout: { improvedLayout: true }
-    };
+        interaction: { hover: true, dragNodes: true, zoomView: true, tooltipDelay: 100 },
+        nodes: { borderWidth: 2, shadow: true, font: { size: 14 } },
+        edges: { arrows: { to: { enabled: true, scaleFactor: 1.2 } }, smooth: { enabled: true, type: 'dynamic' } },
+        layout: { improvedLayout: true }
+      };
 
-    const gaiaContainer = document.getElementById('networkGaia');
-    const gaiaData = { nodes: gaiaNodes, edges: gaiaEdges };
-    const networkGaia = new vis.Network(gaiaContainer, gaiaData, gaiaOptions);
-    window.networkGaia = networkGaia;
+      const container = document.getElementById('network');
+      const data = { nodes: gemeosNodes, edges: gemeosEdges };
+      const network = new vis.Network(container, data, gemeosOptions);
+      window.network = network;
 
-    networkGaia.on('doubleClick', function () {
-      networkGaia.fit({ animation: { duration: 400, easing: 'easeInOutQuad' } });
-    });
+      network.on('doubleClick', function () {
+        network.fit({ animation: { duration: 400, easing: 'easeInOutQuad' } });
+      });
 
-    const gaiaDetails = {
-      'idm': { title: 'Identidade & Acesso', text: 'MFA (aplicativo/Token), certificados por unidade (PKI BIO), RBAC por papel e contas de serviço segregadas com rotação de chaves.' },
-      'perimeter': { title: 'Perímetro / VPN / NGFW', text: 'VPN obrigatória (WireGuard/OpenVPN), firewalls NGFW, proteção DDoS e filtragem L7 para APIs e painéis.' },
-      'gaia': { title: 'Nuvem GAIA', text: 'Plano de controle e dados: orquestração, pipelines, armazenamentos e serviços. Políticas de segurança por projeto/namespace.' },
-      'crypto': { title: 'Criptografia (TLS 1.3 / KMS)', text: 'Criptografia em trânsito (TLS 1.3) e em repouso com gerenciamento central de chaves (KMS). Segredos em cofre seguro.' },
-      'siem': { title: 'Monitoramento & SIEM', text: 'Coleta e correlação de logs (Wazuh/ELK), detecção de anomalias, painel em tempo real e alertas acionáveis.' },
-      'bio': { title: 'BIO – Defesa Adaptativa', text: 'IA defensiva que aprende com incidentes, sugere/aciona playbooks, aplica contenção e recomenda endurecimento.' },
-      'backup': { title: 'Backup & DR', text: 'Replicação geográfica, testes regulares de restauração, WORM/immutable logs e plano de desastre validado.' },
-      'gov': { title: 'Governança & Compliance', text: 'Trilhas de auditoria, conformidade ISO 27001/NIST, privacidade por design e aprovação do Conselho BIO.' },
-      'edge': { title: 'MCEFPs (Edge)', text: 'Nós de borda com hardening, atualizações assinadas, telemetria segura e operação offline-tolerante.' },
-      'plant': { title: 'Indústria Matriz', text: 'Ambiente central de produção com microssegmentação, controle de mudanças e integração segura com ERP/MES.' },
-      'partners': { title: 'Parceiros / APIs', text: 'Integrações externas com chaves de API de escopo mínimo, limite de taxa e auditoria contínua.' }
-    };
+      const details = {
+        1: { title: "Nuvem BIOCERR", text: "Camada de coordenação e serviços: broker MQTT, armazenamento timeseries, APIs e orquestração dos gêmeos. Hospeda modelos, dashboards e integrações externas." },
+        2: { title: "Indústria Matriz", text: "Produz os concentrados-base em IBCs, gerencia controle de qualidade, rotinas de expedição e integração com sistemas corporativos (ERP/MES). Fonte primária de dados e rastreabilidade." },
+        3: { title: "MCEFPs", text: "Mini Centrais Envasadoras e Finalizadoras: unidades locais que personalizam lotes, operam com sensoriamento e replicam o DNA do SMPD no território." },
+        4: { title: "Operadores", text: "Usuários locais que interagem com interfaces simples: execução por lote, checks de QC, manutenção local e comunicação com a BIO (via painel ou app)." },
+        5: { title: "Mercado Final", text: "Pontos de venda, hospitais e consumidores finais que recebem produtos personalizados; enviam feedback e dados de demanda que alimentam o gêmeo." },
+        6: { title: "Governança BIO", text: "Conselho que valida políticas, limitações éticas e aprova alterações estratégicas. Atua em fluxo HITL (human-in-the-loop) para decisões críticas." },
+        7: { title: "IA BIO", text: "Módulo de inteligência que processa dados, gera previsões (manutenção, demanda), simula cenários e sugere otimizações para operação e impacto socioambiental." }
+      };
 
-    function showGaiaDetails(id) {
-      const panel = document.getElementById('nodeDetailsGaia');
-      const d = gaiaDetails[id];
-      if (!d) return;
-      panel.innerHTML = `
-        <h3>${d.title}</h3>
-        <p>${d.text}</p>
-        <button class="close-btn" onclick="closeGaiaDetails()">Fechar</button>
-      `;
-      panel.style.display = 'block';
-      panel.scrollIntoView({behavior: 'smooth', block: 'center'});
-    }
+      function showNodeDetails(id) {
+        const panel = document.getElementById('nodeDetails');
+        const d = details[id];
+        if (!d) return;
+        panel.innerHTML = `
+          <h3>${d.title}</h3>
+          <p>${d.text}</p>
+          <button class="close-btn" onclick="closeDetails()">Fechar</button>
+        `;
+        panel.style.display = 'block';
+        panel.scrollIntoView({behavior: "smooth", block: "center"});
+      }
 
-    function closeGaiaDetails() {
-      const panel = document.getElementById('nodeDetailsGaia');
-      panel.style.display = 'none';
-      panel.innerHTML = '';
-    }
+      window.closeDetails = function(){
+        const panel = document.getElementById('nodeDetails');
+        panel.style.display = 'none';
+        panel.innerHTML = '';
+      };
 
-    networkGaia.on('click', function (params) {
-      if (params.nodes.length > 0) showGaiaDetails(params.nodes[0]);
-    });
-
-    document.addEventListener('visibilitychange', function () {
-      if (!document.hidden && window.networkGaia) window.networkGaia.redraw();
-    });
+      network.on("click", function (params) {
+        if (params.nodes.length > 0) showNodeDetails(params.nodes[0]);
+      });
+    })();
   </script>
+
+  <script>
+    /* --- Inicialização do vis-network: SEGURANÇA GAIA (IIFE) --- */
+    (function initGaia(){
+      const gaiaNodes = new vis.DataSet([
+        { id: 'gaia', label: 'Nuvem GAIA', shape: 'box', color: { background: '#0b2e2a', border: '#74f2ce' }, font: { color: 'white' } },
+        { id: 'idm', label: 'Identidade & Acesso', shape: 'ellipse', color: { background: '#254b6e', border: '#9fd8ff' }, font: { color: 'white' } },
+        { id: 'edge', label: 'MCEFPs (Edge)', shape: 'box', color: { background: '#4f2b63', border: '#d8a8ff' }, font: { color: 'white' } },
+        { id: 'plant', label: 'Indústria Matriz', shape: 'box', color: { background: '#063a6b', border: '#74f2ce' }, font: { color: 'white' } },
+        { id: 'perimeter', label: 'Perímetro / VPN / NGFW', shape: 'box', color: { background: '#1d3b2d', border: '#74f2ce' }, font: { color: 'white' } },
+        { id: 'crypto', label: 'Criptografia (TLS 1.3 / KMS)', shape: 'box', color: { background: '#123b34', border: '#74f2ce' }, font: { color: 'white' } },
+        { id: 'siem', label: 'Monitoramento & SIEM', shape: 'box', color: { background: '#2b3a3f', border: '#9fbdb6' }, font: { color: 'white' } },
+        { id: 'bio', label: 'BIO – Defesa Adaptativa', shape: 'box', color: { background: '#145a2f', border: '#74f2ce' }, font: { color: 'white' } },
+        { id: 'backup', label: 'Backup & DR', shape: 'box', color: { background: '#4a3b1a', border: '#ffd28f' }, font: { color: 'white' } },
+        { id: 'gov', label: 'Governança & Compliance', shape: 'ellipse', color: { background: '#2b3a3f', border: '#9fbdb6' }, font: { color: 'white' } },
+        { id: 'partners', label: 'Parceiros / APIs', shape: 'ellipse', color: { background: '#5b1f2e', border: '#ffb3c9' }, font: { color: 'white' } }
+      ]);
+
+      const gaiaEdges = new vis.DataSet([
+        { from: 'idm', to: 'perimeter', arrows: 'to', color: { color: '#74f2ce' } },
+        { from: 'perimeter', to: 'gaia', arrows: 'to', color: { color: '#74f2ce' } },
+        { from: 'edge', to: 'perimeter', arrows: 'to', color: { color: '#74f2ce' } },
+        { from: 'plant', to: 'perimeter', arrows: 'to', color: { color: '#74f2ce' } },
+        { from: 'gaia', to: 'crypto', arrows: 'to', color: { color: '#74f2ce' } },
+        { from: 'gaia', to: 'siem', arrows: 'to', color: { color: '#74f2ce' } },
+        { from: 'siem', to: 'bio', arrows: 'to', color: { color: '#74f2ce' } },
+        { from: 'bio', to: 'gaia', arrows: 'to', color: { color: '#74f2ce' } },
+        { from: 'gaia', to: 'backup', arrows: 'to', color: { color: '#ffd28f' } },
+        { from: 'gov', to: 'gaia', arrows: 'to', color: { color: '#9fbdb6' } },
+        { from: 'gaia', to: 'partners', arrows: 'to', color: { color: '#ffb3c9' } }
+      ]);
+
+      const gaiaOptions = {
+        physics: {
+          enabled: true,
+          barnesHut: {
+            gravitationalConstant: -7000,
+            centralGravity: 0.25,
+            springLength: 200,
+            springConstant: 0.05
+          },
+          stabilization: { enabled: true, iterations: 250 }
+        },
+        interaction: { hover: true, dragNodes: true, zoomView: true, tooltipDelay: 100 },
+        nodes: { borderWidth: 2, shadow: true, font: { size: 14 } },
+        edges: { arrows: { to: { enabled: true, scaleFactor: 1.2 } }, smooth: { enabled: true, type: 'dynamic' } },
+        layout: { improvedLayout: true }
+      };
+
+      const gaiaContainer = document.getElementById('networkGaia');
+      const gaiaData = { nodes: gaiaNodes, edges: gaiaEdges };
+      const networkGaia = new vis.Network(gaiaContainer, gaiaData, gaiaOptions);
+      window.networkGaia = networkGaia;
+
+      networkGaia.on('doubleClick', function () {
+        networkGaia.fit({ animation: { duration: 400, easing: 'easeInOutQuad' } });
+      });
+
+      const gaiaDetails = {
+        'idm': { title: 'Identidade & Acesso', text: 'MFA (aplicativo/Token), certificados por unidade (PKI BIO), RBAC por papel e contas de serviço segregadas com rotação de chaves.' },
+        'perimeter': { title: 'Perímetro / VPN / NGFW', text: 'VPN obrigatória (WireGuard/OpenVPN), firewalls NGFW, proteção DDoS e filtragem L7 para APIs e painéis.' },
+        'gaia': { title: 'Nuvem GAIA', text: 'Plano de controle e dados: orquestração, pipelines, armazenamentos e serviços. Políticas de segurança por projeto/namespace.' },
+        'crypto': { title: 'Criptografia (TLS 1.3 / KMS)', text: 'Criptografia em trânsito (TLS 1.3) e em repouso com gerenciamento central de chaves (KMS). Segredos em cofre seguro.' },
+        'siem': { title: 'Monitoramento & SIEM', text: 'Coleta e correlação de logs (Wazuh/ELK), detecção de anomalias, painel em tempo real e alertas acionáveis.' },
+        'bio': { title: 'BIO – Defesa Adaptativa', text: 'IA defensiva que aprende com incidentes, sugere/aciona playbooks, aplica contenção e recomenda endurecimento.' },
+        'backup': { title: 'Backup & DR', text: 'Replicação geográfica, testes regulares de restauração, WORM/immutable logs e plano de desastre validado.' },
+        'edge': { title: 'MCEFPs (Edge)', text: 'Nós de borda com hardening, atualizações assinadas, telemetria segura e operação offline-tolerante.' },
+        'plant': { title: 'Indústria Matriz', text: 'Ambiente central de produção com microssegmentação, controle de mudanças e integração segura com ERP/MES.' },
+        'partners': { title: 'Parceiros / APIs', text: 'Integrações externas com chaves de API de escopo mínimo, limite de taxa e auditoria contínua.' }
+      };
+
+      function showGaiaDetails(id) {
+        const panel = document.getElementById('nodeDetailsGaia');
+        const d = gaiaDetails[id];
+        if (!d) return;
+        panel.innerHTML = `
+          <h3>${d.title}</h3>
+          <p>${d.text}</p>
+          <button class="close-btn" onclick="closeGaiaDetails()">Fechar</button>
+        `;
+        panel.style.display = 'block';
+        panel.scrollIntoView({behavior: 'smooth', block: 'center'});
+      }
+
+      window.closeGaiaDetails = function(){
+        const panel = document.getElementById('nodeDetailsGaia');
+        panel.style.display = 'none';
+        panel.innerHTML = '';
+      };
+
+      networkGaia.on('click', function (params) {
+        if (params.nodes.length > 0) showGaiaDetails(params.nodes[0]);
+      });
+    })();
+  </script>
+
+  <script>
+    /* --- vis-network: Blockchain / BigData / IoT (IIFE unificado) --- */
+    (function initOthers(){
+      /* --- Blockchain --- */
+      const bcNodes = new vis.DataSet([
+        { id: 'g', label: 'Bloco #0\n(Gênesis)', shape: 'box', color: { background: '#0b2e2a', border: '#74f2ce' }, font: { color: 'white' } },
+        { id: 'b1', label: 'Bloco #1', shape: 'box', color: { background: '#10423a', border: '#74f2ce' }, font: { color: 'white' } },
+        { id: 'b2', label: 'Bloco #2', shape: 'box', color: { background: '#145046', border: '#74f2ce' }, font: { color: 'white' } },
+        { id: 'b3', label: 'Bloco #3', shape: 'box', color: { background: '#195d52', border: '#74f2ce' }, font: { color: 'white' } }
+      ]);
+      const bcEdges = new vis.DataSet([
+        { from: 'g', to: 'b1', arrows: 'to', color: { color: '#74f2ce' } },
+        { from: 'b1', to: 'b2', arrows: 'to', color: { color: '#74f2ce' } },
+        { from: 'b2', to: 'b3', arrows: 'to', color: { color: '#74f2ce' } }
+      ]);
+      const elBc = document.getElementById('networkBlockchain');
+      if(elBc){
+        const netBc = new vis.Network(elBc, { nodes: bcNodes, edges: bcEdges }, {
+          physics: { enabled: true, barnesHut: { gravitationalConstant: -6500, springLength: 180, springConstant: 0.045 }, stabilization: { iterations: 220 } },
+          interaction: { hover: true, dragNodes: true, zoomView: true, tooltipDelay: 100 },
+          nodes: { borderWidth: 2, shadow: true, font: { size: 14 } },
+          edges: { arrows: { to: { enabled: true, scaleFactor: 1.1 } }, smooth: { type: 'dynamic' } }
+        });
+        window.networkBlockchain = netBc;
+
+        const metaBc = {
+          'g': { title: 'Bloco Gênesis', text: 'Criação inicial da cadeia. Define parâmetros e âncora de confiança. Hash anterior: n/a.' },
+          'b1': { title: 'Bloco #1 – Produção', text: 'Registro de produção na Indústria Matriz: lote, timestamp, ID de IBC, QA inicial e assinatura digital da matriz.' },
+          'b2': { title: 'Bloco #2 – Envase MCEFP', text: 'Operação de envase/rotulagem na MCEFP-07: parâmetros do processo, operador responsável, leituras IoT agregadas e QA local.' },
+          'b3': { title: 'Bloco #3 – Logística/Devolução', text: 'Movimentação logística e logística reversa. Checagem de integridade, cadeia fria (se aplicável) e aceite do destino.' }
+        };
+
+        function showBc(id){
+          const p = document.getElementById('nodeDetailsBlockchain');
+          if(!p || !metaBc[id]) return;
+          p.innerHTML = `<h3>${metaBc[id].title}</h3><p>${metaBc[id].text}</p><button class="close-btn" onclick="this.parentElement.style.display='none'">Fechar</button>`;
+          p.style.display = 'block'; p.scrollIntoView({behavior:'smooth',block:'center'});
+        }
+        netBc.on('click',(ev)=>{ if(ev.nodes.length) showBc(ev.nodes[0]); });
+        netBc.on('doubleClick', ()=> netBc.fit({ animation:{duration:400,easing:'easeInOutQuad'} }));
+      }
+
+      /* --- Big Data --- */
+      const bdNodes = new vis.DataSet([
+        { id: 'coleta', label: 'Coleta\n(MCEFP/IoT/Blockchain)', shape: 'box', color: { background: '#063a6b', border: '#74f2ce' }, font: { color: 'white' } },
+        { id: 'lake', label: 'Data Lake', shape: 'box', color: { background: '#2b3a3f', border: '#9fbdb6' }, font: { color: 'white' } },
+        { id: 'process', label: 'Processamento\n(Stream/Batch/ML)', shape: 'box', color: { background: '#145a2f', border: '#74f2ce' }, font: { color: 'white' } },
+        { id: 'gaiaout', label: 'GAIA Dashboards', shape: 'ellipse', color: { background: '#b36100', border: '#ffd9b3' }, font: { color: 'white' } }
+      ]);
+      const bdEdges = new vis.DataSet([
+        { from: 'coleta', to: 'lake', arrows: 'to', color: { color: '#74f2ce' } },
+        { from: 'lake', to: 'process', arrows: 'to', color: { color: '#74f2ce' } },
+        { from: 'process', to: 'gaiaout', arrows: 'to', color: { color: '#ffd28f' } }
+      ]);
+      const elBd = document.getElementById('networkBigData');
+      if(elBd){
+        const netBd = new vis.Network(elBd, { nodes: bdNodes, edges: bdEdges }, {
+          physics: { enabled: true, barnesHut: { gravitationalConstant: -6500, springLength: 180, springConstant: 0.045 }, stabilization: { iterations: 220 } },
+          interaction: { hover: true, dragNodes: true, zoomView: true, tooltipDelay: 100 },
+          nodes: { borderWidth: 2, shadow: true, font: { size: 14 } },
+          edges: { arrows: { to: { enabled: true, scaleFactor: 1.1 } }, smooth: { type: 'dynamic' } }
+        });
+        window.networkBigData = netBd;
+
+        const metaBd = {
+          'coleta': { title: 'Coleta de Dados', text: 'Sensores IoT, MCEFPs e registros Blockchain enviam telemetria, eventos e lotes em tempo real via MQTT/Kafka/APIs.' },
+          'lake': { title: 'Data Lake', text: 'Armazenamento bruto com versionamento e catálogo. Suporta formatos colunares e dados semiestruturados.' },
+          'process': { title: 'Processamento', text: 'Pipelines de streaming (tempo real), batch (ETL) e ML para previsões e detecção de anomalias.' },
+          'gaiaout': { title: 'Dashboards GAIA', text: 'KPIs operacionais/ESG em tempo real, relatórios e insights para Operações e Governança BIO.' }
+        };
+
+        function showBd(id){
+          const p = document.getElementById('nodeDetailsBigData');
+          if(!p || !metaBd[id]) return;
+          p.innerHTML = `<h3>${metaBd[id].title}</h3><p>${metaBd[id].text}</p><button class="close-btn" onclick="this.parentElement.style.display='none'">Fechar</button>`;
+          p.style.display = 'block'; p.scrollIntoView({behavior:'smooth',block:'center'});
+        }
+        netBd.on('click',(ev)=>{ if(ev.nodes.length) showBd(ev.nodes[0]); });
+        netBd.on('doubleClick', ()=> netBd.fit({ animation:{duration:400,easing:'easeInOutQuad'} }));
+      }
+
+      /* --- IoT --- */
+      const iotNodes = new vis.DataSet([
+        { id: 'sensores', label: 'Sensores/Atuadores', shape: 'ellipse', color: { background: '#4f2b63', border: '#d8a8ff' }, font: { color: 'white' } },
+        { id: 'gateway', label: 'Gateway (MQTT/LoRa/5G)', shape: 'box', color: { background: '#063a6b', border: '#74f2ce' }, font: { color: 'white' } },
+        { id: 'edge', label: 'Edge (Pré-processamento)', shape: 'box', color: { background: '#2b3a3f', border: '#9fbdb6' }, font: { color: 'white' } },
+        { id: 'nuvem', label: 'Nuvem/GAIA', shape: 'box', color: { background: '#0b2e2a', border: '#74f2ce' }, font: { color: 'white' } }
+      ]);
+      const iotEdges = new vis.DataSet([
+        { from: 'sensores', to: 'gateway', arrows: 'to', color: { color: '#d8a8ff' } },
+        { from: 'gateway', to: 'edge', arrows: 'to', color: { color: '#74f2ce' } },
+        { from: 'edge', to: 'nuvem', arrows: 'to', color: { color: '#9fbdb6' } }
+      ]);
+      const elIot = document.getElementById('networkIoT');
+      if(elIot){
+        const netIot = new vis.Network(elIot, { nodes: iotNodes, edges: iotEdges }, {
+          physics: { enabled: true, barnesHut: { gravitationalConstant: -6500, springLength: 180, springConstant: 0.045 }, stabilization: { iterations: 220 } },
+          interaction: { hover: true, dragNodes: true, zoomView: true, tooltipDelay: 100 },
+          nodes: { borderWidth: 2, shadow: true, font: { size: 14 } },
+          edges: { arrows: { to: { enabled: true, scaleFactor: 1.1 } }, smooth: { type: 'dynamic' } }
+        });
+        window.networkIoT = netIot;
+
+        const metaIot = {
+          'sensores': { title: 'Sensores/Atuadores', text: 'Mede nível, pressão, temperatura, vazão, pH e aciona válvulas/bombas. Base da automação local.' },
+          'gateway': { title: 'Gateway', text: 'Agrega dados, traduz protocolos (MQTT/CoAP), gerencia conectividade (5G/LoRa/Wi-Fi) e políticas de segurança iniciais.' },
+          'edge': { title: 'Edge Computing', text: 'Filtra ruído, agrega leituras e executa lógica imediata de controle com latência mínima.' },
+          'nuvem': { title: 'Nuvem/GAIA', text: 'Persistência, análise, alertas e integração com Big Data e Blockchain para rastreabilidade.' }
+        };
+
+        function showIot(id){
+          const p = document.getElementById('nodeDetailsIoT');
+          if(!p || !metaIot[id]) return;
+          p.innerHTML = `<h3>${metaIot[id].title}</h3><p>${metaIot[id].text}</p><button class="close-btn" onclick="this.parentElement.style.display='none'">Fechar</button>`;
+          p.style.display = 'block'; p.scrollIntoView({behavior:'smooth',block:'center'});
+        }
+        netIot.on('click',(ev)=>{ if(ev.nodes.length) showIot(ev.nodes[0]); });
+        netIot.on('doubleClick', ()=> netIot.fit({ animation:{duration:400,easing:'easeInOutQuad'} }));
+      }
+
+    })();
+  </script>
+
 </body>
 </html>
