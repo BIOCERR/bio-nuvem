@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>GAIA Security Dashboard</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+  <style>
+    :root {
+      --teal:#74f2ce;
+      --teal-d:#2de0c1;
+      --ink:#0b0b0b;
+      --card:rgba(255,255,255,.035);
+      --stroke:rgba(116,242,206,.25);
+      --text:#eafaf6;
+      --muted:#b9e7dc;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin:0; padding:40px;
+      background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
+      color: var(--text);
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+    }
+    .top-bar{
+      position:absolute; top:20px; left:20px; z-index:10;
+      display:flex; gap:10px; align-items:center;
+    }
+    .top-bar a, .chip{
+      text-decoration:none; color:var(--teal);
+      border:1px solid var(--teal);
+      padding:8px 14px; border-radius:20px; font-weight:600;
+      background: rgba(0,0,0,.35);
+      transition:.25s ease;
+    }
+    .top-bar a:hover{ box-shadow:0 0 10px var(--teal); background: rgba(116,242,206,.12); }
+    h1{
+      text-align:center; margin:20px 0 12px;
+      font-size:2.6rem;
+      text-shadow:0 0 15px var(--teal), 0 0 25px var(--teal);
+      filter: drop-shadow(0 0 5px var(--teal-d));
+    }
+    .subtitle { text-align:center; color:var(--muted); margin-bottom:26px; }
+
+    .layout{
+      max-width:1200px; margin:0 auto; display:grid; gap:22px;
+      grid-template-columns: 1.2fr .8fr;
+    }
+    @media (max-width: 980px){
+      .layout{ grid-template-columns: 1fr; }
+    }
+
+    .card{
+      background: var(--card);
+      border:1px solid rgba(116,242,206,.08);
+      border-radius:14px; padding:16px 18px;
+      box-shadow: 0 6px 20px rgba(0,0,0,.45);
+    }
+    .card h2{ margin:0 0 10px; font-size:1.25rem; color:var(--teal); }
+    .kpis{ display:grid; gap:12px; grid-template-columns: repeat(4, 1fr); }
+    @media (max-width: 980px){ .kpis{ grid-template-columns: repeat(2, 1fr); } }
+    .kpi{
+      background: rgba(255,255,255,.03);
+      border:1px solid var(--stroke);
+      border-radius:12px; padding:14px;
+      text-align:center;
+    }
+    .kpi .label{ font-size:.9rem; color:#cfeee6; }
+    .kpi .value{ font-size:1.6rem; font-weight:800; margin-top:6px; }
+
+    .graph-wrapper{ padding:12px; border:1px solid rgba(116,242,206,.08); border-radius:12px; }
+    #network{ width:100%; height:420px; background:transparent; border-radius:10px; }
+    .graph-instructions{
+      margin-top:8px; font-size:.95em; color:#cfeee6;
+      background: rgba(255,255,255,.03);
+      border:1px dashed rgba(116,242,206,.35);
+      border-radius:8px; padding:10px 12px;
+    }
+
+    .alerts{ max-height:280px; overflow:auto; padding-right:4px; }
+    .alert{
+      border-left:3px solid var(--teal);
+      background: rgba(255,255,255,.03);
+      padding:10px 12px; border-radius:8px; margin:10px 0;
+    }
+    .alert .when{ color:#a0d6ca; font-size:.85em; }
+    .alert .sev{ font-weight:700; }
+    .controls{ display:flex; align-items:center; gap:12px; }
+    .range{ width:100%; }
+
+    #nodeDetails{
+      display:none; margin-top:12px;
+      background: rgba(255,255,255,.03);
+      border-left:3px solid var(--teal);
+      padding:14px; border-radius:10px;
+    }
+    #nodeDetails h3{ margin:0 0 6px; color:var(--teal); }
+    .close-btn{
+      margin-top:8px; background:transparent; color:var(--teal);
+      border:1px solid rgba(116,242,206,.25); padding:6px 10px;
+      border-radius:8px; cursor:pointer;
+    }
+
+    .footer{
+      margin-top:24px; text-align:center; color:#bdeee2; font-size:.9rem;
+      opacity:.85;
+    }
+    .mist{ position:fixed; inset:0; pointer-events:none;
+      background: radial-gradient(circle, rgba(116,242,206,.05) 0%, transparent 70%);
+      filter: blur(25px); z-index:-1;
+    }
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <a href="infraestrutura_digital_en.html">⬅️ Back</a>
+    <span class="chip" id="chipStatus">● Secure Operation</span>
+  </div>
+
+  <h1>GAIA Security Dashboard</h1>
+  <p class="subtitle">Active monitoring • Adaptive defense • Immutable auditing for <strong>Mother Plant</strong> and <strong>MCFFPs</strong> within the <strong>MDPS</strong></p>
+
+  <div class="layout">
+    <!-- LEFT COLUMN -->
+    <div class="col-left">
+      <div class="card">
+        <h2>Real-Time Indicators</h2>
+        <div class="kpis">
+          <div class="kpi">
+            <div class="label">Secure Connections</div>
+            <div class="value" id="kpiSecure">128</div>
+          </div>
+          <div class="kpi">
+            <div class="label">Blocked Attacks (24h)</div>
+            <div class="value" id="kpiBlocked">3,219</div>
+          </div>
+          <div class="kpi">
+            <div class="label">GAIA Uptime</div>
+            <div class="value" id="kpiUptime">99.982%</div>
+          </div>
+          <div class="kpi">
+            <div class="label">Open Incidents</div>
+            <div class="value" id="kpiIncidents">0</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Interactive Security Map</h2>
+        <div class="graph-wrapper" aria-label="GAIA security map">
+          <div id="network"></div>
+          <div class="graph-instructions">
+            💡 <strong>How to use:</strong> scroll to zoom • drag to move • click modules for details • double-click to recenter.
+          </div>
+          <div id="nodeDetails" role="region" aria-live="polite"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN -->
+    <div class="col-right">
+      <div class="card">
+        <h2>Threat Intensity</h2>
+        <div class="controls">
+          <span>Low</span>
+          <input class="range" id="threatRange" type="range" min="0" max="100" value="22" />
+          <span>High</span>
+        </div>
+        <p style="margin:8px 0 0;color:#cfeee6">Adjust to simulate scenarios (impacts the map, alerts, and KPIs).</p>
+      </div>
+
+      <div class="card">
+        <h2>Recent Alerts</h2>
+        <div class="alerts" id="alertsList" aria-live="polite"></div>
+      </div>
+
+      <div class="card">
+        <h2>Quick Actions</h2>
+        <div style="display:grid;gap:10px;">
+          <a class="chip" href="#!" id="btnContain">Apply Containment</a>
+          <a class="chip" href="#!" id="btnRotateKeys">Rotate Keys</a>
+          <a class="chip" href="#!" id="btnIsolate">Isolate MCFFP</a>
+          <a class="chip" href="#!" id="btnExport">Export Report</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p class="footer">
+    BIOCERR • GAIA Cloud • Convergence of <strong>technology</strong>, <strong>territory</strong> and <strong>care</strong> | Audit: ISO 27001 • NIST | Immutable Logs (WORM)
+  </p>
+
+  <div class="mist"></div>
+
+  <script>
+    const fmt = (n)=> n.toLocaleString('en-US');
+    const nowTime = ()=> new Date().toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit', second:'2-digit'});
+
+    const kpiSecure = document.getElementById('kpiSecure');
+    const kpiBlocked = document.getElementById('kpiBlocked');
+    const kpiUptime = document.getElementById('kpiUptime');
+    const kpiIncidents = document.getElementById('kpiIncidents');
+
+    const alertsList = document.getElementById('alertsList');
+    function sevBadge(s){
+      const map = {info:'#9fd8ff', low:'#74f2ce', medium:'#ffd28f', high:'#ff9fb3', critical:'#ff6464'};
+      return '<span class="sev" style="color:'+map[s]+'">'+s.toUpperCase()+'</span>';
+    }
+    function pushAlert(sev, msg){
+      const div = document.createElement('div');
+      div.className = 'alert';
+      div.innerHTML = '<div class="when">'+nowTime()+' · '+sevBadge(sev)+'</div><div>'+msg+'</div>';
+      alertsList.prepend(div);
+      while(alertsList.children.length > 12) alertsList.removeChild(alertsList.lastChild);
+    }
+
+    const nodes = new vis.DataSet([
+      { id:'gaia', label:'GAIA Cloud', shape:'box', color:{ background:'#0b2e2a', border:'#74f2ce' }, font:{ color:'#fff' } },
+      { id:'idm', label:'Identity & Access', shape:'ellipse', color:{ background:'#254b6e', border:'#9fd8ff' }, font:{ color:'#fff' } },
+      { id:'edge', label:'MCFFPs (Edge)', shape:'box', color:{ background:'#4f2b63', border:'#d8a8ff' }, font:{ color:'#fff' } },
+      { id:'plant', label:'Mother Plant', shape:'box', color:{ background:'#063a6b', border:'#74f2ce' }, font:{ color:'#fff' } },
+      { id:'perimeter', label:'Perimeter / VPN / NGFW', shape:'box', color:{ background:'#1d3b2d', border:'#74f2ce' }, font:{ color:'#fff' } },
+      { id:'crypto', label:'Encryption (TLS 1.3 / KMS)', shape:'box', color:{ background:'#123b34', border:'#74f2ce' }, font:{ color:'#fff' } },
+      { id:'siem', label:'Monitoring & SIEM', shape:'box', color:{ background:'#2b3a3f', border:'#9fbdb6' }, font:{ color:'#fff' } },
+      { id:'bio', label:'BIO AI – Adaptive Defense', shape:'box', color:{ background:'#145a2f', border:'#74f2ce' }, font:{ color:'#fff' } },
+      { id:'backup', label:'Backup & DR', shape:'box', color:{ background:'#4a3b1a', border:'#ffd28f' }, font:{ color:'#fff' } },
+      { id:'gov', label:'Governance & Compliance', shape:'ellipse', color:{ background:'#2b3a3f', border:'#9fbdb6' }, font:{ color:'#fff' } },
+      { id:'partners', label:'Partners / APIs', shape:'ellipse', color:{ background:'#5b1f2e', border:'#ffb3c9' }, font:{ color:'#fff' } }
+    ]);
+    const edges = new vis.DataSet([
+      { from:'idm', to:'perimeter', arrows:'to', color:{ color:'#74f2ce' } },
+      { from:'perimeter', to:'gaia', arrows:'to', color:{ color:'#74f2ce' } },
+      { from:'edge', to:'perimeter', arrows:'to', color:{ color:'#74f2ce' } },
+      { from:'plant', to:'perimeter', arrows:'to', color:{ color:'#74f2ce' } },
+      { from:'gaia', to:'crypto', arrows:'to', color:{ color:'#74f2ce' } },
+      { from:'gaia', to:'siem', arrows:'to', color:{ color:'#74f2ce' } },
+      { from:'siem', to:'bio', arrows:'to', color:{ color:'#74f2ce' } },
+      { from:'bio', to:'gaia', arrows:'to', color:{ color:'#74f2ce' } },
+      { from:'gaia', to:'backup', arrows:'to', color:{ color:'#ffd28f' } },
+      { from:'gov', to:'gaia', arrows:'to', color:{ color:'#9fbdb6' } },
+      { from:'gaia', to:'partners', arrows:'to', color:{ color:'#ffb3c9' } }
+    ]);
+    const options = {
+      physics:{ enabled:true, barnesHut:{ gravitationalConstant:-7000, centralGravity:.25, springLength:200, springConstant:.05 }, stabilization:{ iterations:250 } },
+      interaction:{ hover:true, dragNodes:true, zoomView:true, tooltipDelay:100 },
+      nodes:{ borderWidth:2, shadow:true, font:{ size:14 } },
+      edges:{ arrows:{ to:{ enabled:true, scaleFactor:1.2 } }, smooth:{ type:'dynamic' } },
+      layout:{ improvedLayout:true }
+    };
+    const container = document.getElementById('network');
+    const network = new vis.Network(container, { nodes, edges }, options);
+    network.on('doubleClick', ()=> network.fit({ animation:{ duration:400, easing:'easeInOutQuad' } }));
+
+    const details = {
+      'idm': { title:'Identity & Access', text:'MFA (app/token), unit certificates (BIO PKI), roles (operator, auditor, governance), minimal service accounts and key rotation.' },
+      'perimeter': { title:'Perimeter / VPN / NGFW', text:'Mandatory VPN (WireGuard/OpenVPN), NGFW, DDoS protection and L7 filtering for APIs and dashboards.' },
+      'gaia': { title:'GAIA Cloud', text:'Control and data plane: orchestration, pipelines, storages and services. Policies by project/namespace and workload isolation.' },
+      'crypto': { title:'Encryption (TLS 1.3 / KMS)', text:'Encryption in transit (TLS 1.3) and at rest (KMS). Secrets in secure vault with RBAC and audit trails.' },
+      'siem': { title:'Monitoring & SIEM', text:'Log collection and correlation (Wazuh/ELK), anomaly detection, real-time dashboards and actionable alerts.' },
+      'bio': { title:'BIO AI – Adaptive Defense', text:'Defensive AI that learns from incidents, triggers/executes playbooks (TheHive/Cortex), applies containment and suggests hardening.' },
+      'backup': { title:'Backup & DR', text:'Geographic replication, frequent restoration tests, immutable logs (WORM) and validated disaster plan.' },
+      'gov': { title:'Governance & Compliance', text:'Audit trails, ISO 27001/NIST, privacy by design and approvals by the BIO Council.' },
+      'edge': { title:'MCFFPs (Edge)', text:'Edge nodes with hardening, signed updates, secure telemetry and offline-tolerant operation.' },
+      'plant': { title:'Mother Plant', text:'Central production environment with microsegmentation, change control and secure ERP/MES integration.' },
+      'partners': { title:'Partners / APIs', text:'External integrations with minimal keys, rate limits and continuous auditing.' }
+    };
+    const panel = document.getElementById('nodeDetails');
+    function showDetails(id){
+      const d = details[id]; if(!d) return;
+      panel.innerHTML = `<h3>${d.title}</h3><p>${d.text}</p><button class="close-btn" onclick="closeDetails()">Close</button>`;
+      panel.style.display = 'block'; panel.scrollIntoView({behavior:'smooth', block:'center'});
+    }
+    function closeDetails(){ panel.style.display='none'; panel.innerHTML=''; }
+    network.on('click', (p)=>{ if(p.nodes.length) showDetails(p.nodes[0]); });
+
+    const threatRange = document.getElementById('threatRange');
+    threatRange.addEventListener('input', e=>{
+      const v = parseInt(e.target.value);
+      const k = Math.floor(100+v*2.2); 
+      const b = Math.floor(3000+v*12.3); 
+      kpiSecure.innerText = fmt(k);
+      kpiBlocked.innerText = fmt(b);
+      if(v>75){ kpiIncidents.innerText='2'; pushAlert('high','Multiple simultaneous intrusion attempts detected. Automated containment activated.'); }
+      else if(v>40){ pushAlert('medium','Suspicious activity increase in MCFFP cluster. Monitoring intensified.'); }
+      else{ if(kpiIncidents.innerText!=='0') kpiIncidents.innerText='0'; }
+    });
+
+    const btnContain=document.getElementById('btnContain');
+    const btnRotateKeys=document.getElementById('btnRotateKeys');
+    const btnIsolate=document.getElementById('btnIsolate');
+    const btnExport=document.getElementById('btnExport');
+
+    btnContain.onclick=()=>pushAlert('info','Containment routine triggered (BIO Cortex).');
+    btnRotateKeys.onclick=()=>pushAlert('low','Cryptographic keys rotated successfully.');
+    btnIsolate.onclick=()=>pushAlert('critical','An MCFFP has been isolated for forensic analysis.');
+    btnExport.onclick=()=>pushAlert('info','Audit report exported (immutable WORM log).');
+
+    let uptime=99.982; setInterval(()=>{ uptime+=0.0001; kpiUptime.innerText=uptime.toFixed(3)+'%'; },8000);
+    setInterval(()=> pushAlert('info','Routine audit completed – no anomalies.'),45000);
+  </script>
+</body>
+</html>
