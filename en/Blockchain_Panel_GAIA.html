@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Blockchain_Panel_GAIA</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="dark" />
+  <style>
+    :root{
+      --bg-0: #000;
+      --bg-1: #0e1313;
+      --bg-2: #111b1a;
+      --ink: #eaf8f3;
+      --brand: #74f2ce;
+      --brand-2: #2de0c1;
+      --soft: rgba(255,255,255,0.06);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      color:var(--ink);
+      background: radial-gradient(1000px 700px at 70% -10%, rgba(45,224,193,0.08), transparent 40%),
+                  radial-gradient(1000px 700px at 10% 10%, rgba(116,242,206,0.06), transparent 40%),
+                  linear-gradient(180deg, #0a0f0f 0%, #000 40%, #000 100%);
+      font-family: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans";
+      line-height:1.55;
+      padding:28px 18px 60px;
+    }
+    .topbar{
+      display:flex; gap:12px; align-items:center; flex-wrap:wrap;
+      max-width:1100px; margin:0 auto 10px;
+    }
+    .topbar a{
+      text-decoration:none; color:var(--brand);
+      border:1px solid rgba(116,242,206,0.6);
+      padding:8px 14px; border-radius:999px; font-weight:600; font-size:.95rem;
+      background: rgba(0,0,0,.35);
+      transition:.25s ease;
+    }
+    .topbar a:hover{ box-shadow:0 0 12px rgba(116,242,206,.45); background:rgba(116,242,206,.10); }
+    header{ max-width:1100px; margin:8px auto 22px; text-align:center;}
+    h1{
+      margin:.2rem 0 0.6rem; font-size:clamp(1.8rem, 3.6vw, 2.6rem);
+      text-shadow:0 0 15px var(--brand), 0 0 28px var(--brand-2);
+      filter: drop-shadow(0 0 5px var(--brand-2));
+    }
+    .subtitle{
+      color:#cfeee6; max-width:900px; margin:0 auto;
+      font-size:1.02rem;
+    }
+    .wrap{ max-width:1100px; margin:22px auto; }
+    .panel{
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015));
+      border:1px solid rgba(116,242,206,0.10);
+      border-radius:14px; padding:16px 16px 6px; box-shadow:0 10px 28px rgba(0,0,0,.55);
+    }
+    .panel h2{
+      margin:6px 8px 12px; font-size:1.2rem; color:var(--brand);
+      letter-spacing:.2px;
+    }
+    .grid{
+      display:grid; grid-template-columns: 1.15fr .85fr; gap:18px;
+    }
+    @media (max-width: 980px){ .grid{ grid-template-columns:1fr; } }
+
+    .graph-wrap{ padding:12px; border-radius:12px; background: rgba(255,255,255,0.02); border:1px solid rgba(116,242,206,0.07); }
+    #networkBlockchainFull{ width:100%; height:520px; border-radius:10px; background:transparent; }
+
+    .legend{
+      display:flex; flex-wrap:wrap; gap:10px; align-items:center; padding:10px 8px 2px; font-size:.95rem; color:#cfeee6;
+    }
+    .pill{ display:inline-flex; gap:8px; align-items:center; padding:6px 10px; border-radius:999px; background:rgba(255,255,255,0.04); border:1px dashed rgba(116,242,206,0.35); }
+    .dot{ width:12px; height:12px; border-radius:999px; display:inline-block; }
+    .v{ background:#1f7a5a; border:1px solid #74f2ce; }
+    .p{ background:#945d14; border:1px solid #ffd28f; }
+    .r{ background:#7a1f2e; border:1px solid #ffb3c9; }
+    .m{ background:#2b3a3f; border:1px solid #9fbdb6; }
+    .mp{ background:#063a6b; border:1px solid #74f2ce; }
+
+    .aside{
+      background: rgba(255,255,255,0.02);
+      border:1px solid rgba(116,242,206,0.08);
+      border-radius:12px; padding:12px 14px;
+      height:100%;
+    }
+    .aside h3{ margin:6px 4px 10px; color:var(--brand); font-size:1.05rem;}
+    .aside p, .aside li{ color:#e7f9f2; }
+    .aside ul{ margin:6px 0 0 18px; }
+
+    .instructions{
+      margin:10px 0 12px; font-size:.95rem; color:#cfeee6;
+      background: rgba(255,255,255,0.03);
+      border:1px dashed rgba(116,242,206,0.35);
+      border-radius:8px; padding:10px 12px;
+    }
+
+    #details{
+      display:none; margin-top:12px; background:rgba(255,255,255,0.03);
+      border-left:3px solid var(--brand);
+      color:#e7f9f2; padding:14px; border-radius:8px;
+    }
+    #details h4{ margin:0 0 6px; color:var(--brand); }
+    .close-btn{
+      margin-top:8px; background:transparent; color:var(--brand);
+      border:1px solid rgba(116,242,206,0.25); padding:6px 10px; border-radius:8px; cursor:pointer;
+    }
+
+    footer{
+      max-width:1100px; margin:28px auto 0; color:#cfeee6; font-size:.95rem; text-align:center;
+      opacity:.9;
+    }
+  </style>
+
+  <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+</head>
+<body>
+
+  <nav class="topbar">
+    <a href="infraestrutura_digital_en.html"
+       onclick="event.preventDefault(); if(document.referrer){history.back()} else {window.location.href='infraestrutura_digital_en.html'}">
+      ← Back
+    </a>
+  </nav>
+
+  <header>
+    <h1>Blockchain – BIOCERR</h1>
+    <p class="subtitle">
+      Distributed, immutable, and auditable ledger to track operations of the Matrix Industry and the MCFFPs,
+      ensuring trust, transparency, and governance in the <strong>MDPS</strong>.
+    </p>
+  </header>
+
+  <main class="wrap">
+    <section class="panel">
+      <h2>Interactive Blockchain View</h2>
+      <div class="grid">
+        <div>
+          <div class="graph-wrap">
+            <div id="networkBlockchainFull"></div>
+            <div class="legend">
+              <span class="pill"><span class="dot v"></span> Validated block</span>
+              <span class="pill"><span class="dot p"></span> Pending block</span>
+              <span class="pill"><span class="dot r"></span> Rejected block</span>
+              <span class="pill"><span class="dot m"></span> Validator/Miner</span>
+              <span class="pill"><span class="dot mp"></span> Mempool (transactions)</span>
+            </div>
+            <div class="instructions">
+              💡 <strong>How to interact:</strong> scroll to zoom • drag to move • click a node to see details •
+              <em>double-click</em> to recenter.
+            </div>
+            <div id="details"></div>
+          </div>
+        </div>
+
+        <aside class="aside">
+          <h3>What you are seeing</h3>
+          <p>
+            A didactic model of <strong>BIOBlock</strong>: chained blocks by previous hash,
+            <em>mempool</em> with pending transactions, validators/miners,
+            and a short <em>fork</em> resolved by longest chain rule.
+          </p>
+          <ul>
+            <li><strong>Integrity:</strong> any alteration breaks the hash and is rejected.</li>
+            <li><strong>Transparency:</strong> real-time batch audit.</li>
+            <li><strong>Automation:</strong> smart contracts enforce rules between Matrix and MCFFPs.</li>
+            <li><strong>Traceability:</strong> from produced IBC to local bottling and logistics.</li>
+          </ul>
+
+          <h3 style="margin-top:14px">Applications in MDPS</h3>
+          <ul>
+            <li>Production records at the <em>Matrix Industry</em>.</li>
+            <li>Bottling/labeling at the <em>MCFFPs</em> with IoT readings attached.</li>
+            <li>Logistics reconciliation and returns (cold chain if applicable).</li>
+            <li>Operational security and compliance audit.</li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    © BIOCERR — BIOBlock • Digital Infrastructure • Security & Transparency by Design
+  </footer>
+
+  <script>
+    (function(){
+      const c = {
+        okBg:'#145a2f', okBd:'#74f2ce',
+        pendBg:'#7b4b12', pendBd:'#ffd28f',
+        rejBg:'#6b1d2b', rejBd:'#ffb3c9',
+        minerBg:'#2b3a3f', minerBd:'#9fbdb6',
+        poolBg:'#063a6b', poolBd:'#74f2ce',
+        txt:'#ffffff'
+      };
+
+      const nodes = new vis.DataSet([
+        { id:'mp', label:'Mempool\n(pending tx: 23)', shape:'box',
+          color:{ background:c.poolBg, border:c.poolBd }, font:{ color:c.txt } },
+
+        { id:'b0', label:'Block #0 (Genesis)\nprev: —\nhash: 0000…1a2b', shape:'box',
+          color:{ background:c.okBg, border:c.okBd }, font:{ color:c.txt } },
+        { id:'b1', label:'Block #1 – Production Matrix\nprev: 0000…1a2b\nhash: 0000…9c3d', shape:'box',
+          color:{ background:c.okBg, border:c.okBd }, font:{ color:c.txt } },
+        { id:'b2', label:'Block #2 – QA Matrix\nprev: 0000…9c3d\nhash: 0000…77ae', shape:'box',
+          color:{ background:c.okBg, border:c.okBd }, font:{ color:c.txt } },
+        { id:'b3', label:'Block #3 – Bottling MCFFP-07\nprev: 0000…77ae\nhash: 0000…d4f1', shape:'box',
+          color:{ background:c.okBg, border:c.okBd }, font:{ color:c.txt } },
+        { id:'b4', label:'Block #4 – Logistics\nprev: 0000…d4f1\nhash: 0000…88aa', shape:'box',
+          color:{ background:c.okBg, border:c.okBd }, font:{ color:c.txt } },
+        { id:'b5p', label:'Block #5 – Return (Pending)\nprev: 0000…88aa\nhash: ???', shape:'box',
+          color:{ background:c.pendBg, border:c.pendBd }, font:{ color:c.txt } },
+
+        { id:'f3', label:'Fork: Block #3ʼ (Rejected)\nprev: 0000…77ae\nhash: abcd…ee12', shape:'box',
+          color:{ background:c.rejBg, border:c.rejBd }, font:{ color:c.txt } },
+
+        { id:'m1', label:'Validator A', shape:'ellipse',
+          color:{ background:c.minerBg, border:c.minerBd }, font:{ color:c.txt } },
+        { id:'m2', label:'Validator B', shape:'ellipse',
+          color:{ background:c.minerBg, border:c.minerBd }, font:{ color:c.txt } },
+        { id:'m3', label:'Validator C', shape:'ellipse',
+          color:{ background:c.minerBg, border:c.minerBd }, font:{ color:c.txt } }
+      ]);
+
+      const edges = new vis.DataSet([
+        { from:'b0', to:'b1', arrows:'to', color:{ color:'#74f2ce' } },
+        { from:'b1', to:'b2', arrows:'to', color:{ color:'#74f2ce' } },
+        { from:'b2', to:'b3', arrows:'to', color:{ color:'#74f2ce' } },
+        { from:'b3', to:'b4', arrows:'to', color:{ color:'#74f2ce' } },
+        { from:'b4', to:'b5p', arrows:'to', color:{ color:'#ffd28f' } },
+
+        { from:'mp', to:'b5p', dashes:true, arrows:'to', color:{ color:'#ffd28f' } },
+        { from:'b2', to:'f3', arrows:'to', color:{ color:'#ff9fb3' } },
+
+        { from:'m1', to:'b5p', arrows:'to', dashes:true, color:{ color:'#9fbdb6' } },
+        { from:'m2', to:'b5p', arrows:'to', dashes:true, color:{ color:'#9fbdb6' } },
+        { from:'m3', to:'b5p', arrows:'to', dashes:true, color:{ color:'#9fbdb6' } }
+      ]);
+
+      const options = {
+        physics:{ enabled:true, stabilization:{ iterations:260 } },
+        interaction:{ hover:true, zoomView:true, tooltipDelay:100 },
+        nodes:{ borderWidth:2, shadow:true, font:{ size:14 } },
+        edges:{ arrows:{ to:{ enabled:true, scaleFactor:1.15 } } }
+      };
+
+      const container = document.getElementById('networkBlockchainFull');
+      const network = new vis.Network(container, { nodes, edges }, options);
+
+      const meta = {
+        'mp':  { t:'Mempool (Pending Transactions)', d:'Pool of transactions not yet included in a block. Queue rules and fees define order of inclusion.' },
+        'b0':  { t:'Genesis Block', d:'First block of the chain. Defines initial parameters and anchors trust for the entire BIOBlock.' },
+        'b1':  { t:'Block #1 – Production (Matrix)', d:'Records IBC production: batch, timestamp, ID, QA attestations, and digital signature of the Matrix Industry.' },
+        'b2':  { t:'Block #2 – QA (Matrix)', d:'Audits, samples, calibrations. Ensures quality of the base input before sending to MEFFPs.' },
+        'b3':  { t:'Block #3 – Bottling (MCFFP-07)', d:'Process parameters, responsible operator, IoT readings (temperature/pressure/flow), and label photos.' },
+        'b4':  { t:'Block #4 – Logistics', d:'Dispatch, tracking, cold chain if applicable, checkpoints, and delivery acceptance.' },
+        'b5p': { t:'Block #5 – Return (Pending)', d:'Return/adjustment data under analysis. Awaiting validator consensus to seal final hash.' },
+        'f3':  { t:'Fork – Alternate Block (Rejected)', d:'Short branch created after #2. Overcome by the main chain (#3 → #4), therefore invalid.' },
+        'm1':  { t:'Validator A', d:'Participates in consensus by verifying blocks and signatures. Applies policy and sanity rules.' },
+        'm2':  { t:'Validator B', d:'Checks integrity and adherence to protocol. Helps reject inconsistent forks or off-policy data.' },
+        'm3':  { t:'Validator C', d:'Works to include pending block from mempool, closing the hash with proof of validity.' }
+      };
+
+      function showDetails(id){
+        const d = meta[id]; if(!d) return;
+        const panel = document.getElementById('details');
+        panel.innerHTML = `<h4>${d.t}</h4><p>${d.d}</p><button class="close-btn" onclick="(function(p){p.style.display='none'; p.innerHTML='' })(document.getElementById('details'))">Close</button>`;
+        panel.style.display = 'block';
+      }
+      network.on('click', ev => { if(ev.nodes.length) showDetails(ev.nodes[0]); });
+      network.on('doubleClick', () => network.fit({ animation:{ duration:450 } }));
+    })();
+  </script>
+</body>
+</html>

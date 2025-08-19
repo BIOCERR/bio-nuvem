@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>IoT_Panel_GAIA</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="dark" />
+  <style>
+    :root{
+      --bg-0: #000;
+      --ink: #eaf8f3;
+      --brand: #74f2ce;
+      --brand-2: #2de0c1;
+    }
+    body{
+      margin:0; color:var(--ink);
+      background: radial-gradient(1000px 700px at 70% -10%, rgba(45,224,193,0.08), transparent 40%),
+                  radial-gradient(1000px 700px at 10% 10%, rgba(116,242,206,0.06), transparent 40%),
+                  linear-gradient(180deg, #0a0f0f 0%, #000 40%, #000 100%);
+      font-family:"Segoe UI",system-ui; line-height:1.55;
+      padding:28px 18px 60px;
+    }
+    .topbar{max-width:1100px;margin:0 auto 10px;}
+    .topbar a{
+      text-decoration:none; color:var(--brand);
+      border:1px solid rgba(116,242,206,0.6);
+      padding:8px 14px; border-radius:999px; font-weight:600; font-size:.95rem;
+      background: rgba(0,0,0,.35);
+      transition:.25s ease;
+    }
+    .topbar a:hover{ box-shadow:0 0 12px rgba(116,242,206,.45); background:rgba(116,242,206,.10); }
+    header{text-align:center;max-width:1100px;margin:8px auto 22px;}
+    h1{font-size:2rem;text-shadow:0 0 15px var(--brand),0 0 28px var(--brand-2);}
+    .subtitle{color:#cfeee6;max-width:900px;margin:0 auto;}
+    .wrap{max-width:1100px;margin:22px auto;}
+    .panel{background:rgba(255,255,255,0.03);border:1px solid rgba(116,242,206,0.1);border-radius:14px;padding:16px;}
+    .grid{display:grid;grid-template-columns:1.2fr .8fr;gap:18px;}
+    @media(max-width:980px){.grid{grid-template-columns:1fr;}}
+    .graph-wrap{padding:12px;border-radius:12px;background:rgba(255,255,255,0.02);}
+    #networkIoT{width:100%;height:520px;}
+    .legend{margin-top:10px;font-size:.9rem;color:#cfeee6;}
+    .aside{background:rgba(255,255,255,0.02);padding:12px;border-radius:12px;}
+    .aside h3{color:var(--brand);}
+    #details{display:none;margin-top:12px;background:rgba(255,255,255,0.03);border-left:3px solid var(--brand);padding:14px;}
+    #details h4{margin:0 0 6px;color:var(--brand);}
+    .close-btn{margin-top:8px;background:transparent;color:var(--brand);border:1px solid rgba(116,242,206,0.25);padding:6px 10px;border-radius:8px;cursor:pointer;}
+    footer{text-align:center;margin-top:20px;color:#cfeee6;}
+  </style>
+  <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+</head>
+<body>
+
+<nav class="topbar">
+  <a href="infraestrutura_digital_en.html"
+     onclick="event.preventDefault(); if(document.referrer){history.back()} else {window.location.href='infraestrutura_digital_en.html'}">
+    ← Back
+  </a>
+</nav>
+
+<header>
+  <h1>IoT – BIOCERR</h1>
+  <p class="subtitle">Connecting smart sensors to the Matrix Industry and MCFFPs for continuous monitoring and optimization within the <strong>MDPS</strong>.</p>
+</header>
+
+<main class="wrap">
+  <section class="panel">
+    <h2>Interactive IoT Network</h2>
+    <div class="grid">
+      <div>
+        <div class="graph-wrap">
+          <div id="networkIoT"></div>
+          <div class="legend">
+            💡 <em>Click sensors for details. Drag to move, scroll to zoom.</em>
+          </div>
+          <div id="details"></div>
+        </div>
+      </div>
+      <aside class="aside">
+        <h3>What you are seeing</h3>
+        <p>
+          A network of IoT sensors connected to the BIOCERR system:
+        </p>
+        <ul>
+          <li><strong>Environmental sensors</strong> monitor pH, temperature, and water quality.</li>
+          <li><strong>Process sensors</strong> track flow, mixing, and energy consumption.</li>
+          <li><strong>Matrix Industry</strong> centralizes and validates data.</li>
+          <li><strong>MCFFPs</strong> receive real-time data for local adjustments.</li>
+          <li><strong>Cloud connection</strong> enables advanced analysis and integration with Big Data.</li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+</main>
+
+<footer>© BIOCERR — Internet of Things for MDPS</footer>
+
+<script>
+(function(){
+  const nodes = new vis.DataSet([
+    { id:'ph', label:'pH Sensor', shape:'dot', color:{background:'#1e81b0', border:'#74f2ce'}, font:{color:'#fff'} },
+    { id:'temp', label:'Temperature Sensor', shape:'dot', color:{background:'#b05f1e', border:'#ffd28f'}, font:{color:'#fff'} },
+    { id:'flow', label:'Flow Sensor', shape:'dot', color:{background:'#6b1e5f', border:'#ffb3c9'}, font:{color:'#fff'} },
+    { id:'energy', label:'Energy Sensor', shape:'dot', color:{background:'#145a2f', border:'#74f2ce'}, font:{color:'#fff'} },
+    { id:'matrix', label:'Matrix Industry', shape:'box', color:{background:'#2e4a62', border:'#74f2ce'}, font:{color:'#fff'} },
+    { id:'mcffp', label:'MCFFPs', shape:'box', color:{background:'#7b4b12', border:'#ffd28f'}, font:{color:'#fff'} },
+    { id:'cloud', label:'Analytics Cloud', shape:'database', color:{background:'#2b3a3f', border:'#9fbdb6'}, font:{color:'#fff'} }
+  ]);
+
+  const edges = new vis.DataSet([
+    { from:'ph', to:'matrix', arrows:'to', color:{color:'#74f2ce'} },
+    { from:'temp', to:'matrix', arrows:'to', color:{color:'#ffd28f'} },
+    { from:'flow', to:'matrix', arrows:'to', color:{color:'#ffb3c9'} },
+    { from:'energy', to:'matrix', arrows:'to', color:{color:'#74f2ce'} },
+    { from:'matrix', to:'mcffp', arrows:'to', color:{color:'#ffd28f'} },
+    { from:'matrix', to:'cloud', arrows:'to', color:{color:'#74f2ce'} },
+    { from:'mcffp', to:'cloud', arrows:'to', color:{color:'#ffd28f'} }
+  ]);
+
+  const container = document.getElementById('networkIoT');
+  const network = new vis.Network(container, { nodes, edges }, {
+    physics:{ enabled:true, stabilization:{ iterations:250 } },
+    nodes:{ borderWidth:2, shadow:true, font:{ size:14 } }
+  });
+
+  const meta = {
+    'ph': { t:'pH Sensor', d:'Monitors acidity and alkalinity of water or solution during processes.' },
+    'temp': { t:'Temperature Sensor', d:'Records real-time thermal variations for energy optimization.' },
+    'flow': { t:'Flow Sensor', d:'Measures volume of liquids or gases transported within the MDPS.' },
+    'energy': { t:'Energy Sensor', d:'Tracks power consumption and identifies efficiency patterns.' },
+    'matrix': { t:'Matrix Industry', d:'Receives and consolidates data from sensors before distribution.' },
+    'mcffp': { t:'MCFFPs', d:'Mini centrals that receive data and adjust local processes in real time.' },
+    'cloud': { t:'Analytics Cloud', d:'Stores and processes IoT data at scale, integrating with Big Data.' }
+  };
+
+  function showDetails(id){
+    const d = meta[id]; if(!d) return;
+    const panel = document.getElementById('details');
+    panel.innerHTML = `<h4>${d.t}</h4><p>${d.d}</p><button class="close-btn" onclick="(function(p){p.style.display='none';p.innerHTML=''})(document.getElementById('details'))">Close</button>`;
+    panel.style.display='block';
+  }
+  network.on('click', ev => { if(ev.nodes.length) showDetails(ev.nodes[0]); });
+})();
+</script>
+
+</body>
+</html>

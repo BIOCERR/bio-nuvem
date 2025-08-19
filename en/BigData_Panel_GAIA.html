@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>BigData_Panel_GAIA</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="dark" />
+  <style>
+    :root{
+      --bg-0: #000;
+      --ink: #eaf8f3;
+      --brand: #74f2ce;
+      --brand-2: #2de0c1;
+    }
+    body{
+      margin:0; color:var(--ink);
+      background: radial-gradient(1000px 700px at 70% -10%, rgba(45,224,193,0.08), transparent 40%),
+                  radial-gradient(1000px 700px at 10% 10%, rgba(116,242,206,0.06), transparent 40%),
+                  linear-gradient(180deg, #0a0f0f 0%, #000 40%, #000 100%);
+      font-family:"Segoe UI",system-ui; line-height:1.55;
+      padding:28px 18px 60px;
+    }
+    .topbar{max-width:1100px;margin:0 auto 10px;}
+    .topbar a{
+      text-decoration:none; color:var(--brand);
+      border:1px solid rgba(116,242,206,0.6);
+      padding:8px 14px; border-radius:999px; font-weight:600; font-size:.95rem;
+      background: rgba(0,0,0,.35);
+      transition:.25s ease;
+    }
+    .topbar a:hover{ box-shadow:0 0 12px rgba(116,242,206,.45); background:rgba(116,242,206,.10); }
+    header{text-align:center;max-width:1100px;margin:8px auto 22px;}
+    h1{font-size:2rem;text-shadow:0 0 15px var(--brand),0 0 28px var(--brand-2);}
+    .subtitle{color:#cfeee6;max-width:900px;margin:0 auto;}
+    .wrap{max-width:1100px;margin:22px auto;}
+    .panel{background:rgba(255,255,255,0.03);border:1px solid rgba(116,242,206,0.1);border-radius:14px;padding:16px;}
+    .grid{display:grid;grid-template-columns:1.2fr .8fr;gap:18px;}
+    @media(max-width:980px){.grid{grid-template-columns:1fr;}}
+    .graph-wrap{padding:12px;border-radius:12px;background:rgba(255,255,255,0.02);}
+    #networkBigData{width:100%;height:520px;}
+    .legend{margin-top:10px;font-size:.9rem;color:#cfeee6;}
+    .aside{background:rgba(255,255,255,0.02);padding:12px;border-radius:12px;}
+    .aside h3{color:var(--brand);}
+    #details{display:none;margin-top:12px;background:rgba(255,255,255,0.03);border-left:3px solid var(--brand);padding:14px;}
+    #details h4{margin:0 0 6px;color:var(--brand);}
+    .close-btn{margin-top:8px;background:transparent;color:var(--brand);border:1px solid rgba(116,242,206,0.25);padding:6px 10px;border-radius:8px;cursor:pointer;}
+    footer{text-align:center;margin-top:20px;color:#cfeee6;}
+  </style>
+  <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+</head>
+<body>
+
+<nav class="topbar">
+  <a href="infraestrutura_digital_en.html"
+     onclick="event.preventDefault(); if(document.referrer){history.back()} else {window.location.href='infraestrutura_digital_en.html'}">
+    ← Back
+  </a>
+</nav>
+
+<header>
+  <h1>Big Data – BIOCERR</h1>
+  <p class="subtitle">Integration of data from IoT sensors, Matrix Industry, and MCFFPs to drive intelligence, optimization, and predictive actions in the <strong>MDPS</strong>.</p>
+</header>
+
+<main class="wrap">
+  <section class="panel">
+    <h2>Interactive Big Data Flow</h2>
+    <div class="grid">
+      <div>
+        <div class="graph-wrap">
+          <div id="networkBigData"></div>
+          <div class="legend">
+            💡 <em>Click nodes to explore details. Drag to move, scroll to zoom.</em>
+          </div>
+          <div id="details"></div>
+        </div>
+      </div>
+      <aside class="aside">
+        <h3>What you are seeing</h3>
+        <p>
+          A simplified flow of Big Data within the BIOCERR ecosystem:
+        </p>
+        <ul>
+          <li><strong>IoT sensors</strong> capture environmental and operational data.</li>
+          <li><strong>Matrix Industry</strong> aggregates and validates information.</li>
+          <li><strong>MCFFPs</strong> contribute bottling and local process data.</li>
+          <li><strong>Analytics Cloud</strong> processes and applies machine learning.</li>
+          <li><strong>AI Insights</strong> generate optimization and predictive models.</li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+</main>
+
+<footer>© BIOCERR — Big Data Infrastructure for MDPS</footer>
+
+<script>
+(function(){
+  const nodes = new vis.DataSet([
+    { id:'iot', label:'IoT Sensors\n(temperature, flow, pH, energy)', shape:'ellipse', color:{background:'#063a6b', border:'#74f2ce'}, font:{color:'#fff'} },
+    { id:'matrix', label:'Matrix Industry\n(data aggregation)', shape:'box', color:{background:'#145a2f', border:'#74f2ce'}, font:{color:'#fff'} },
+    { id:'mcffp', label:'MCFFPs\n(local process data)', shape:'box', color:{background:'#7b4b12', border:'#ffd28f'}, font:{color:'#fff'} },
+    { id:'cloud', label:'Analytics Cloud\n(storage + ML)', shape:'database', color:{background:'#2b3a3f', border:'#9fbdb6'}, font:{color:'#fff'} },
+    { id:'ai', label:'AI Insights\n(predictive models)', shape:'diamond', color:{background:'#6b1d2b', border:'#ffb3c9'}, font:{color:'#fff'} }
+  ]);
+
+  const edges = new vis.DataSet([
+    { from:'iot', to:'matrix', arrows:'to', color:{color:'#74f2ce'} },
+    { from:'matrix', to:'mcffp', arrows:'to', color:{color:'#ffd28f'} },
+    { from:'matrix', to:'cloud', arrows:'to', color:{color:'#74f2ce'} },
+    { from:'mcffp', to:'cloud', arrows:'to', color:{color:'#ffd28f'} },
+    { from:'cloud', to:'ai', arrows:'to', color:{color:'#ffb3c9'} },
+    { from:'ai', to:'matrix', arrows:'to', dashes:true, color:{color:'#74f2ce'} }
+  ]);
+
+  const container = document.getElementById('networkBigData');
+  const network = new vis.Network(container, { nodes, edges }, {
+    physics:{ enabled:true, stabilization:{ iterations:250 } },
+    nodes:{ borderWidth:2, shadow:true, font:{ size:14 } }
+  });
+
+  const meta = {
+    'iot': { t:'IoT Sensors', d:'Collects data from distributed sensors (temperature, pH, conductivity, energy, logistics).' },
+    'matrix': { t:'Matrix Industry', d:'Aggregates, validates, and stores raw data before sharing with MCFFPs and cloud.' },
+    'mcffp': { t:'MCFFPs', d:'Mini centrals send bottling, labeling, and local operational data with IoT support.' },
+    'cloud': { t:'Analytics Cloud', d:'Stores large-scale data and applies machine learning for insights and anomaly detection.' },
+    'ai': { t:'AI Insights', d:'Transforms raw data into predictions, optimizations, and decision support for MDPS.' }
+  };
+
+  function showDetails(id){
+    const d = meta[id]; if(!d) return;
+    const panel = document.getElementById('details');
+    panel.innerHTML = `<h4>${d.t}</h4><p>${d.d}</p><button class="close-btn" onclick="(function(p){p.style.display='none';p.innerHTML=''})(document.getElementById('details'))">Close</button>`;
+    panel.style.display='block';
+  }
+  network.on('click', ev => { if(ev.nodes.length) showDetails(ev.nodes[0]); });
+})();
+</script>
+
+</body>
+</html>
