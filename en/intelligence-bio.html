@@ -55,12 +55,45 @@
       margin: 40px 0;
     }
 
-    .image-container img {
-      width: 35%;
-      max-width: 420px;
+    .gif-wrapper {
+      width: 350px;
+      height: 350px;
+      border-radius: 50%;
       border: 2px solid #74f2ce;
-      border-radius: 10px;
-      box-shadow: 0 0 15px #2de0c1;
+      overflow: hidden;
+      margin: 0 auto;
+      box-shadow: 0 0 25px #2de0c1, 0 0 45px #74f2ce;
+    }
+
+    .gif-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Responsiveness */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2.2em;
+      }
+      .content {
+        font-size: 1em;
+        padding: 0 15px;
+      }
+      .gif-wrapper {
+        width: 250px;
+        height: 250px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 1.8em;
+      }
+      .gif-wrapper {
+        width: 200px;
+        height: 200px;
+      }
     }
 
     .mist {
@@ -77,18 +110,18 @@
 <body>
 
   <div class="top-bar">
-    <a href="../en/bio_cloud.html">⬅️ Back to BIO Cloud</a>
+    <a href="bio_cloud.html">⬅️ Back to BIO Cloud</a>
   </div>
 
   <h1>BIO Intelligence</h1>
 
   <div class="content">
     <p>
-      <strong>BIO Intelligence</strong> is the sensitive, distributed brain of the BIOCERR architecture. Far beyond automation, it learns from the territory, listens to local knowledge, and integrates ecological, social, and economic data to guide real-time regenerative decisions.
+      <strong>BIO Intelligence</strong> is the sensitive and distributed brain of the BIOCERR architecture. Beyond automation, it learns from territories, listens to local knowledge, and integrates ecological, social, and economic data to guide regenerative decisions in real time.
     </p>
 
     <p>
-      Acting as an interface between communities, ecosystems, and technologies, BIO observes patterns, identifies cooperation opportunities, and feeds the system back with living knowledge. It fosters dialogue between the ancestral and the emergent, the digital and the organic.
+      Acting as an interface between communities, ecosystems, and technologies, BIO observes patterns, identifies opportunities for cooperation, and feeds the system with living knowledge. It promotes dialogue between the ancestral and the emerging, between the digital and the organic.
     </p>
 
     <p>
@@ -96,15 +129,17 @@
     </p>
 
     <p>
-      Its function is not to centralize, but to distribute intelligence. At each node in the network, BIO strengthens local autonomy and wisdom, respecting the uniqueness of each biome and culture.
+      Its function is not to centralize, but to distribute intelligence. At each node of the network, BIO strengthens autonomy and local wisdom, respecting the uniqueness of every biome and culture.
     </p>
 
     <p>
-      In practice, it manifests through transparent algorithms, accessible interfaces, intuitive visualizations, and decisions that consider collective well-being and ecological balance. Intelligence is relational, territorial, and regenerative.
+      In practice, it manifests through transparent algorithms, accessible interfaces, intuitive visualizations, and decisions that consider collective well-being and ecological balance. Intelligence here is relational, territorial, and regenerative.
     </p>
 
     <div class="image-container">
-      <img src="mandala ingles 2.png" alt="Representation of BIO Intelligence">
+      <div class="gif-wrapper">
+        <img src="mandala ingles 2.gif" alt="BIO Intelligence Representation">
+      </div>
     </div>
   </div>
 
