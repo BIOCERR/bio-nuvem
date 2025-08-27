@@ -55,12 +55,45 @@
       margin: 40px 0;
     }
 
-    .image-container img {
-      width: 35%;
-      max-width: 420px;
+    .gif-wrapper {
+      width: 350px;
+      height: 350px;
+      border-radius: 50%;
       border: 2px solid #74f2ce;
-      border-radius: 10px;
-      box-shadow: 0 0 15px #2de0c1;
+      overflow: hidden; /* corta qualquer sobra do gif */
+      margin: 0 auto;
+      box-shadow: 0 0 25px #2de0c1, 0 0 45px #74f2ce;
+    }
+
+    .gif-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover; /* força preenchimento total */
+    }
+
+    /* Responsividade */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2.2em;
+      }
+      .content {
+        font-size: 1em;
+        padding: 0 15px;
+      }
+      .gif-wrapper {
+        width: 250px;
+        height: 250px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 1.8em;
+      }
+      .gif-wrapper {
+        width: 200px;
+        height: 200px;
+      }
     }
 
     .mist {
@@ -104,7 +137,9 @@
     </p>
 
     <div class="image-container">
-      <img src="mandala 2.png" alt="Representação da Inteligência BIO">
+      <div class="gif-wrapper">
+        <img src="mandala 2.gif" alt="Representação da Inteligência BIO">
+      </div>
     </div>
   </div>
 
