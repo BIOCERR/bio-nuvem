@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <title>Fluxograma Expandido – BIOCERR</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    /* ——— Estilo base no seu tema ——— */
+    :root{
+      --teal:#74f2ce;
+      --teal-soft:#2de0c1;
+      --ink:#0a0a0a;
+      --bg1:#000;
+      --bg2:#1a1a1a;
+      --glass: rgba(116,242,206,0.08);
+    }
+    html,body{
+      margin:0; padding:0; min-height:100%;
+      background: radial-gradient(circle at center, var(--bg2) 0%, var(--bg1) 100%);
+      color:#fff; font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    }
+    .top-bar{
+      position: absolute; top: 18px; left: 18px; z-index: 10;
+    }
+    .top-bar a{
+      text-decoration:none; color: var(--teal); font-weight:600; font-size: 0.95rem;
+      border:1px solid var(--teal); padding:8px 14px; border-radius:20px;
+      transition:.25s; background: rgba(0,0,0,.35)
+    }
+    .top-bar a:hover{ background: rgba(116,242,206,.12); box-shadow:0 0 10px var(--teal); }
+
+    h1{
+      text-align:center; margin:70px 16px 8px;
+      font-size: clamp(1.8rem, 2.2vw + 1rem, 3rem);
+      text-shadow: 0 0 15px var(--teal), 0 0 25px var(--teal);
+      filter: drop-shadow(0 0 5px var(--teal-soft));
+    }
+    p.subtitle{
+      text-align:justify; margin:0 16px 24px; opacity:.95; max-width:1000px; margin-inline:auto;
+      font-size: clamp(0.95rem, .4vw + .7rem, 1.05rem);
+      line-height:1.5;
+    }
+
+    .wrap{ max-width: 1100px; margin: 20px auto 60px; padding: 0 12px; }
+    .panel{
+      border:1px solid rgba(116,242,206,.15);
+      border-radius:14px; padding: 16px;
+      background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
+      box-shadow: 0 6px 22px rgba(0,0,0,.55);
+    }
+    .legend{
+      display:flex; gap:12px; flex-wrap:wrap; justify-content:center; margin:12px 0 16px;
+      font-size:.95rem; color:#cfeee6;
+    }
+    .chip{ display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px;
+      border:1px solid rgba(116,242,206,.3); background: rgba(116,242,206,.06); }
+    .dot{ inline-size:12px; block-size:12px; border-radius:50%; display:inline-block; }
+
+    /* ——— Estilos de nós/arestas no SVG ——— */
+    svg{ width:100%; height:auto; display:block; }
+    .node rect, .node circle{
+      stroke: var(--teal); stroke-width: 2px; fill: rgba(10,10,10,.65);
+      filter: drop-shadow(0 0 6px rgba(45,224,193,.55));
+    }
+    .node text{ fill:#fff; font-size:14px; font-weight:600; }
+    .node .small{ font-size:12px; font-weight:500; opacity:.9; }
+    .core circle{ fill:#083e36; }
+    .core text{ font-size:16px; }
+    .soft{ stroke: #ffd28f; }
+    .market{ stroke: #ff9fb3; }
+    .gov{ stroke: #9fbdb6; }
+    .iot{ stroke: #d8a8ff; }
+
+    .edge{
+      stroke: var(--teal); stroke-width: 2; fill:none; marker-end: url(#arrow);
+      filter: drop-shadow(0 0 4px rgba(45,224,193,.55));
+      stroke-dasharray: 6 6; animation: flow 7s linear infinite;
+    }
+    .edge.soft{ stroke:#ffd28f; }
+    .edge.market{ stroke:#ff9fb3; }
+    .edge.gov{ stroke:#9fbdb6; }
+    .edge.iot{ stroke:#d8a8ff; }
+    @keyframes flow{ to{ stroke-dashoffset: -120; } }
+
+    /* Pequenas melhorias de acessibilidade visual */
+    .panel h3{ margin:10px 0 6px; color:var(--teal); font-size:1.05rem; }
+    .panel ul{ margin:8px 0 12px 20px; color:#e6f7f1; }
+    .panel li{ margin:6px 0; line-height:1.45; }
+
+    /* Responsividade */
+    @media (max-width: 720px){
+      .legend{ font-size:.9rem; }
+      .node text{ font-size:12px; }
+      .node .small{ font-size:11px; }
+      h1{ margin-top:40px; font-size:1.6rem; }
+      .wrap{ padding-bottom: 40px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="top-bar">
+    <a href="nuvem_bio.html">⬅️ Voltar para Nuvem BIO</a>
+  </div>
+
+  <h1>Fluxograma Expandido – BIOCERR</h1>
+  <p class="subtitle">Mapa artístico das interações entre <strong>BIO</strong>, Indústria Matriz, MCEFPs, Nuvem GAIA e módulos digitais (Blockchain, Big Data, IoT), com Governança e Mercado.</p>
+
+  <div class="wrap">
+    <div class="panel">
+      <p class="subtitle"><strong>O Fluxograma Expandido do MVP Ampliado</strong> descreve a arquitetura sistêmica e as rotas de informação, material e decisão que compõem a operação completa da BIOCERR. Este diagrama detalha cada etapa — desde a síntese dos concentrados na Indústria Matriz até a entrega dos produtos finais e o aprendizado contínuo que alimenta toda a rede.</p>
+
+      <p class="subtitle">Abaixo segue uma leitura orientadora dos principais blocos representados no fluxograma e a lógica de integração entre eles. Use este texto como legenda ampliada ao fluxograma para guiar investidores, parceiros e equipes técnicas.</p>
+
+      <h3>1. Indústria Matriz — Fonte e Síntese</h3>
+      <p class="subtitle">A Indústria Matriz sintetiza os concentrados-base (matrizes técnicas) em lotes controlados e documentados. Esses concentrados são formulados para alto rendimento e estabilidade, embalados em IBCs retornáveis e etiquetados com metadados (lote, data, assinatura digital). A Indústria Matriz também contém módulos de qualidade (QA/QC), gestão de formulações e orquestração de envios.</p>
+
+      <h3>2. Logística Inteligente e Distribuição</h3>
+      <p class="subtitle">A distribuição é gerida por um subsistema logístico otimizado: roteirização baseada em demanda, otimização de cargas, e rastreabilidade fim-a-fim. Cada remessa incorpora trilhas de auditabilidade (blockchain) e telemetria (sensores de temperatura, localização e integridade), garantindo segurança, eficiência e transparência.</p>
+
+      <h3>3. MCFFP / MCEFP — Pontos de Finalização Descentralizados</h3>
+      <p class="subtitle">As Mini Centrais de Finalização e Envasamento (MCFFPs / MCEFPs) são unidades locais que recebem os IBCs, pré-processam quando necessário, diluem e personalizam os produtos conforme demanda local e políticas de sustentabilidade. São projetadas para operação com baixa pegada ambiental, reutilização de embalagens e autonomia operativa.</p>
+
+      <h3>4. Operador Humano + BIO — Parceria em Tempo Real</h3>
+      <p class="subtitle">Em cada MCFFP, o operador humano trabalha em cooperação com a BIO. A BIO fornece:</p>
+      <ul>
+        <li>Instruções passo-a-passo e alertas de qualidade;</li>
+        <li>Personalização de formulações com base em perfis locais;</li>
+        <li>Recomendações regenerativas (redução de emissões, uso eficiente de água, práticas de economia circular).</li>
+      </ul>
+
+      <h3>5. Sensoriamento & IoT</h3>
+      <p class="subtitle">Sensores embarcados (IoT) em plantas, veículos e embalagens coletam dados ambientais e operacionais: temperatura, vibração, consumo de insumos, leituras de processo e indicadores de uso. Esses sinais alimentam pipelines de Big Data em tempo real.</p>
+
+      <h3>6. Big Data, Processamento e Dashboards GAIA</h3>
+      <p class="subtitle">Os dados convergem para pipelines de processamento (stream e batch) que executam limpeza, enriquecimento e análise. Modelos de ML detectam anomalias, preveem demanda e geram insights operacionais exibidos em Dashboards GAIA para operadores, gestores e governança.</p>
+
+      <h3>7. Controle de Qualidade & Registro Imutável</h3>
+      <p class="subtitle">Cada etapa crítica gera registros assinados digitalmente. Registros imutáveis (blockchain interno) permitem auditoria e garantem rastreabilidade desde a síntese até o consumidor final, protegendo propriedade intelectual e conformidade regulatória.</p>
+
+      <h3>8. Fluxo de Feedback e Aprendizado</h3>
+      <p class="subtitle">Informações de uso, desempenho e impacto territorial retornam à Indústria Matriz e ao núcleo de pesquisa. Esse ciclo fechado permite ajustes nas formulações, atualização de protocolos e evolução do modelo de negócios — tudo alinhado com indicadores sistêmicos e objetivos regenerativos.</p>
+
+      <h3>9. Governança, Ética e Participação</h3>
+      <p class="subtitle">Governança distribuída assegura participação local por meio de conselhos regionais (Governança BIO), políticas de acesso a dados, e princípios de privacidade e consentimento. A ética operacional entende o território como co-autor das decisões.</p>
+
+      <h3>10. Impacto Sistêmico</h3>
+      <p class="subtitle">O modelo promove:</p>
+      <ul>
+        <li>Redução das emissões logísticas;</li>
+        <li>Economia circular de embalagens;</li>
+        <li>Geração de renda e capacitação local;</li>
+        <li>Resiliência produtiva frente a rupturas de cadeia centralizada.</li>
+      </ul>
+
+      <p class="subtitle">Em síntese, o Fluxograma Expandido representa uma rede viva: não um fluxo linear de comando, mas um ecossistema integrado onde cada nó (técnico, humano e institucional) participa do cuidado, da produção e da inteligência coletiva. Use este texto como guia para acompanhar o fluxograma e orientar quem visita a página: ele traduz a lógica técnica em propósito, valor e operação.</p>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="panel">
+      <!-- LEGENDA -->
+      <div class="legend" aria-hidden="true">
+        <span class="chip"><span class="dot" style="background:#74f2ce"></span> Fluxo Operacional</span>
+        <span class="chip"><span class="dot" style="background:#ffd28f"></span> Interação Operador/Qualidade</span>
+        <span class="chip"><span class="dot" style="background:#ff9fb3"></span> Entrega / Mercado</span>
+        <span class="chip"><span class="dot" style="background:#9fbdb6"></span> Governança / Compliance</span>
+        <span class="chip"><span class="dot" style="background:#d8a8ff"></span> Telemetria IoT</span>
+      </div>
+
+      <!-- DIAGRAMA (viewBox para responsividade) -->
+      <svg viewBox="0 0 1100 720" role="img" aria-label="Fluxograma expandido da BIOCERR">
+        <!-- Defs: seta -->
+        <defs>
+          <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+            <path d="M0,0 L10,5 L0,10 z" fill="#74f2ce"></path>
+          </marker>
+        </defs>
+
+        <!-- Núcleo BIO -->
+        <g class="node core" transform="translate(520,320)">
+          <circle r="70"></circle>
+          <text text-anchor="middle" y="-6">IA BIO</text>
+          <text class="small" text-anchor="middle" y="14">Orquestração & Sinais</text>
+          <title>IA BIO – Inteligência central da rede, recomendações, simulações e ajuste fino do sistema.</title>
+        </g>
+
+        <!-- Indústria Matriz -->
+        <g class="node" transform="translate(200,150)">
+          <rect x="-120" y="-35" width="240" height="70" rx="12"></rect>
+          <text text-anchor="middle" y="-4">Indústria Matriz</text>
+          <text class="small" text-anchor="middle" y="16">Concentrados, QA, Expedição</text>
+          <title>Produção dos concentrados-base, controle de qualidade e expedição para a rede.</title>
+        </g>
+
+        <!-- MCEFPs -->
+        <g class="node" transform="translate(200,520)">
+          <rect x="-120" y="-35" width="240" height="70" rx="12"></rect>
+          <text text-anchor="middle" y="-4">MCEFPs</text>
+          <text class="small" text-anchor="middle" y="16">Envase & Finalização locais</text>
+          <title>Mini Centrais que personalizam e finalizam os lotes no território.</title>
+        </g>
+
+        <!-- Operadores -->
+        <g class="node soft" transform="translate(520,540)">
+          <rect x="-110" y="-35" width="220" height="70" rx="12"></rect>
+          <text text-anchor="middle" y="-4">Operadores</text>
+          <text class="small" text-anchor="middle" y="16">Execução por Lote / QC</text>
+          <title>Equipe local que opera MCEFPs, registra QC e interage com a BIO.</title>
+        </g>
+
+        <!-- Mercado -->
+        <g class="node market" transform="translate(900,540)">
+          <rect x="-110" y="-35" width="220" height="70" rx="12"></rect>
+          <text text-anchor="middle" y="-4">Mercado / Destino</text>
+          <text class="small" text-anchor="middle" y="16">Hospitais / Clientes</text>
+          <title>Entrega, feedback e demanda real retroalimentam os gêmeos digitais.</title>
+        </g>
+
+        <!-- Governança -->
+        <g class="node gov" transform="translate(900,110)">
+          <rect x="-120" y="-35" width="240" height="70" rx="12"></rect>
+          <text text-anchor="middle" y="-4">Governança BIO</text>
+          <text class="small" text-anchor="middle" y="16">Políticas, Ética, Auditoria</text>
+          <title>Define limites, valida mudanças e acompanha indicadores sistêmicos.</title>
+        </g>
+
+        <!-- Nuvem GAIA -->
+        <g class="node" transform="translate(520,120)">
+          <rect x="-130" y="-35" width="260" height="70" rx="12"></rect>
+          <text text-anchor="middle" y="-4">Nuvem GAIA</text>
+          <text class="small" text-anchor="middle" y="16">Orquestração & Painéis</text>
+          <title>Hospeda serviços, integra dados e expõe dashboards e APIs.</title>
+        </g>
+
+        <!-- Blockchain -->
+        <g class="node" transform="translate(120,330)">
+          <rect x="-105" y="-35" width="210" height="70" rx="12"></rect>
+          <text text-anchor="middle" y="-4">BIOBlock (Blockchain)</text>
+          <text class="small" text-anchor="middle" y="16">Rastreabilidade / Auditoria</text>
+          <title>Registros imutáveis de produção, envase e logística.</title>
+        </g>
+
+        <!-- Big Data -->
+        <g class="node" transform="translate(520,220)">
+          <rect x="-105" y="-30" width="210" height="60" rx="12"></rect>
+          <text text-anchor="middle" y="-4">Big Data</text>
+          <text class="small" text-anchor="middle" y="16">Lakes / Streaming / ML</text>
+          <title>Coleta massiva, processamento em tempo real e modelos preditivos.</title>
+        </g>
+
+        <!-- IoT -->
+        <g class="node iot" transform="translate(520,430)">
+          <rect x="-105" y="-30" width="210" height="60" rx="12"></rect>
+          <text text-anchor="middle" y="-4">BIO-IoT</text>
+          <text class="small" text-anchor="middle" y="16">Sensores / Edge</text>
+          <title>Telemetria das MCEFPs, gateways e lógica no edge.</title>
+        </g>
+
+        <!-- Gêmeos Digitais -->
+        <g class="node" transform="translate(900,320)">
+          <rect x="-115" y="-35" width="230" height="70" rx="12"></rect>
+          <text text-anchor="middle" y="-4">Gêmeos Digitais</text>
+          <text class="small" text-anchor="middle" y="16">Simulação / Cenários</text>
+          <title>Espelhos vivos para prever, otimizar e aprender com a operação.</title>
+        </g>
+
+        <!-- Painéis GAIA -->
+        <g class="node" transform="translate(740,200)">
+          <rect x="-115" y="-30" width="230" height="60" rx="12"></rect>
+          <text text-anchor="middle" y="-4">Painéis GAIA</text>
+          <text class="small" text-anchor="middle" y="16">KPIs / Indicadores</text>
+          <title>Dashboards operacionais e sistêmicos para decisão.</title>
+        </g>
+
+        <!-- Suporte -->
+        <g class="node" transform="translate(740,440)">
+          <rect x="-115" y="-30" width="230" height="60" rx="12"></rect>
+          <text text-anchor="middle" y="-4">Suporte BIO</text>
+          <text class="small" text-anchor="middle" y="16">SRE / Campo</text>
+          <title>Correção rápida, apoio a operadores e manutenção preditiva.</title>
+        </g>
+
+        <!-- ——— Arestas (fluxos) ——— -->
+        <!-- Núcleo ⇄ GAIA / Big Data / IoT / MCEFP / IM / Gêmeos / Governança -->
+        <path class="edge" d="M520,250 C520,240 520,236 520,220" />
+        <path class="edge" d="M520,390 C520,400 520,404 520,430" />
+        <path class="edge" d="M590,320 C650,320 700,320 785,320" />
+        <path class="edge gov" d="M590,300 C700,250 760,200 780,180 800,160 820,140 900,120" />
+        <path class="edge" d="M450,320 C380,320 330,320 225,320" />
+        <path class="edge" d="M455,350 C400,400 350,470 320,510" />
+        <path class="edge" d="M585,350 C620,380 670,420 740,440" />
+        <path class="edge" d="M455,290 C395,250 345,195 300,160" />
+
+        <!-- IM → MCEFPs (cadeia) -->
+        <path class="edge" d="M200,185 C200,260 200,410 200,485" />
+
+        <!-- Operadores ⇄ MCEFPs / Mercado -->
+        <path class="edge soft" d="M520,505 C440,505 340,505 280,505" />
+        <path class="edge market" d="M630,540 C700,540 770,540 790,540" />
+
+        <!-- MCEFPs → Mercado -->
+        <path class="edge market" d="M320,540 C450,600 680,600 820,560" />
+
+        <!-- GAIA → Painéis / Gêmeos -->
+        <path class="edge" d="M620,120 C680,120 730,160 740,170 750,180 750,185 740,200" />
+        <path class="edge" d="M650,140 C730,180 820,240 880,300" />
+
+        <!-- Big Data ⇄ Painéis -->
+        <path class="edge" d="M625,220 C670,210 700,205 740,200" />
+
+        <!-- IoT ⇄ MCEFPs -->
+        <path class="edge iot" d="M470,450 C380,470 300,500 260,512" />
+
+        <!-- Governança ⇄ GAIA / BIO / Blockchain -->
+        <path class="edge gov" d="M900,145 C900,180 900,220 900,285" />
+        <path class="edge gov" d="M860,120 C760,120 640,120 580,140" />
+        <path class="edge gov" d="M840,140 C700,180 600,280 560,300" />
+
+        <!-- Blockchain ⇄ IM / MCEFPs / Mercado -->
+        <path class="edge" d="M170,295 C200,250 230,210 250,180" />
+        <path class="edge" d="M150,365 C170,420 185,455 195,485" />
+        <path class="edge market" d="M210,330 C380,330 700,360 900,500" />
+      </svg>
+    </div>
+  </div>
+
+  <!-- Névoa sutil de fundo -->
+  <div style="
+    position:fixed; inset:0; pointer-events:none; z-index:-1;
+    background: radial-gradient(circle, rgba(116, 242, 206, 0.05) 0%, transparent 70%);
+    filter: blur(25px);
+  "></div>
+</body>
+</html>
