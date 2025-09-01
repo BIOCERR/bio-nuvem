@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Expanded Flowchart – BIOCERR</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    :root{
+      --teal:#74f2ce;
+      --teal-soft:#2de0c1;
+      --bg1:#000;
+      --bg2:#1a1a1a;
+      --panel-bg: rgba(255,255,255,0.02);
+      --glass: rgba(116,242,206,0.08);
+    }
+    html,body{
+      margin:0; padding:0; min-height:100%;
+      background: radial-gradient(circle at center, var(--bg2) 0%, var(--bg1) 100%);
+      color:#fff; font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    }
+
+    .top-bar{ position: absolute; top: 18px; left: 18px; z-index: 20; }
+    .top-bar a{
+      text-decoration:none; color: var(--teal); font-weight:600; font-size: 0.95rem;
+      border:1px solid var(--teal); padding:8px 14px; border-radius:20px;
+      transition:.2s; background: rgba(0,0,0,.35)
+    }
+    .top-bar a:hover{ background: rgba(116,242,206,.12); box-shadow:0 0 10px var(--teal); }
+
+    header { padding: 68px 16px 10px; text-align: center; }
+    h1{
+      margin:0 auto 8px; font-size: clamp(1.8rem, 2.2vw + 1rem, 3rem);
+      text-shadow: 0 0 15px var(--teal), 0 0 25px var(--teal);
+      filter: drop-shadow(0 0 5px var(--teal-soft));
+    }
+    p.lead{
+      margin: 8px auto 22px; max-width: 1080px; font-size: clamp(0.98rem, .4vw + .7rem, 1.05rem);
+      color: #dff7f0; line-height:1.55; text-align: center;
+    }
+
+    .wrap{ max-width: 1100px; margin: 0 auto 60px; padding: 0 12px; }
+    .panel{
+      border:1px solid rgba(116,242,206,.12);
+      border-radius:14px; padding: 18px;
+      background: linear-gradient(180deg, var(--panel-bg), rgba(255,255,255,0.01));
+      box-shadow: 0 10px 30px rgba(0,0,0,.6);
+    }
+
+    .intro {
+      color:#e8fbf4;
+      font-size: 1rem;
+      line-height:1.6;
+      margin-bottom: 18px;
+      text-align: justify;
+    }
+
+    .sections { display:block; margin-bottom: 18px; }
+    .sections h3 {
+      color: var(--teal);
+      margin: 12px 0 6px;
+      font-size: 1.05rem;
+    }
+    .sections p {
+      margin: 6px 0 12px;
+      color: #e6fbf5;
+      text-align: justify;
+      line-height:1.55;
+      font-size: 0.98rem;
+    }
+    .sections ul { margin: 8px 0 14px 20px; color:#e6fbf5; }
+
+    .legend{ display:flex; gap:12px; flex-wrap:wrap; justify-content:center; margin:6px 0 16px; }
+    .chip{ display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px;
+      border:1px solid rgba(116,242,206,.16); background: rgba(116,242,206,.04); color:#dff7f0; }
+    .dot{ width:12px; height:12px; border-radius:50%; display:inline-block; }
+
+    /* SVG & nodes */
+    svg{ width:100%; height:auto; display:block; }
+    .node rect, .node circle{
+      stroke: var(--teal); stroke-width: 2px; fill: rgba(10,10,10,.66);
+      filter: drop-shadow(0 0 6px rgba(45,224,193,.25));
+    }
+    .node text{ fill:#fff; font-size:14px; font-weight:700; pointer-events:none; }
+    .node .small{ font-size:12px; font-weight:600; opacity:.95; pointer-events:none; }
+    .core circle{ fill:#083e36; }
+
+    /* animated edges */
+    .edge{
+      stroke: var(--teal); stroke-width: 2; fill:none; marker-end: url(#arrow);
+      stroke-dasharray: 8 6; animation: flow 6s linear infinite;
+      filter: drop-shadow(0 0 6px rgba(116,242,206,.12));
+    }
+    .edge.gov{ stroke:#9fbdb6; }
+    .edge.market{ stroke:#ff9fb3; }
+    .edge.iot{ stroke:#d8a8ff; }
+    .edge.soft{ stroke:#ffd28f; }
+
+    @keyframes flow{ to{ stroke-dashoffset: -200; } }
+
+    /* small screens */
+    @media (max-width:900px) {
+      header { padding-top: 56px; }
+      .panel { padding: 14px; }
+      .sections h3 { font-size: 1rem; }
+      .sections p, .intro { font-size: 0.95rem; }
+    }
+    @media (max-width:480px){
+      .node text{ font-size:12px; }
+      .node .small{ font-size:11px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="top-bar">
+    <a href="bio_cloud.html" aria-label="Back to BIO Cloud">⬅️ Back to BIO Cloud</a>
+  </div>
+
+  <header>
+    <h1>Expanded Flowchart – BIOCERR</h1>
+    <p class="lead">Artistic map of the interactions between <strong>BIO</strong>, the Mother Industry, MCEFPs, the GAIA Cloud and digital modules (Blockchain, Big Data, IoT), including Governance and Market flows.</p>
+  </header>
+
+  <main class="wrap">
+    <section class="panel" aria-labelledby="panel-title">
+      <div class="intro" id="panel-title">
+        <strong>About this diagram —</strong>
+        The <strong>Expanded Flowchart of the Extended MVP</strong> describes the systemic architecture and the information, material and decision routes that compose BIOCERR’s full operation. Below you will find a guided reading of the main blocks represented visually and the integration logic between them. Use this text as an extended legend to guide investors, partners and technical teams.
+      </div>
+
+      <div class="sections" role="region" aria-label="Detailed explanation of the blocks">
+        <h3>1. Mother Industry — Source & Synthesis</h3>
+        <p>The Mother Industry synthesizes the base concentrates (technical matrices) in controlled production batches. These concentrates are formulated for performance and stability, stored in reusable IBCs and labeled with metadata (batch, timestamp, digital signature). The Mother Industry includes quality assurance modules, formulation management and shipping orchestration.</p>
+
+        <h3>2. Intelligent Logistics & Distribution</h3>
+        <p>Distribution is managed by an optimized logistics subsystem: demand-based routing, load optimization and end-to-end traceability. Every shipment carries auditable trails (blockchain anchors) and telemetry (temperature, location, integrity sensors) to ensure safety, efficiency and transparency.</p>
+
+        <h3>3. MCEFPs — Decentralized Finalization Points</h3>
+        <p>Mini Central Filling & Finalizing Plants (MCEFPs) are local units that receive IBCs, pre-process when needed, dilute and customize products according to local demand and sustainability policies. Designed for low environmental footprint, packaging reuse and autonomous operation.</p>
+
+        <h3>4. Human Operator + BIO — Real-time Partnership</h3>
+        <p>At each MCEFP, the human operator works hand-in-hand with BIO. BIO provides:</p>
+        <ul>
+          <li>Step-by-step instructions and quality alerts;</li>
+          <li>Local-tailored formulation personalization;</li>
+          <li>Regenerative recommendations (emissions reduction, efficient water use, circular practices).</li>
+        </ul>
+
+        <h3>5. Sensing & IoT</h3>
+        <p>Embedded sensors in plants, vehicles and packaging collect environmental and operational signals: temperature, vibration, consumables, process readings and usage indicators. These signals feed Big Data pipelines in real time for monitoring and control.</p>
+
+        <h3>6. Big Data, Processing & GAIA Dashboards</h3>
+        <p>Data converges into processing pipelines (streaming and batch) for cleansing, enrichment and analysis. ML models detect anomalies, forecast demand and generate operational insights that appear on GAIA Dashboards for operators, managers and governance bodies.</p>
+
+        <h3>7. Quality Control & Immutable Records</h3>
+        <p>Every critical step produces digitally-signed records. Immutable ledgers (internal blockchain) enable auditability and guarantee traceability from synthesis to end-user, protecting intellectual property and regulatory compliance.</p>
+
+        <h3>8. Feedback Flow & Continuous Learning</h3>
+        <p>Usage, performance and territorial-impact data return to the Mother Industry and research core. This closed loop supports formulation tweaks, protocol updates and business-model evolution — all aligned with systemic indicators and regenerative objectives.</p>
+
+        <h3>9. Governance, Ethics & Participation</h3>
+        <p>Distributed governance ensures local participation via regional councils (BIO Governance), data access policies and consent mechanisms. Ethics is operationalized: the territory is treated as a co-author of decisions.</p>
+
+        <h3>10. Systemic Impact</h3>
+        <p>The model delivers:</p>
+        <ul>
+          <li>Reduced logistics emissions;</li>
+          <li>Circular packaging economy;</li>
+          <li>Local job creation and capacity building;</li>
+          <li>Productive resilience against centralized supply-chain disruptions.</li>
+        </ul>
+
+        <p style="margin-top:8px;">In short, the Expanded Flowchart represents a living network: not a linear command chain but an integrated ecosystem where each node (technical, human and institutional) participates in care, production and collective intelligence. Use this text as a guide while viewing the diagram— it translates technical logic into purpose, value and operation.</p>
+      </div>
+
+      <!-- legend -->
+      <div class="legend" aria-hidden="true">
+        <span class="chip"><span class="dot" style="background:#74f2ce"></span> Operational Flow</span>
+        <span class="chip"><span class="dot" style="background:#ffd28f"></span> Operator / Quality</span>
+        <span class="chip"><span class="dot" style="background:#ff9fb3"></span> Market / Delivery</span>
+        <span class="chip"><span class="dot" style="background:#9fbdb6"></span> Governance</span>
+        <span class="chip"><span class="dot" style="background:#d8a8ff"></span> IoT Telemetry</span>
+      </div>
+
+      <!-- diagram SVG -->
+      <svg viewBox="0 0 1100 720" role="img" aria-label="Expanded BIOCERR Flowchart">
+        <defs>
+          <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+            <path d="M0,0 L10,5 L0,10 z" fill="#74f2ce"></path>
+          </marker>
+        </defs>
+
+        <!-- Core BIO -->
+        <g class="node core" transform="translate(520,320)">
+          <circle r="70"></circle>
+          <text text-anchor="middle" y="-6">BIO AI</text>
+          <text class="small" text-anchor="middle" y="14">Orchestration & Signals</text>
+        </g>
+
+        <!-- Mother Industry -->
+        <g class="node" transform="translate(200,150)">
+          <rect x="-120" y="-35" width="240" height="70" rx="12"></rect>
+          <text text-anchor="middle" y="-4">Mother Industry</text>
+          <text class="small" text-anchor="middle" y="16">Concentrates, QA, Shipping</text>
+        </g>
+
+        <!-- MCEFPs -->
+        <g class="node" transform="translate(200,520)">
+          <rect x="-120" y="-35" width="240" height="70" rx="12"></rect>
+          <text text-anchor="middle" y="-4">MCEFPs</text>
+          <text class="small" text-anchor="middle" y="16">Local Packaging</text>
+        </g>
+
+        <!-- Operators -->
+        <g class="node" transform="translate(520,540)">
+          <rect x="-110" y="-35" width="220" height="70" rx="12"></rect>
+          <text text-anchor="middle" y="-4">Operators</text>
+          <text class="small" text-anchor="middle" y="16">Batch Execution / QC</text>
+        </g>
+
+        <!-- Market -->
+        <g class="node" transform="translate(900,540)">
+          <rect x="-110" y="-35" width="220" height="70" rx="12"></rect>
+          <text text-anchor="middle" y="-4">Market / Clients</text>
+          <text class="small" text-anchor="middle" y="16">Hospitals / End Users</text>
+        </g>
+
+        <!-- Governance -->
+        <g class="node" transform="translate(900,110)">
+          <rect x="-120" y="-35" width="240" height="70" rx="12"></rect>
+          <text text-anchor="middle" y="-4">BIO Governance</text>
+          <text class="small" text-anchor="middle" y="16">Policies, Ethics, Audit</text>
+        </g>
+
+        <!-- GAIA Cloud -->
+        <g class="node" transform="translate(520,120)">
+          <rect x="-130" y="-35" width="260" height="70" rx="12"></rect>
+          <text text-anchor="middle" y="-4">GAIA Cloud</text>
+          <text class="small" text-anchor="middle" y="16">Orchestration & Dashboards</text>
+        </g>
+
+        <!-- Blockchain -->
+        <g class="node" transform="translate(120,330)">
+          <rect x="-105" y="-35" width="210" height="70" rx="12"></rect>
+          <text text-anchor="middle" y="-4">BIOBlock</text>
+          <text class="small" text-anchor="middle" y="16">Traceability / Audit</text>
+        </g>
+
+        <!-- Big Data -->
+        <g class="node" transform="translate(520,220)">
+          <rect x="-105" y="-30" width="210" height="60" rx="12"></rect>
+          <text text-anchor="middle" y="-4">Big Data</text>
+          <text class="small" text-anchor="middle" y="16">Streaming / ML</text>
+        </g>
+
+        <!-- IoT -->
+        <g class="node" transform="translate(520,430)">
+          <rect x="-105" y="-30" width="210" height="60" rx="12"></rect>
+          <text text-anchor="middle" y="-4">BIO-IoT</text>
+          <text class="small" text-anchor="middle" y="16">Sensors / Edge</text>
+        </g>
+
+        <!-- Digital Twins -->
+        <g class="node" transform="translate(900,320)">
+          <rect x="-115" y="-35" width="230" height="70" rx="12"></rect>
+          <text text-anchor="middle" y="-4">Digital Twins</text>
+          <text class="small" text-anchor="middle" y="16">Simulation / Scenarios</text>
+        </g>
+
+        <!-- GAIA Dashboards -->
+        <g class="node" transform="translate(740,200)">
+          <rect x="-115" y="-30" width="230" height="60" rx="12"></rect>
+          <text text-anchor="middle" y="-4">GAIA Dashboards</text>
+          <text class="small" text-anchor="middle" y="16">KPIs / Indicators</text>
+        </g>
+
+        <!-- Support -->
+        <g class="node" transform="translate(740,440)">
+          <rect x="-115" y="-30" width="230" height="60" rx="12"></rect>
+          <text text-anchor="middle" y="-4">BIO Support</text>
+          <text class="small" text-anchor="middle" y="16">SRE / Field</text>
+        </g>
+
+        <!-- --- Animated edges (flows) --- -->
+        <path class="edge" d="M520,250 C520,240 520,236 520,220" />
+        <path class="edge" d="M520,390 C520,400 520,404 520,430" />
+        <path class="edge" d="M590,320 C650,320 700,320 785,320" />
+        <path class="edge gov" d="M900,145 C900,180 900,220 900,285" />
+        <path class="edge gov" d="M860,120 C760,120 640,120 580,140" />
+        <path class="edge gov" d="M840,140 C700,180 600,280 560,300" />
+        <path class="edge" d="M450,320 C380,320 330,320 225,320" />
+        <path class="edge" d="M455,350 C400,400 350,470 320,510" />
+        <path class="edge iot" d="M470,450 C380,470 300,500 260,512" />
+        <path class="edge soft" d="M520,505 C440,505 340,505 280,505" />
+        <path class="edge market" d="M630,540 C700,540 770,540 790,540" />
+        <path class="edge market" d="M320,540 C450,600 680,600 820,560" />
+        <path class="edge" d="M200,185 C200,260 200,410 200,485" />
+        <path class="edge" d="M650,140 C730,180 820,240 880,300" />
+        <path class="edge" d="M625,220 C670,210 700,205 740,200" />
+        <path class="edge" d="M585,350 C620,380 670,420 740,440" />
+      </svg>
+
+    </section>
+  </main>
+
+  <!-- subtle mist -->
+  <div aria-hidden="true" style="
+    position:fixed; inset:0; pointer-events:none; z-index:-1;
+    background: radial-gradient(circle, rgba(116, 242, 206, 0.04) 0%, transparent 70%);
+    filter: blur(26px);
+  "></div>
+</body>
+</html>
