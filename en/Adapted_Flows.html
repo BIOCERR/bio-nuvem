@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Adapted Flows – BIOCERR</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    :root{
+      --teal:#74f2ce;
+      --teal-soft:#2de0c1;
+      --bg1:#000;
+      --bg2:#1a1a1a;
+    }
+    html,body{
+      margin:0; padding:0; min-height:100%;
+      background: radial-gradient(circle at center, var(--bg2) 0%, var(--bg1) 100%);
+      color:#fff; font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .top-bar{
+      position: absolute; top: 18px; left: 18px; z-index: 10;
+    }
+    .top-bar a{
+      text-decoration:none; color: var(--teal); font-weight:600; font-size: 0.95rem;
+      border:1px solid var(--teal); padding:8px 14px; border-radius:20px;
+      transition:.25s; background: rgba(0,0,0,.35)
+    }
+    .top-bar a:hover{ background: rgba(116,242,206,.12); box-shadow:0 0 10px var(--teal); }
+
+    h1{
+      text-align:center; margin:70px 16px 8px;
+      font-size: clamp(1.8rem, 2.2vw + 1rem, 3rem);
+      text-shadow: 0 0 15px var(--teal), 0 0 25px var(--teal);
+      filter: drop-shadow(0 0 5px var(--teal-soft));
+    }
+    p.subtitle{
+      text-align:justify; margin:0 16px 24px; opacity:.95; max-width:1000px; margin-inline:auto;
+      font-size: clamp(0.95rem, .4vw + .7rem, 1.15rem);
+    }
+
+    .tabs{
+      display:flex; justify-content:center; margin:20px 0;
+      gap:12px; flex-wrap:wrap;
+    }
+    .tab-btn{
+      background:rgba(116,242,206,.08); border:1px solid var(--teal);
+      color:var(--teal); padding:10px 18px; border-radius:12px;
+      font-weight:600; cursor:pointer; transition:.3s;
+    }
+    .tab-btn.active,.tab-btn:hover{
+      background:rgba(116,242,206,.18); box-shadow:0 0 12px var(--teal);
+    }
+    .tab-content{ display:none; max-width:1100px; margin:0 auto; padding:0 12px; }
+    .tab-content.active{ display:block; }
+
+    .panel{
+      border:1px solid rgba(116,242,206,.12);
+      border-radius:14px; padding: 20px; margin:20px 0;
+      background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
+      box-shadow: 0 6px 22px rgba(0,0,0,.55);
+    }
+    .panel h2{ color:var(--teal); margin-top:0; }
+
+    /* SVG / nodes / edges */
+    svg{ display:block; margin:20px auto; max-width:860px; width:95%; height:auto; }
+    .node-rect{ fill: rgba(10,10,10,.65); stroke: var(--teal); stroke-width:2; rx:10; filter: drop-shadow(0 0 6px rgba(45,224,193,.25)); }
+    .node-circle{ fill: rgba(8,62,54,1); stroke: var(--teal); stroke-width:2; filter: drop-shadow(0 0 6px rgba(45,224,193,.25)); }
+    .label{ fill:#fff; font-size:14px; text-anchor:middle; dominant-baseline:middle; font-weight:600; pointer-events:none; }
+
+    /* edges animated */
+    .edge {
+      stroke: var(--teal);
+      stroke-width: 3;
+      fill: none;
+      stroke-dasharray: 12 8;
+      stroke-linecap: round;
+      opacity: 0.95;
+      animation: dash 2.2s linear infinite;
+    }
+    @keyframes dash {
+      to { stroke-dashoffset: -48; }
+    }
+
+    .anchor-circle { fill: var(--teal); }
+
+    @media (max-width:720px){
+      .label{ font-size:12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="top-bar">
+    <a href="bio_cloud.html">⬅️ Back to BIO Cloud</a>
+  </div>
+
+  <h1>Adapted Flows – BIOCERR</h1>
+  <p class="subtitle">Standardized flow: BIO ↔ Mother Industry ↔ MCFFP ↔ Operator, now including direct linkage with Laboratory nodes for quality and integration.</p>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="openTab('hospital')">🏥 Hospital</button>
+    <button class="tab-btn" onclick="openTab('market')">🛒 Market</button>
+    <button class="tab-btn" onclick="openTab('rural')">🌱 Rural</button>
+  </div>
+
+  <!-- HOSPITAL -->
+  <div id="hospital" class="tab-content active">
+    <div class="panel">
+      <h2>Hospital Flow</h2>
+      <p>In hospitals, MCFFPs supply critical inputs close to the point of use. The laboratory performs both local analyses and integrated checks with the Mother Industry.</p>
+
+      <svg viewBox="0 0 900 520">
+        <!-- BIO -->
+        <g transform="translate(450,90)">
+          <circle class="node-circle" r="44"></circle>
+          <text class="label">BIO</text>
+        </g>
+
+        <!-- Mother Industry -->
+        <rect class="node-rect" x="150" y="200" width="160" height="60"></rect>
+        <text class="label" x="230" y="230">Mother Industry</text>
+
+        <!-- MCEFP -->
+        <rect class="node-rect" x="370" y="200" width="160" height="60"></rect>
+        <text class="label" x="450" y="230">MCFFP</text>
+
+        <!-- Operator -->
+        <rect class="node-rect" x="620" y="200" width="160" height="60"></rect>
+        <text class="label" x="700" y="230">Operator</text>
+
+        <!-- Laboratory -->
+        <rect class="node-rect" x="370" y="360" width="160" height="60"></rect>
+        <text class="label" x="450" y="390">Laboratory</text>
+
+        <!-- Anchors -->
+        <circle class="anchor-circle" cx="450" cy="140" r="5"/>
+        <circle class="anchor-circle" cx="230" cy="200" r="5"/>
+        <circle class="anchor-circle" cx="310" cy="230" r="5"/>
+        <circle class="anchor-circle" cx="450" cy="200" r="5"/>
+        <circle class="anchor-circle" cx="370" cy="230" r="5"/>
+        <circle class="anchor-circle" cx="530" cy="230" r="5"/>
+        <circle class="anchor-circle" cx="450" cy="260" r="5"/>
+        <circle class="anchor-circle" cx="620" cy="230" r="5"/>
+        <circle class="anchor-circle" cx="450" cy="360" r="5"/>
+
+        <!-- Edges -->
+        <path class="edge" d="M450,140 L230,200"/>
+        <path class="edge" d="M450,140 L450,200"/>
+        <path class="edge" d="M310,230 L370,230"/>
+        <path class="edge" d="M530,230 L620,230"/>
+        <path class="edge" d="M450,260 L450,360"/>
+        <path class="edge" d="M310,230 C350,240 400,290 450,360"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- MARKET -->
+  <div id="market" class="tab-content">
+    <div class="panel">
+      <h2>Market Flow</h2>
+      <p>For retail, MCFFPs are placed close to stores and fairs. BIO guides stock intelligence and local customization, supporting circular economy with refillable packaging.</p>
+
+      <svg viewBox="0 0 900 520">
+        <!-- BIO -->
+        <g transform="translate(450,90)">
+          <circle class="node-circle" r="44"></circle>
+          <text class="label">BIO</text>
+        </g>
+
+        <!-- Mother Industry -->
+        <rect class="node-rect" x="150" y="200" width="160" height="60"></rect>
+        <text class="label" x="230" y="230">Mother Industry</text>
+
+        <!-- MCEFP -->
+        <rect class="node-rect" x="370" y="200" width="160" height="60"></rect>
+        <text class="label" x="450" y="230">MCFFP</text>
+
+        <!-- Operator -->
+        <rect class="node-rect" x="620" y="200" width="160" height="60"></rect>
+        <text class="label" x="700" y="230">Operator</text>
+
+        <!-- Laboratory -->
+        <rect class="node-rect" x="370" y="360" width="160" height="60"></rect>
+        <text class="label" x="450" y="390">Laboratory</text>
+
+        <!-- Anchors -->
+        <circle class="anchor-circle" cx="450" cy="140" r="5"/>
+        <circle class="anchor-circle" cx="230" cy="200" r="5"/>
+        <circle class="anchor-circle" cx="310" cy="230" r="5"/>
+        <circle class="anchor-circle" cx="450" cy="200" r="5"/>
+        <circle class="anchor-circle" cx="370" cy="230" r="5"/>
+        <circle class="anchor-circle" cx="530" cy="230" r="5"/>
+        <circle class="anchor-circle" cx="450" cy="260" r="5"/>
+        <circle class="anchor-circle" cx="620" cy="230" r="5"/>
+        <circle class="anchor-circle" cx="450" cy="360" r="5"/>
+
+        <!-- Edges -->
+        <path class="edge" d="M450,140 L230,200"/>
+        <path class="edge" d="M450,140 L450,200"/>
+        <path class="edge" d="M310,230 L370,230"/>
+        <path class="edge" d="M530,230 L620,230"/>
+        <path class="edge" d="M450,260 L450,360"/>
+        <path class="edge" d="M310,230 C350,240 400,290 450,360"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- RURAL -->
+  <div id="rural" class="tab-content">
+    <div class="panel">
+      <h2>Rural Flow</h2>
+      <p>In rural zones, MCFFPs operate with autonomous energy and short supply chains. BIO uses local data to tailor formulas, boosting resilience and community self-sufficiency.</p>
+
+      <svg viewBox="0 0 900 520">
+        <!-- BIO -->
+        <g transform="translate(450,90)">
+          <circle class="node-circle" r="44"></circle>
+          <text class="label">BIO</text>
+        </g>
+
+        <!-- Mother Industry -->
+        <rect class="node-rect" x="150" y="200" width="160" height="60"></rect>
+        <text class="label" x="230" y="230">Mother Industry</text>
+
+        <!-- MCEFP -->
+        <rect class="node-rect" x="370" y="200" width="160" height="60"></rect>
+        <text class="label" x="450" y="230">MCFFP</text>
+
+        <!-- Operator -->
+        <rect class="node-rect" x="620" y="200" width="160" height="60"></rect>
+        <text class="label" x="700" y="230">Operator</text>
+
+        <!-- Laboratory -->
+        <rect class="node-rect" x="370" y="360" width="160" height="60"></rect>
+        <text class="label" x="450" y="390">Laboratory</text>
+
+        <!-- Anchors -->
+        <circle class="anchor-circle" cx="450" cy="140" r="5"/>
+        <circle class="anchor-circle" cx="230" cy="200" r="5"/>
+        <circle class="anchor-circle" cx="310" cy="230" r="5"/>
+        <circle class="anchor-circle" cx="450" cy="200" r="5"/>
+        <circle class="anchor-circle" cx="370" cy="230" r="5"/>
+        <circle class="anchor-circle" cx="530" cy="230" r="5"/>
+        <circle class="anchor-circle" cx="450" cy="260" r="5"/>
+        <circle class="anchor-circle" cx="620" cy="230" r="5"/>
+        <circle class="anchor-circle" cx="450" cy="360" r="5"/>
+
+        <!-- Edges -->
+        <path class="edge" d="M450,140 L230,200"/>
+        <path class="edge" d="M450,140 L450,200"/>
+        <path class="edge" d="M310,230 L370,230"/>
+        <path class="edge" d="M530,230 L620,230"/>
+        <path class="edge" d="M450,260 L450,360"/>
+        <path class="edge" d="M310,230 C350,240 400,290 450,360"/>
+      </svg>
+    </div>
+  </div>
+
+  <script>
+    function openTab(tabId){
+      document.querySelectorAll('.tab-btn').forEach(btn=>btn.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(tab=>tab.classList.remove('active'));
+      event.target.classList.add('active');
+      document.getElementById(tabId).classList.add('active');
+      document.querySelectorAll('path.edge').forEach(p=>{
+        p.style.animation = 'none';
+        void p.offsetWidth;
+        p.style.animation = null;
+      });
+    }
+  </script>
+
+  <div style="
+    position:fixed; inset:0; pointer-events:none; z-index:-1;
+    background: radial-gradient(circle, rgba(116, 242, 206, 0.05) 0%, transparent 70%);
+    filter: blur(25px);
+  "></div>
+</body>
+</html>
