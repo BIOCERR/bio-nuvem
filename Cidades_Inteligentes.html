@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <title>Cidades Inteligentes – BIOCERR</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    :root{
+      --teal:#74f2ce;
+      --teal-soft:#2de0c1;
+      --ink:#0a0a0a;
+      --bg1:#000;
+      --bg2:#1a1a1a;
+      --glass: rgba(116,242,206,0.08);
+    }
+    html,body{
+      margin:0; padding:0; height:100%;
+      background: radial-gradient(circle at center, var(--bg2) 0%, var(--bg1) 100%);
+      color:#fff; font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .top-bar{
+      position: absolute; top: 18px; left: 18px; z-index: 10;
+    }
+    .top-bar a{
+      text-decoration:none; color: var(--teal); font-weight:600; font-size: 0.95rem;
+      border:1px solid var(--teal); padding:8px 14px; border-radius:20px;
+      transition:.25s; background: rgba(0,0,0,.35)
+    }
+    .top-bar a:hover{ background: rgba(116,242,206,.12); box-shadow:0 0 10px var(--teal); }
+
+    h1{
+      text-align:center; margin:80px 16px 10px;
+      font-size: clamp(1.8rem, 2.2vw + 1rem, 3rem);
+      text-shadow: 0 0 15px var(--teal), 0 0 25px var(--teal);
+      filter: drop-shadow(0 0 6px var(--teal-soft));
+    }
+    p.subtitle{
+      text-align:justify; margin:0 16px 24px; opacity:.9; max-width:1000px; margin-inline:auto;
+      font-size: clamp(0.95rem, .4vw + .7rem, 1.15rem);
+    }
+
+    .wrap{ max-width:1100px; margin:20px auto 60px; padding:0 14px; }
+    .panel{
+      border:1px solid rgba(116,242,206,.15);
+      border-radius:16px; padding: 22px;
+      background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
+      box-shadow: 0 6px 22px rgba(0,0,0,.55);
+    }
+    .panel h2{ color:var(--teal); margin:0 0 10px; }
+    .bullets{ margin:10px 0 0 0; padding-left: 1rem; }
+    .bullets li{ margin:10px 0; }
+
+    /* Destaques “chip” */
+    .chips{ display:flex; flex-wrap:wrap; gap:10px; margin-top:14px; }
+    .chip{
+      border:1px solid rgba(116,242,206,.35);
+      background: rgba(116,242,206,.06);
+      padding:8px 12px; border-radius:999px; color:#cfeee6; font-weight:600;
+      box-shadow: inset 0 0 10px rgba(116,242,206,.06);
+    }
+
+    /* GIF centralizado (30% menor) */
+    .gif-container{
+      display:flex;
+      justify-content:center;
+      margin-top:30px;
+    }
+    .gif-container img{
+      max-width:336px; /* reduzido de 480px para ~70% */
+      width:70%;
+      border-radius:14px;
+      box-shadow:0 0 20px rgba(116,242,206,.4);
+    }
+
+    /* Névoa de fundo */
+    .mist{
+      position:fixed; inset:0; pointer-events:none; z-index:-1;
+      background: radial-gradient(circle, rgba(116, 242, 206, 0.05) 0%, transparent 70%);
+      filter: blur(25px);
+    }
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <a href="nuvem_bio.html">⬅️ Voltar para Nuvem BIO</a>
+  </div>
+
+  <h1>Cidades Inteligentes – BIOCERR</h1>
+  <p class="subtitle">
+    As cidades inteligentes surgem como ecossistemas conectados, onde <strong>infraestrutura, pessoas e tecnologia</strong>
+    interagem de forma integrada. A BIOCERR contribui para esse futuro ao implementar o
+    <strong>SMPD (Sistema Modular de Produção Descentralizada)</strong> como núcleo de regeneração local, aproximando
+    produção e consumo.
+  </p>
+
+  <div class="wrap">
+    <div class="panel">
+      <h2>Integração Urbana 🌍</h2>
+      <ul class="bullets">
+        <li><strong>IoT e rastreabilidade digital:</strong> cada MCEFP torna-se um hub de dados e impacto.</li>
+        <li><strong>Governança urbana:</strong> dados integrados fortalecem decisões mais sustentáveis.</li>
+        <li><strong>Eficiência energética:</strong> redução de resíduos e otimização de recursos.</li>
+        <li><strong>Inclusão social:</strong> comunidades participam ativamente da transição.</li>
+      </ul>
+
+      <p class="subtitle" style="margin-top:12px;">
+        A integração da invenção com <strong>Economia Circular e Indústria 5.0</strong> promove cidades como
+        <em>organismos vivos, inteligentes e colaborativos</em>, alinhados aos ODS e à
+        <strong>Economia Circular Inteligente 5.0</strong>.
+      </p>
+
+      <div class="chips" aria-hidden="true">
+        <span class="chip">IoT & Dados</span>
+        <span class="chip">Eficiência Energética</span>
+        <span class="chip">Governança Digital</span>
+        <span class="chip">Inclusão Social</span>
+        <span class="chip">ODS Urbanos</span>
+      </div>
+    </div>
+
+    <div class="gif-container">
+      <img src="Cidades_inteligentes.gif" alt="Cidades Inteligentes BIOCERR">
+    </div>
+  </div>
+
+  <div class="mist"></div>
+</body>
+</html>
