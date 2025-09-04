@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>SDGs – BIOCERR</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    :root{
+      --teal:#74f2ce;
+      --teal-soft:#2de0c1;
+      --ink:#0a0a0a;
+      --bg1:#000;
+      --bg2:#1a1a1a;
+      --glass: rgba(116,242,206,0.08);
+    }
+    html,body{
+      margin:0; padding:0; height:100%;
+      background: radial-gradient(circle at center, var(--bg2) 0%, var(--bg1) 100%);
+      color:#fff; font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .top-bar{
+      position: absolute; top: 18px; left: 18px; z-index: 10;
+    }
+    .top-bar a{
+      text-decoration:none; color: var(--teal); font-weight:600; font-size: 0.95rem;
+      border:1px solid var(--teal); padding:8px 14px; border-radius:20px;
+      transition:.25s; background: rgba(0,0,0,.35)
+    }
+    .top-bar a:hover{ background: rgba(116,242,206,.12); box-shadow:0 0 10px var(--teal); }
+
+    h1{
+      text-align:center; margin:80px 16px 10px;
+      font-size: clamp(1.8rem, 2.2vw + 1rem, 3rem);
+      text-shadow: 0 0 15px var(--teal), 0 0 25px var(--teal);
+      filter: drop-shadow(0 0 6px var(--teal-soft));
+    }
+    p.subtitle{
+      text-align:justify; margin:0 16px 24px; opacity:.9; max-width:1000px; margin-inline:auto;
+      font-size: clamp(0.95rem, .4vw + .7rem, 1.15rem);
+    }
+
+    .wrap{ max-width:1100px; margin:20px auto 60px; padding:0 14px; }
+    .panel{
+      border:1px solid rgba(116,242,206,.15);
+      border-radius:16px; padding: 22px;
+      background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
+      box-shadow: 0 6px 22px rgba(0,0,0,.55);
+    }
+    .panel h2{ color:var(--teal); margin:0 0 10px; }
+    .bullets{ margin:10px 0 0 0; padding-left: 1rem; }
+    .bullets li{ margin:10px 0; }
+
+    /* Chips */
+    .chips{ display:flex; flex-wrap:wrap; gap:10px; margin-top:14px; }
+    .chip{
+      border:1px solid rgba(116,242,206,.35);
+      background: rgba(116,242,206,.06);
+      padding:8px 12px; border-radius:999px; color:#cfeee6; font-weight:600;
+      box-shadow: inset 0 0 10px rgba(116,242,206,.06);
+    }
+
+    /* GIF style */
+    .gif-wrap{
+      display:flex; justify-content:center; margin-top:30px;
+    }
+    .gif-wrap img{
+      width:260px; height:260px; object-fit:cover;
+      border-radius:50%; /* round */
+      border:4px solid #2de0c1; /* green border */
+      box-shadow: 
+        0 0 20px rgba(45,224,193,0.85), 
+        0 0 40px rgba(116,242,206,0.6), 
+        inset 0 0 15px rgba(116,242,206,0.35);
+    }
+
+    .mist{
+      position:fixed; inset:0; pointer-events:none; z-index:-1;
+      background: radial-gradient(circle, rgba(116, 242, 206, 0.05) 0%, transparent 70%);
+      filter: blur(25px);
+    }
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <a href="bio_cloud.html">⬅️ Back to BIO Cloud</a>
+  </div>
+
+  <h1>Sustainable Development Goals – BIOCERR</h1>
+  <p class="subtitle">
+    BIOCERR aligns its disruptive innovation with the <strong>United Nations Sustainable Development Goals (SDGs)</strong>,
+    proving that technology and ethics can walk together. Through the <strong>MDPS</strong>, the company advances local
+    regeneration, reduces environmental impact, and generates inclusive growth.
+  </p>
+
+  <div class="wrap">
+    <div class="panel">
+      <h2>Focus on SDGs 🌍</h2>
+      <ul class="bullets" aria-live="polite">
+  <li><strong>SDG 3 — Good Health and Well-being:</strong> Ensures access to safe, effective products (e.g., sanitizers, medical supplies) and strengthens local health resilience through timely, personalized supply via MCEFPs.</li>
+  <li><strong>SDG 6 — Clean Water and Sanitation:</strong> Efficient use of resources and safe handling of reusable packaging.</li>
+  <li><strong>SDG 8 — Decent Work and Economic Growth:</strong> Local production hubs create jobs, entrepreneurship, and inclusive income opportunities.</li>
+  <li><strong>SDG 9 — Industry, Innovation and Infrastructure:</strong> BIOCERR introduces a scalable decentralized model aligned with Industry 5.0 principles.</li>
+  <li><strong>SDG 11 — Sustainable Cities and Communities:</strong> Circular production integrated into communities, strengthening resilience and reducing environmental footprint.</li>
+  <li><strong>SDG 12 — Responsible Consumption and Production:</strong> Reverse logistics and traceability ensure that nothing becomes waste.</li>
+  <li><strong>SDG 13 — Climate Action:</strong> Reduced emissions through local supply chains and regenerative practices.</li>
+  <li><strong>SDG 17 — Partnerships for the Goals:</strong> The decentralized approach promotes collaboration between governments, companies, research centers, and communities worldwide.</li>
+</ul>
+
+
+      <p class="subtitle" style="margin-top:12px;">
+        The <strong>SMPD</strong> shows that innovation is only transformative when it embraces people and the planet.
+        By integrating <strong>Circular Economy, Smart Cities, and Industry 5.0</strong>, BIOCERR reinforces the idea of a
+        <em>regenerative, inclusive, and global future</em>.
+      </p>
+
+      <div class="chips" aria-hidden="true">
+        <span class="chip">SDG 11 – Sustainable Cities</span>
+        <span class="chip">SDG 17 – Partnerships</span>
+        <span class="chip">Circular Economy 5.0</span>
+        <span class="chip">Social Inclusion</span>
+        <span class="chip">Climate Action</span>
+      </div>
+
+      <div class="gif-wrap">
+        <img src="sdg.gif" alt="ODS BIOCERR GIF" />
+      </div>
+    </div>
+  </div>
+
+  <div class="mist"></div>
+</body>
+</html>
