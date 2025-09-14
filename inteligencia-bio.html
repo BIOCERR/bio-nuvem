@@ -3,119 +3,93 @@
 <head>
   <meta charset="UTF-8" />
   <title>Inteligência BIO</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <style>
+    :root {
+      --accent: #74f2ce;
+      --accent-2: #2de0c1;
+      --bg1: #1a1a1a;
+      --bg2: #000;
+    }
     body {
       margin: 0;
       padding: 40px;
-      background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
+      background: radial-gradient(circle at center, var(--bg1) 0%, var(--bg2) 100%);
       color: white;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       line-height: 1.6;
+      overflow-x: hidden;
     }
-
-    .top-bar {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-    }
-
+    .top-bar { position: absolute; top: 20px; left: 20px; z-index: 200; }
     .top-bar a {
-      text-decoration: none;
-      color: #74f2ce;
-      font-weight: bold;
-      font-size: 1em;
-      border: 1px solid #74f2ce;
-      padding: 8px 15px;
-      border-radius: 20px;
-      transition: all 0.3s ease;
+      text-decoration: none; color: var(--accent); font-weight: bold;
+      font-size: 1em; border: 1px solid var(--accent); padding: 8px 15px;
+      border-radius: 20px; background: rgba(0,0,0,0.18);
+    }
+    h1 { text-align:center; font-size:2.4em; margin-bottom:18px;
+      text-shadow: 0 0 12px var(--accent); filter: drop-shadow(0 0 5px var(--accent-2));
+    }
+    .content { max-width:1000px; margin:0 auto; font-size:1.05em; text-align:justify; margin-bottom:40px; }
+
+    .layout { display:flex; justify-content:center; align-items:flex-start; gap:30px; margin-top:30px; flex-wrap:wrap; }
+    .left-col { display:flex; flex-direction:column; align-items:center; flex:1 1 600px; }
+
+    .controls { text-align:center; margin-bottom:10px; }
+    .controls button {
+      background: rgba(116,242,206,0.1); border:1px solid var(--accent); color:var(--accent);
+      font-size:1em; margin:5px; padding:10px 20px; border-radius:25px; cursor:pointer; z-index:150;
     }
 
-    .top-bar a:hover {
-      background: rgba(116, 242, 206, 0.1);
-      box-shadow: 0 0 10px #74f2ce;
-    }
-
-    h1 {
-      text-align: center;
-      font-size: 3em;
-      text-shadow: 0 0 15px #74f2ce, 0 0 25px #74f2ce;
-      filter: drop-shadow(0 0 5px #2de0c1);
-      margin-bottom: 40px;
-    }
-
-    .content {
-      max-width: 1000px;
-      margin: 0 auto;
-      font-size: 1.2em;
-      text-align: justify;
-    }
-
-    .image-container {
-      text-align: center;
-      margin: 40px 0;
-    }
-
+    .image-container { position:relative; text-align:center; min-height:480px; margin-top:120px; }
     .gif-wrapper {
-      width: 350px;
-      height: 350px;
-      border-radius: 50%;
-      border: 2px solid #74f2ce;
-      overflow: hidden; /* corta qualquer sobra do gif */
-      margin: 0 auto;
-      box-shadow: 0 0 25px #2de0c1, 0 0 45px #74f2ce;
+      width:280px; height:280px; border-radius:50%; border:2px solid var(--accent);
+      overflow:hidden; margin:0 auto; box-shadow:0 0 25px var(--accent-2);
+      position:relative; z-index:60; background:rgba(0,0,0,0.15);
+      display:flex; align-items:center; justify-content:center;
+    }
+    .gif-wrapper img { width:100%; height:100%; object-fit:contain; display:block; }
+
+    .orbit { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; z-index:50; pointer-events:none; }
+    .orbit-ring { position:relative; width:640px; max-width:calc(100% - 40px); height:640px; border-radius:50%; }
+    .orbit-svg { position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:70; }
+
+    .module {
+      position:absolute; min-width:120px; max-width:160px; height:40px;
+      background: rgba(116,242,206,0.08); border-radius:20px;
+      border:1px solid rgba(116,242,206,0.25);
+      color:var(--accent); font-size:.95em; text-align:center; line-height:40px;
+      transition: transform .18s, box-shadow .18s, background .18s, border .18s;
+      pointer-events:auto; white-space:nowrap; z-index:80;
+    }
+    .module:hover { transform:scale(1.06); box-shadow:0 0 20px rgba(116,242,206,0.2); cursor:pointer; background:rgba(116,242,206,0.17); }
+    .module.active { background: rgba(116,242,206,0.3); border:1px solid var(--accent-2); }
+
+    .mod-resumo {
+      margin-top:20px; padding:15px; max-width:500px; text-align:center; font-size:1em; color:#eee;
+      border:1px solid var(--accent); border-radius:10px; background:rgba(0,0,0,0.35);
+      box-shadow:0 0 12px rgba(116,242,206,0.15); opacity:1; transition:opacity .45s ease;
     }
 
-    .gif-wrapper img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover; /* força preenchimento total */
+    .panel {
+      width:280px; background:rgba(0,0,0,0.55); border:1px solid var(--accent);
+      border-radius:12px; padding:12px; box-shadow:0 0 12px rgba(116,242,206,0.15); font-size:.95em;
+      flex-shrink:0;
     }
+    .panel h2 { margin:0 0 8px 0; color:var(--accent); font-size:1em; }
 
-    /* Responsividade */
-    @media (max-width: 768px) {
-      h1 {
-        font-size: 2.2em;
-      }
-      .content {
-        font-size: 1em;
-        padding: 0 15px;
-      }
-      .gif-wrapper {
-        width: 250px;
-        height: 250px;
-      }
-    }
+    .mist { position:fixed; width:100%; height:100%; background:radial-gradient(circle, rgba(116,242,206,0.04) 0%, transparent 70%); filter:blur(25px); pointer-events:none; z-index:-1; }
 
-    @media (max-width: 480px) {
-      h1 {
-        font-size: 1.8em;
-      }
-      .gif-wrapper {
-        width: 200px;
-        height: 200px;
-      }
-    }
+    @media (max-width:900px){ .orbit-ring{width:520px;height:520px;} .gif-wrapper{width:220px;height:220px;} .module{min-width:110px;height:36px;line-height:36px;} .panel{width:220px;} }
+    @media (max-width:520px){ .orbit-ring{width:360px;height:360px;} .gif-wrapper{width:160px;height:160px;} .module{min-width:90px;height:34px;line-height:34px;} .panel{width:100%;max-width:320px;} }
 
-    .mist {
-      position: fixed;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle, rgba(116, 242, 206, 0.05) 0%, transparent 70%);
-      filter: blur(25px);
-      pointer-events: none;
-      z-index: -1;
-    }
   </style>
 </head>
 <body>
-
-  <div class="top-bar">
-    <a href="nuvem_bio.html">⬅️ Voltar para Nuvem BIO</a>
-  </div>
-
+  <div class="top-bar"><a href="nuvem_bio.html">⬅️ Voltar</a></div>
   <h1>Inteligência BIO</h1>
 
-  <div class="content">
+  <div class="content" id="introText">
+    <!-- Texto institucional (pode manter esse bloco ou carregar do JSON se preferir) -->
     <p>
       A <strong>Inteligência BIO</strong> é o cérebro sensível e distribuído da arquitetura BIOCERR. Muito além da automação, ela aprende com o território, escuta os saberes locais e integra dados ecológicos, sociais e econômicos para orientar decisões regenerativas em tempo real.
     </p>
@@ -135,14 +109,193 @@
     <p>
       Na prática, ela se manifesta por meio de algoritmos transparentes, interfaces acessíveis, visualizações intuitivas e decisões que consideram o bem-estar coletivo e o equilíbrio ecológico. A inteligência é relacional, territorial e regenerativa.
     </p>
+  </div>
 
-    <div class="image-container">
-      <div class="gif-wrapper">
-        <img src="mandala 2.gif" alt="Representação da Inteligência BIO">
+  <div class="layout">
+    <div class="left-col">
+      <div class="controls">
+        <button id="alertBtn">⚡ Simular Alerta</button>
+        <button id="regenBtn">🌱 Regenerar Rede</button>
       </div>
+
+      <div class="image-container" id="imageContainer">
+        <div class="gif-wrapper" id="gifWrapper">
+          <img src="mandala 2.gif" alt="Mandala BIO">
+        </div>
+        <div class="orbit">
+          <div class="orbit-ring" id="orbitRing">
+            <svg class="orbit-svg" id="orbitSvg"></svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="mod-resumo" id="modResumo">🔎 Selecione um módulo para ver o resumo.</div>
+    </div>
+
+    <div class="panel" aria-live="polite">
+      <h2>Status BIO</h2>
+      <p id="narrativa">Carregando narrativa...</p>
     </div>
   </div>
 
   <div class="mist"></div>
+
+  <script>
+  (async function(){
+    // carrega JSON dinâmico
+    const jsonPath = './data/bio_data.json';
+    let data = null;
+    try {
+      const res = await fetch(jsonPath, {cache: "no-store"});
+      if(res.ok) data = await res.json();
+    } catch(e) {
+      console.warn('Não foi possível carregar bio_data.json — usando fallback interno.', e);
+    }
+
+    // fallback caso JSON não carregue
+    const fallback = {
+      modules: {
+        "Interface":"Ponto de contato humano-digital.",
+        "Segurança":"Camada de segurança e monitoramento.",
+        "MCEFPs":"Mini Centrais descentralizadas.",
+        "Indústria":"Indústria matriz conectada.",
+        "Aprendizado":"Aprendizado regenerativo contínuo.",
+        "Integração":"Governança e coordenação.",
+        "Logística":"Rede logística inteligente.",
+        "Impacto":"Medição de impacto em tempo real.",
+        "Sustentabilidade":"Indicadores ecológicos regenerativos.",
+        "Inovação":"Espaço de inovação aberta."
+      },
+      frases: [
+        "♻️ 98% dos dados reintegrados.",
+        "🌱 Sustentabilidade positiva.",
+        "🚚 Emissões reduzidas em 12%.",
+        "🔒 Segurança blindada.",
+        "🌍 Impacto global atualizado."
+      ]
+    };
+
+    const source = data || fallback;
+    const moduleData = source.modules || fallback.modules;
+    const frases = source.frases || fallback.frases;
+
+    const moduleNames = Object.keys(moduleData);
+    const orbitRing = document.getElementById('orbitRing');
+    const orbitSvg = document.getElementById('orbitSvg');
+    const gifWrapper = document.getElementById('gifWrapper');
+    const resumoEl = document.getElementById('modResumo');
+    const narrEl = document.getElementById('narrativa');
+
+    let modules = [], lines = [];
+    let angleOffset = 0;
+    const speed = 0.12;
+
+    function createStructure(){
+      orbitRing.querySelectorAll('.module').forEach(n=>n.remove());
+      orbitSvg.innerHTML = '';
+      modules = []; lines = [];
+
+      moduleNames.forEach((name)=>{
+        const el = document.createElement('div');
+        el.className = 'module';
+        el.textContent = name;
+        // append before lines so DOM order is stable
+        orbitRing.appendChild(el);
+        modules.push(el);
+
+        const line = document.createElementNS("http://www.w3.org/2000/svg","line");
+        line.setAttribute('stroke','rgba(116,242,206,0.18)');
+        line.setAttribute('stroke-width','2');
+        orbitSvg.appendChild(line);
+        lines.push(line);
+
+        // clique mostra resumo carregado do JSON
+        el.addEventListener('click', ()=>{
+          modules.forEach(m=>m.classList.remove('active'));
+          el.classList.add('active');
+
+          // fade-out then update then fade-in
+          resumoEl.style.opacity = 0;
+          setTimeout(()=>{
+            // garantir que usamos a chave exata do JSON
+            const txt = moduleData[name] || ("Resumo não encontrado para " + name);
+            resumoEl.textContent = "📌 " + txt;
+            resumoEl.style.opacity = 1;
+          }, 260);
+        }, {passive:true});
+      });
+    }
+
+    function update(){
+      if(modules.length===0) { requestAnimationFrame(update); return; }
+      const ringRect = orbitRing.getBoundingClientRect();
+      const gifRect = gifWrapper.getBoundingClientRect();
+      const ringW = ringRect.width, ringH = ringRect.height;
+      const centerX = (gifRect.left - ringRect.left) + gifRect.width/2;
+      const centerY = (gifRect.top - ringRect.top) + gifRect.height/2;
+
+      const modW = modules[0].offsetWidth;
+      const modH = modules[0].offsetHeight;
+
+      const maxRad = Math.min(ringW, ringH)/2 - Math.max(modW, modH)/2 - 18;
+      const minRad = gifRect.width/2 + Math.max(modW, modH)/2 + 20;
+      const radius = Math.max(minRad, Math.min(maxRad, 200));
+
+      orbitSvg.setAttribute('viewBox', `0 0 ${ringW} ${ringH}`);
+
+      modules.forEach((m,i)=>{
+        const baseAngle = (360/modules.length)*i;
+        const angle = baseAngle + angleOffset;
+        const rad = (angle-90)*Math.PI/180;
+        const x = centerX + radius*Math.cos(rad) - modW/2;
+        const y = centerY + radius*Math.sin(rad) - modH/2;
+        m.style.left = x + "px";
+        m.style.top = y + "px";
+        lines[i].setAttribute('x1', centerX);
+        lines[i].setAttribute('y1', centerY);
+        lines[i].setAttribute('x2', x+modW/2);
+        lines[i].setAttribute('y2', y+modH/2);
+      });
+
+      angleOffset += speed;
+      requestAnimationFrame(update);
+    }
+
+    // narrativa rotativa (do JSON)
+    let idx = 0;
+    function cycleFrases(){
+      if(frases && frases.length>0) {
+        narrEl.textContent = frases[idx % frases.length];
+        idx++;
+      }
+    }
+    setInterval(cycleFrases, 5000);
+    cycleFrases();
+
+    // botões
+    document.getElementById('alertBtn').onclick = ()=>{
+      modules.forEach(m=>m.style.background="rgba(255,75,75,0.28)");
+      lines.forEach(l=>l.setAttribute('stroke','rgba(255,75,75,0.6)'));
+      setTimeout(()=>{ modules.forEach(m=>m.style.background=""); lines.forEach(l=>l.setAttribute('stroke','rgba(116,242,206,0.18)')); },2000);
+    };
+    document.getElementById('regenBtn').onclick = ()=>{
+      let step=0;
+      const interval = setInterval(()=>{
+        if(step<modules.length){
+          modules[step].style.background="rgba(75,255,119,0.28)";
+          lines[step].setAttribute('stroke','rgba(75,255,119,0.7)');
+          step++;
+        } else {
+          clearInterval(interval);
+          setTimeout(()=>{ modules.forEach(m=>m.classList.remove('active')); modules.forEach(m=>m.style.background=""); lines.forEach(l=>l.setAttribute('stroke','rgba(116,242,206,0.18)')); },1000);
+        }
+      },200);
+    };
+
+    createStructure();
+    requestAnimationFrame(update);
+
+  })();
+  </script>
 </body>
 </html>

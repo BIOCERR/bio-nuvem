@@ -1,0 +1,24 @@
+{
+  "modules": {
+    "Interface": "A ponte entre comunidades e a BIO. Traduz dados técnicos em linguagem acessível e devolve à rede conhecimento de forma intuitiva e visual.",
+    "Segurança": "Camada de proteção baseada em blockchain, criptografia e monitoramento contínuo para garantir confiança, soberania e transparência nos fluxos.",
+    "MCEFPs": "Mini Centrais Envasadoras e Finalizadoras de Produtos. Estruturas descentralizadas que conectam produção local, logística reversa e autonomia comunitária.",
+    "Indústria": "A Indústria Matriz, ponto de ancoragem do sistema, integrada às MCEFPs e à rede global. Garante escala, padronização e suporte tecnológico.",
+    "Aprendizado": "Módulo regenerativo, responsável por absorver dados, identificar padrões, aprender com o território e aprimorar continuamente as práticas da BIO.",
+    "Integração": "Nó de governança e coordenação. Faz a ponte entre atores sociais, econômicos, ambientais e digitais para decisões sistêmicas.",
+    "Logística": "Rede inteligente de transporte, energia e insumos. Equilibra eficiência e impacto ambiental, usando algoritmos regenerativos para otimização.",
+    "Impacto": "Monitoramento em tempo real dos indicadores sociais, ambientais e econômicos. Permite medir avanços e corrigir rotas.",
+    "Sustentabilidade": "Camada que integra métricas ecológicas, uso racional de recursos, economia circular e regeneração do território.",
+    "Inovação": "Espaço vivo de inovação aberta. Permite experimentar, prototipar e adaptar soluções de forma colaborativa, mantendo a BIO em estado de evolução contínua."
+  },
+  "frases": [
+    "♻️ 98% dos dados regenerados e integrados à rede.",
+    "🌱 Sustentabilidade ativa: indicadores positivos em 7 biomas.",
+    "🚚 Logística regenerativa reduziu emissões em 14% esta semana.",
+    "🔒 Segurança blindada: todos os fluxos validados em blockchain.",
+    "🌍 Impacto global monitorado em tempo real.",
+    "💡 Nova solução emergente conectada pela comunidade.",
+    "🤝 Cooperação local aumentou a eficiência em 22%.",
+    "⚡ Rede estável: zero falhas críticas nas últimas 48h."
+  ]
+}
