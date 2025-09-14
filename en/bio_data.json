@@ -1,0 +1,24 @@
+{
+  "modules": {
+    "Interface": "The bridge between communities and BIO. Translates technical data into accessible language and returns knowledge to the network in an intuitive and visual way.", 
+    "Security": "A layer of protection based on blockchain, encryption, and continuous monitoring to ensure trust, sovereignty, and transparency in flows.", 
+    "MCEFPs": "Mini Product Bottling and Finishing Centers. Decentralized structures that connect local production, reverse logistics, and community autonomy.", 
+    "Industry": "The Headquarters Industry, the system's anchor point, integrated with the MCEFPs and the global network. Ensures scale, standardization, and technological support.", 
+    "Learning": "Regenerative module, responsible for absorbing data, identifying patterns, learning from the territory, and continuously improving BIO practices.", 
+    "Integration": "Governance and coordination node. Bridges social, economic, environmental, and digital actors for systemic decisions.", 
+    "Logistics": "Smart network of transportation, energy, and inputs. Balances efficiency and environmental impact, using regenerative algorithms for optimization.", 
+    "Impact": "Real-time monitoring of social, environmental, and economic indicators. Allows for measuring progress and course corrections.",
+    "Sustainability": "Layer that integrates metrics ecological policies, rational use of resources, circular economy and territorial regeneration.",  
+    "Innovation": "Living space of open innovation. Allows you to experiment, prototype and adapt solutions collaboratively, keeping BIO in a state of continuous evolution." 
+  },
+  "frases": [
+    "♻�? 98% of data regenerated and integrated into the network.",
+    "🌱 Active sustainability: positive indicators in 7 biomes.",
+    "🚚 Regenerative logistics reduced emissions by 14% this week.",
+    "🔒 Armored security: all flows validated on the blockchain. ",
+    "�? Global impact monitored in real time .",
+    "💡 New emerging community-connected solution.",
+    "�? local operation increased efficiency by 22%.",
+    "⚡ Stable network: zero critical failures in the last 48 hours."
+  ]
+}
