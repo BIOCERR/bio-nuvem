@@ -137,162 +137,259 @@
 
   <div class="mist"></div>
 
-  <script>
-  (async function(){
-    // carrega JSON dinâmico
-    const jsonPath = "bio_data.json";
-    let data = null;
-    try {
-      const res = await fetch(jsonPath, {cache: "no-store"});
-      if(res.ok) data = await res.json();
-    } catch(e) {
-      console.warn('Não foi possível carregar bio_data.json — usando fallback interno.', e);
+<script>
+(async function(){
+  // caminho pro json (mesma pasta)
+  const jsonPath = "bio_data.json";
+  let data = null;
+  try {
+    const res = await fetch(jsonPath, { cache: "no-store" });
+    if (res.ok) data = await res.json();
+  } catch (e) {
+    console.warn("Não foi possível carregar bio_data.json — usando fallback interno.", e);
+  }
+
+  // fallback (compatível com formatos antigos e novos)
+  const fallback = {
+    modules: {
+      "Interface":"Ponto de contato humano-digital.",
+      "Segurança":"Camada de segurança e monitoramento.",
+      "MCEFPs":"Mini Centrais descentralizadas.",
+      "Indústria":"Indústria matriz conectada.",
+      "Aprendizado":"Aprendizado regenerativo contínuo.",
+      "Integração":"Governança e coordenação.",
+      "Logística":"Rede logística inteligente.",
+      "Impacto":"Medição de impacto em tempo real.",
+      "Sustentabilidade":"Indicadores ecológicos regenerativos.",
+      "Inovação":"Espaço de inovação aberta."
+    },
+    frases: [
+      "♻️ 98% dos dados reintegrados.",
+      "🌱 Sustentabilidade positiva.",
+      "🚚 Emissões reduzidas em 12%.",
+      "🔒 Segurança blindada.",
+      "🌍 Impacto global atualizado."
+    ]
+  };
+
+  const source = data || fallback;
+
+  // Suporta ambos: "frases_gerais" ou "frases" no topo
+  const frasesGerais = source.frases_gerais || source.frases || fallback.frases;
+
+  // modules pode ser:
+  // - { "Nome": "texto resumo", ... }  (formato antigo)
+  // - { "Nome": { "resumo":"...", "frases":[...] }, ... } (formato novo)
+  const moduleData = source.modules || fallback.modules;
+
+  // DOM refs (mesmos do seu HTML)
+  const orbitRing = document.getElementById('orbitRing');
+  const orbitSvg = document.getElementById('orbitSvg');
+  const gifWrapper = document.getElementById('gifWrapper');
+  const resumoEl = document.getElementById('modResumo');
+  const narrEl = document.getElementById('narrativa');
+
+  const moduleNames = Object.keys(moduleData);
+  let modules = [], lines = [];
+  let angleOffset = 0;
+  const speed = 0.12;
+
+  // controle de ciclos de frases
+  let generalInterval = null;
+  let moduleInterval = null;
+  let selectedModule = null;
+  let generalIndex = 0;
+
+  function clearPhraseIntervals(){
+    if(moduleInterval){ clearInterval(moduleInterval); moduleInterval = null; }
+    if(generalInterval){ clearInterval(generalInterval); generalInterval = null; }
+  }
+
+  function startGeneralCycle(){
+    clearPhraseIntervals();
+    if(!frasesGerais || frasesGerais.length === 0){
+      narrEl.textContent = "";
+      return;
+    }
+    generalIndex = 0;
+    narrEl.textContent = frasesGerais[generalIndex];
+    generalInterval = setInterval(()=>{
+      generalIndex = (generalIndex + 1) % frasesGerais.length;
+      // só continuar geral se nenhum módulo estiver selecionado
+      if(!selectedModule) narrEl.textContent = frasesGerais[generalIndex];
+      else { clearInterval(generalInterval); generalInterval = null; }
+    }, 5000);
+  }
+
+  function showModulePhrases(name){
+    clearPhraseIntervals();
+    selectedModule = name;
+    const entry = moduleData[name];
+    // if entry is object with "frases" array
+    if(entry && typeof entry === 'object' && Array.isArray(entry.frases) && entry.frases.length > 0){
+      let i = 0;
+      narrEl.textContent = entry.frases[i];
+      moduleInterval = setInterval(()=>{
+        i = (i + 1) % entry.frases.length;
+        // se o módulo foi desmarcado, parar
+        if(selectedModule !== name){ clearInterval(moduleInterval); moduleInterval = null; return; }
+        narrEl.textContent = entry.frases[i];
+      }, 4200);
+      return;
     }
 
-    // fallback caso JSON não carregue
-    const fallback = {
-      modules: {
-        "Interface": "Human-digital touchpoint.",
-        "Security": "Security and monitoring layer.",
-        "MCFFPs": "Decentralized Mini-Power Plants.",
-        "Industry": "Connected parent industry.",
-        "Learning": "Continuous regenerative learning.",
-        "Integration": "Governance and coordination.",
-        "Logistics": "Smart logistics network.",
-        "Impact": "Real-time impact measurement.",
-        "Sustainability": "Regenerative ecological indicators.",
-        "Innovation": "Open innovation space."
-      },
-      frases: [
-        "♻️ 98% of data reintegrated.",
-        "🌱 Positive sustainability.",
-        "🚚 Emissions reduced by 12%.",
-        "🔒 Armored security.",
-        "🌍 Updated global impact."
-      ]
-    };
+    // if entry is object but no frases -> show resumo or fallback
+    if(entry && typeof entry === 'object'){
+      narrEl.textContent = entry.resumo || Object.values(entry).join(" ");
+      return;
+    }
 
-    const source = data || fallback;
-    const moduleData = source.modules || fallback.modules;
-    const frases = source.frases || fallback.frases;
+    // if entry is string -> show it
+    if(typeof entry === 'string'){
+      narrEl.textContent = entry;
+      return;
+    }
 
-    const moduleNames = Object.keys(moduleData);
-    const orbitRing = document.getElementById('orbitRing');
-    const orbitSvg = document.getElementById('orbitSvg');
-    const gifWrapper = document.getElementById('gifWrapper');
-    const resumoEl = document.getElementById('modResumo');
-    const narrEl = document.getElementById('narrativa');
+    narrEl.textContent = "—";
+  }
 
-    let modules = [], lines = [];
-    let angleOffset = 0;
-    const speed = 0.12;
+  function createStructure(){
+    orbitRing.querySelectorAll('.module').forEach(n=>n.remove());
+    orbitSvg.innerHTML = '';
+    modules = []; lines = [];
 
-    function createStructure(){
-      orbitRing.querySelectorAll('.module').forEach(n=>n.remove());
-      orbitSvg.innerHTML = '';
-      modules = []; lines = [];
+    moduleNames.forEach((name)=>{
+      const el = document.createElement('div');
+      el.className = 'module';
+      el.textContent = name;
+      orbitRing.appendChild(el);
+      modules.push(el);
 
-      moduleNames.forEach((name)=>{
-        const el = document.createElement('div');
-        el.className = 'module';
-        el.textContent = name;
-        // append before lines so DOM order is stable
-        orbitRing.appendChild(el);
-        modules.push(el);
+      const line = document.createElementNS("http://www.w3.org/2000/svg","line");
+      line.setAttribute('stroke','rgba(116,242,206,0.18)');
+      line.setAttribute('stroke-width','2');
+      orbitSvg.appendChild(line);
+      lines.push(line);
 
-        const line = document.createElementNS("http://www.w3.org/2000/svg","line");
-        line.setAttribute('stroke','rgba(116,242,206,0.18)');
-        line.setAttribute('stroke-width','2');
-        orbitSvg.appendChild(line);
-        lines.push(line);
+      // tooltip = resumo se existir
+      const entry = moduleData[name];
+      if(entry && typeof entry === 'object' && entry.resumo) el.title = entry.resumo;
+      else if(typeof entry === 'string') el.title = entry;
 
-        // clique mostra resumo carregado do JSON
-        el.addEventListener('click', ()=>{
-          modules.forEach(m=>m.classList.remove('active'));
-          el.classList.add('active');
+      // clique mostra resumo do formato novo/antigo e ativa frases do módulo
+      el.addEventListener('click', ()=>{
+        modules.forEach(m=>m.classList.remove('active'));
+        el.classList.add('active');
 
-          // fade-out then update then fade-in
-          resumoEl.style.opacity = 0;
+        // fade-out then update then fade-in
+        resumoEl.style.opacity = 0;
+        // determine resumo text:
+        setTimeout(()=>{
+          const entry = moduleData[name];
+          let txt = "";
+          if(entry && typeof entry === 'object') txt = entry.resumo || JSON.stringify(entry);
+          else if(typeof entry === 'string') txt = entry;
+          else txt = "Resumo não encontrado para " + name;
+          resumoEl.textContent = "📌 " + txt;
+          resumoEl.style.opacity = 1;
+        }, 260);
+
+        // mostrar frases do módulo
+        showModulePhrases(name);
+
+        // auto-desselect after 6s -> resume general phrases
+        if(selectedModule) {
+          // cancel previous timeout by using a new timer variable? simple approach:
           setTimeout(()=>{
-            // garantir que usamos a chave exata do JSON
-            const txt = moduleData[name] || ("Resumo não encontrado para " + name);
-            resumoEl.textContent = "📌 " + txt;
-            resumoEl.style.opacity = 1;
-          }, 260);
-        }, {passive:true});
-      });
-    }
-
-    function update(){
-      if(modules.length===0) { requestAnimationFrame(update); return; }
-      const ringRect = orbitRing.getBoundingClientRect();
-      const gifRect = gifWrapper.getBoundingClientRect();
-      const ringW = ringRect.width, ringH = ringRect.height;
-      const centerX = (gifRect.left - ringRect.left) + gifRect.width/2;
-      const centerY = (gifRect.top - ringRect.top) + gifRect.height/2;
-
-      const modW = modules[0].offsetWidth;
-      const modH = modules[0].offsetHeight;
-
-      const maxRad = Math.min(ringW, ringH)/2 - Math.max(modW, modH)/2 - 18;
-      const minRad = gifRect.width/2 + Math.max(modW, modH)/2 + 20;
-      const radius = Math.max(minRad, Math.min(maxRad, 200));
-
-      orbitSvg.setAttribute('viewBox', `0 0 ${ringW} ${ringH}`);
-
-      modules.forEach((m,i)=>{
-        const baseAngle = (360/modules.length)*i;
-        const angle = baseAngle + angleOffset;
-        const rad = (angle-90)*Math.PI/180;
-        const x = centerX + radius*Math.cos(rad) - modW/2;
-        const y = centerY + radius*Math.sin(rad) - modH/2;
-        m.style.left = x + "px";
-        m.style.top = y + "px";
-        lines[i].setAttribute('x1', centerX);
-        lines[i].setAttribute('y1', centerY);
-        lines[i].setAttribute('x2', x+modW/2);
-        lines[i].setAttribute('y2', y+modH/2);
-      });
-
-      angleOffset += speed;
-      requestAnimationFrame(update);
-    }
-
-    // narrativa rotativa (do JSON)
-    let idx = 0;
-    function cycleFrases(){
-      if(frases && frases.length>0) {
-        narrEl.textContent = frases[idx % frases.length];
-        idx++;
-      }
-    }
-    setInterval(cycleFrases, 5000);
-    cycleFrases();
-
-    // botões
-    document.getElementById('alertBtn').onclick = ()=>{
-      modules.forEach(m=>m.style.background="rgba(255,75,75,0.28)");
-      lines.forEach(l=>l.setAttribute('stroke','rgba(255,75,75,0.6)'));
-      setTimeout(()=>{ modules.forEach(m=>m.style.background=""); lines.forEach(l=>l.setAttribute('stroke','rgba(116,242,206,0.18)')); },2000);
-    };
-    document.getElementById('regenBtn').onclick = ()=>{
-      let step=0;
-      const interval = setInterval(()=>{
-        if(step<modules.length){
-          modules[step].style.background="rgba(75,255,119,0.28)";
-          lines[step].setAttribute('stroke','rgba(75,255,119,0.7)');
-          step++;
-        } else {
-          clearInterval(interval);
-          setTimeout(()=>{ modules.forEach(m=>m.classList.remove('active')); modules.forEach(m=>m.style.background=""); lines.forEach(l=>l.setAttribute('stroke','rgba(116,242,206,0.18)')); },1000);
+            // only clear selection if still this module
+            if(selectedModule === name){
+              selectedModule = null;
+              modules.forEach(m=>m.classList.remove('active'));
+              clearPhraseIntervals();
+              startGeneralCycle();
+            }
+          }, 6000);
         }
-      },200);
-    };
+      }, {passive:true});
+    });
+  }
 
-    createStructure();
+  function update(){
+    if(modules.length===0){ requestAnimationFrame(update); return; }
+    const ringRect = orbitRing.getBoundingClientRect();
+    const gifRect = gifWrapper.getBoundingClientRect();
+    const ringW = ringRect.width, ringH = ringRect.height;
+    const centerX = (gifRect.left - ringRect.left) + gifRect.width/2;
+    const centerY = (gifRect.top - ringRect.top) + gifRect.height/2;
+
+    const modW = modules[0].offsetWidth;
+    const modH = modules[0].offsetHeight;
+
+    const maxRad = Math.min(ringW, ringH)/2 - Math.max(modW, modH)/2 - 18;
+    const minRad = gifRect.width/2 + Math.max(modW, modH)/2 + 20;
+    const radius = Math.max(minRad, Math.min(maxRad, 200));
+
+    orbitSvg.setAttribute('viewBox', `0 0 ${ringW} ${ringH}`);
+
+    modules.forEach((m,i)=>{
+      const baseAngle = (360/modules.length)*i;
+      const angle = baseAngle + angleOffset;
+      const rad = (angle-90)*Math.PI/180;
+      const x = centerX + radius*Math.cos(rad) - modW/2;
+      const y = centerY + radius*Math.sin(rad) - modH/2;
+      m.style.left = x + "px";
+      m.style.top = y + "px";
+      lines[i].setAttribute('x1', centerX);
+      lines[i].setAttribute('y1', centerY);
+      lines[i].setAttribute('x2', x+modW/2);
+      lines[i].setAttribute('y2', y+modH/2);
+    });
+
+    angleOffset += speed;
     requestAnimationFrame(update);
+  }
 
-  })();
-  </script>
+  // botões
+  document.getElementById('alertBtn').onclick = ()=>{
+    modules.forEach(m=>m.style.background="rgba(255,75,75,0.28)");
+    lines.forEach(l=>l.setAttribute('stroke','rgba(255,75,75,0.6)'));
+    // mensagem temporária na narrativa
+    clearPhraseIntervals();
+    narrEl.textContent = "⚡ Alerta: verificando fluxos críticos...";
+    setTimeout(()=>{
+      modules.forEach(m=>m.style.background="");
+      lines.forEach(l=>l.setAttribute('stroke','rgba(116,242,206,0.18)'));
+      if(!selectedModule) startGeneralCycle();
+    },2000);
+  };
+
+  document.getElementById('regenBtn').onclick = ()=>{
+    let step=0;
+    clearPhraseIntervals();
+    narrEl.textContent = "🌱 Regenerando rede...";
+    const interval = setInterval(()=>{
+      if(step<modules.length){
+        modules[step].style.background="rgba(75,255,119,0.28)";
+        lines[step].setAttribute('stroke','rgba(75,255,119,0.7)');
+        step++;
+      } else {
+        clearInterval(interval);
+        setTimeout(()=>{
+          modules.forEach(m=>m.classList.remove('active'));
+          modules.forEach(m=>m.style.background="");
+          lines.forEach(l=>l.setAttribute('stroke','rgba(116,242,206,0.18)'));
+          if(!selectedModule) startGeneralCycle();
+        },1000);
+      }
+    },200);
+  };
+
+  // inicializa
+  createStructure();
+  requestAnimationFrame(update);
+  startGeneralCycle();
+
+})();
+</script>
 </body>
 </html>

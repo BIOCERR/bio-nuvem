@@ -1,24 +1,84 @@
 {
   "modules": {
-    "Interface": "The bridge between communities and BIO. Translates technical data into accessible language and returns knowledge to the network in an intuitive and visual way.", 
-    "Security": "A layer of protection based on blockchain, encryption, and continuous monitoring to ensure trust, sovereignty, and transparency in flows.", 
-    "MCFFPs": "Mini Product Bottling and Finishing Centers. Decentralized structures that connect local production, reverse logistics, and community autonomy.", 
-    "Industry": "The Headquarters Industry, the system's anchor point, integrated with the MCFFPs and the global network. Ensures scale, standardization, and technological support.", 
-    "Learning": "Regenerative module, responsible for absorbing data, identifying patterns, learning from the territory, and continuously improving BIO practices.", 
-    "Integration": "Governance and coordination node. Bridges social, economic, environmental, and digital actors for systemic decisions.", 
-    "Logistics": "Smart network of transportation, energy, and inputs. Balances efficiency and environmental impact, using regenerative algorithms for optimization.", 
-    "Impact": "Real-time monitoring of social, environmental, and economic indicators. Allows for measuring progress and course corrections.",
-    "Sustainability": "Layer that integrates metrics ecological policies, rational use of resources, circular economy and territorial regeneration.",  
-    "Innovation": "Living space of open innovation. Allows you to experiment, prototype and adapt solutions collaboratively, keeping BIO in a state of continuous evolution." 
+    "Interface": {
+      "resumo": "The bridge between communities and BIO. It translates technical data into accessible language and returns knowledge to the network in an intuitive and visual way.",
+      "frases": [
+        "BIO translates complex data into intuitive images.",
+        "Interface connects community and technology."
+      ]
+    },
+    "Security": {
+      "resumo": "A protection layer based on blockchain, encryption, and continuous monitoring to ensure trust, sovereignty, and transparency of flows.",
+      "frases": [
+        "BIO ensures digital trust.",
+        "Security strengthens the decentralized network."
+      ]
+    },
+    "MCEFPs": {
+      "resumo": "Mini Filling and Finalization Centers. Decentralized structures that connect local production, reverse logistics, and community autonomy.",
+      "frases": [
+        "BIO strengthens community-based production.",
+        "MCEFPs decentralize and regenerate territories."
+      ]
+    },
+    "Industry": {
+      "resumo": "The Matrix Industry, an anchoring point of the system, integrated with MCEFPs and the global network. Ensures scale, standardization, and technological support.",
+      "frases": [
+        "The Matrix Industry anchors the BIO network.",
+        "BIO connects global scale and local autonomy."
+      ]
+    },
+    "Learning": {
+      "resumo": "A regenerative module responsible for absorbing data, identifying patterns, learning from the territory, and continuously improving BIO practices.",
+      "frases": [
+        "BIO learns from the territory.",
+        "Regenerative learning anticipates the future."
+      ]
+    },
+    "Integration": {
+      "resumo": "A governance and coordination node. It bridges social, economic, environmental, and digital actors for systemic decisions.",
+      "frases": [
+        "BIO integrates diverse voices into collective decisions.",
+        "Integration connects social and ecological actors."
+      ]
+    },
+    "Logistics": {
+      "resumo": "An intelligent network for transportation, energy, and inputs. Balances efficiency and environmental impact using regenerative optimization algorithms.",
+      "frases": [
+        "BIO optimizes regenerative transportation.",
+        "Less waste, more efficiency."
+      ]
+    },
+    "Impact": {
+      "resumo": "Real-time monitoring of social, environmental, and economic indicators. Enables tracking progress and correcting routes.",
+      "frases": [
+        "BIO measures impact in real time.",
+        "Regenerative indicators guide continuous adjustments."
+      ]
+    },
+    "Sustainability": {
+      "resumo": "A layer that integrates ecological metrics, rational use of resources, circular economy, and territorial regeneration.",
+      "frases": [
+        "BIO balances production and regeneration.",
+        "Green indicators guide decisions."
+      ]
+    },
+    "Innovation": {
+      "resumo": "A living space for open innovation. Allows experimentation, prototyping, and adapting solutions collaboratively, keeping BIO in a state of continuous evolution.",
+      "frases": [
+        "BIO is born from the unprecedented-yet-viable.",
+        "Innovation is applied regeneration."
+      ]
+    }
   },
-  "frases": [
-    "♻️ 98% of data regenerated and integrated into the network.",
-    "🌱 Active sustainability: positive indicators in 7 biomes.",
+  "frases_gerais": [
+    "♻️ 98% of data regenerated and reintegrated into the network.",
+    "🌱 Active sustainability: positive indicators across 7 biomes.",
     "🚚 Regenerative logistics reduced emissions by 14% this week.",
-    "🔒 Armored security: all flows validated on the blockchain. ",
-    "🌍 Global impact monitored in real time .",
-    "💡 New emerging community-connected solution.",
-    "🤝 local operation increased efficiency by 22%.",
-    "⚡ Stable network: zero critical failures in the last 48 hours."
+    "🔒 Secured: all flows validated on blockchain.",
+    "🌍 Global impact monitored in real time.",
+    "💡 New emerging solution connected by the community.",
+    "🤝 Local cooperation increased efficiency by 22%.",
+    "⚡ Stable network: zero critical failures in the last 48h."
   ]
 }
