@@ -99,3 +99,4 @@ See the LICENSE file for licensing information.
 - ROADMAP.md
 - DATASHEET.md
 - API.md
+- PRIVACY.md

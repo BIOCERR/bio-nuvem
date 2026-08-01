@@ -44,6 +44,7 @@ Added:
 - CHANGELOG.md
 - DATASHEET.md
 - API.md
+- PRIVACY.md
 
 ### Governance
 
