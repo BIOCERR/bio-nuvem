@@ -43,6 +43,7 @@ Added:
 - CODE_OF_CONDUCT.md
 - CHANGELOG.md
 - DATASHEET.md
+- API.md
 
 ### Governance
 

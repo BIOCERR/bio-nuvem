@@ -98,3 +98,4 @@ See the LICENSE file for licensing information.
 - CHANGELOG.md
 - ROADMAP.md
 - DATASHEET.md
+- API.md
