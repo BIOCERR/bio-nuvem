@@ -217,6 +217,7 @@ Additional documentation is available in this repository.
 - STANDARDS.md
 - LICENSE
 - CONTENT_POLICY.md
+- COMMUNITY_GUIDELINES.md
 
 ---
 

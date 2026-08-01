@@ -102,3 +102,5 @@ See the LICENSE file for licensing information.
 - PRIVACY.md
 - STANDARDS.md
 - CONTENT_POLICY.md
+- COMMUNITY_GUIDELINES.md
+
