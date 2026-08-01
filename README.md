@@ -74,9 +74,7 @@ https://github.com/BIOCERR/bio-nuvem
 
 Desenvolvido por BIOCERR com apoio de IA simbólica.
 
-
 ---
-
 
 ## 📜 License
 
@@ -86,3 +84,16 @@ Protected assets, industrial know-how, patented technologies, proprietary operat
 
 See the LICENSE file for licensing information.
 
+---
+
+## 📚 Project Documentation
+
+- MODEL_CARD.md
+- ARCHITECTURE.md
+- DEPLOYMENT.md
+- SECURITY.md
+- GOVERNANCE.md
+- CONTRIBUTING.md
+- CODE_OF_CONDUCT.md
+- CHANGELOG.md
+- ROADMAP.md
