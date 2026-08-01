@@ -46,6 +46,7 @@ Added:
 - API.md
 - PRIVACY.md
 - STANDARDS.md
+- CONTENT_POLICY.md
 
 
 ### Governance

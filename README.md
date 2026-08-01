@@ -101,3 +101,4 @@ See the LICENSE file for licensing information.
 - API.md
 - PRIVACY.md
 - STANDARDS.md
+- CONTENT_POLICY.md

@@ -216,6 +216,7 @@ Additional documentation is available in this repository.
 - PRIVACY.md
 - STANDARDS.md
 - LICENSE
+- CONTENT_POLICY.md
 
 ---
 
