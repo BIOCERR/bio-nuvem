@@ -97,3 +97,4 @@ See the LICENSE file for licensing information.
 - CODE_OF_CONDUCT.md
 - CHANGELOG.md
 - ROADMAP.md
+- DATASHEET.md
