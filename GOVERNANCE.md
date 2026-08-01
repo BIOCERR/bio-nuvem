@@ -202,13 +202,19 @@ Additional documentation is available in this repository.
 
 # Related Documentation
 
-- README.md
-- ARCHITECTURE.md
 - MODEL_CARD.md
+- ARCHITECTURE.md
+- DEPLOYMENT.md
 - SECURITY.md
+- GOVERNANCE.md
 - CONTRIBUTING.md
 - CODE_OF_CONDUCT.md
 - CHANGELOG.md
+- ROADMAP.md
+- DATASHEET.md
+- API.md
+- PRIVACY.md
+- STANDARDS.md
 - LICENSE
 
 ---

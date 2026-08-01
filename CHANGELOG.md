@@ -45,6 +45,8 @@ Added:
 - DATASHEET.md
 - API.md
 - PRIVACY.md
+- STANDARDS.md
+
 
 ### Governance
 

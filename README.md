@@ -100,3 +100,4 @@ See the LICENSE file for licensing information.
 - DATASHEET.md
 - API.md
 - PRIVACY.md
+- STANDARDS.md
